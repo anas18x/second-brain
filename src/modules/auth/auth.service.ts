@@ -132,6 +132,10 @@ export const refreshToken = async (
     }
     
     const accessToken = generateAccessToken(user._id.toString())
-    return {accessToken}
+    const newRefreshToken = generateRefreshToken(user._id.toString())
+    const hashedNewRefreshToken = await bcrypt.hash(newRefreshToken, 10)
+    user.refreshToken = hashedNewRefreshToken
+    await user.save()
+    return {accessToken, refreshToken: newRefreshToken}
 
 }
