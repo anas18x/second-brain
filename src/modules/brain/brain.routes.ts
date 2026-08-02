@@ -3,7 +3,7 @@ import { authMiddleware } from "../../middleware/auth.middleware.js";
 import { validate, validateQuery , validateParams} from "../../middleware/validate.middleware.js";
 import { createBrainSchema , getBrainsQuerySchema, brainIdParamsSchema, updateBrainSchema, shareSlugParamsSchema} from "./brain.schema.js";
 import { createBrainController , getBrainController, getBrainByIdController, updateBrainController, deleteBrainController, getTagsController , enableBrainSharingController, getPublicBrainController, disableBrainSharingController} from "./brain.controller.js";
-
+import { catchAsyncError } from "../../middleware/catchAsyncError.js";
 
 const router = Router()
 
@@ -11,38 +11,38 @@ const router = Router()
 router.post("/",
     authMiddleware, 
     validate(createBrainSchema), 
-    createBrainController
+    catchAsyncError(createBrainController)
 )
 
  
 router.get("/",
     authMiddleware, 
     validateQuery(getBrainsQuerySchema),
-    getBrainController
+    catchAsyncError(getBrainController)
 )    
 
 
 router.get("/tags",
     authMiddleware, 
-    getTagsController
+    catchAsyncError(getTagsController)
 )
 
 
 router.post("/share",
     authMiddleware,
-    enableBrainSharingController
+    catchAsyncError(enableBrainSharingController)
 )
 
 
 router.patch("/share",
     authMiddleware,
-    disableBrainSharingController
+    catchAsyncError(disableBrainSharingController)
 )
 
 
 router.get("/share/:shareSlug",
     validateParams(shareSlugParamsSchema),
-    getPublicBrainController
+    catchAsyncError(getPublicBrainController)
 )
 
 
@@ -50,7 +50,7 @@ router.get("/share/:shareSlug",
 router.get("/:id",
     authMiddleware, 
     validateParams(brainIdParamsSchema),
-    getBrainByIdController
+    catchAsyncError(getBrainByIdController)
 )
 
 
@@ -58,14 +58,14 @@ router.patch("/:id",
     authMiddleware, 
     validateParams(brainIdParamsSchema),
     validate(updateBrainSchema), 
-    updateBrainController
+    catchAsyncError(updateBrainController)
 )
 
 
 router.delete("/:id",
   authMiddleware,
   validateParams(brainIdParamsSchema),
-  deleteBrainController,
+  catchAsyncError(deleteBrainController)
 );
 
 

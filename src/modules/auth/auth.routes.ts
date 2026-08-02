@@ -3,29 +3,30 @@ import  {validate}  from "../../middleware/validate.middleware.js";
 import { registerSchema, loginSchema, changePasswordSchema } from "./auth.schema.js";
 import { loginController, logoutController, registerController, changePasswordController, refreshTokenController, getMeController } from "./auth.controller.js";
 import {authMiddleware} from "../../middleware/auth.middleware.js";
+import { catchAsyncError } from "../../middleware/catchAsyncError.js";
 
 const router = Router()
 
-router.get("/me", authMiddleware, getMeController )
+router.get("/me", authMiddleware, catchAsyncError(getMeController) )
 
 router.post("/register",
           validate(registerSchema),
-          registerController); 
+          catchAsyncError(registerController)); 
 
 router.post("/login",
           validate(loginSchema),
-          loginController); 
+          catchAsyncError(loginController)); 
 
 router.post("/logout",
           authMiddleware,
-          logoutController);
+          catchAsyncError(logoutController));
 
 router.post("/change-password",
           authMiddleware,
           validate(changePasswordSchema),
-          changePasswordController)
+          catchAsyncError(changePasswordController))
 
 router.post("/refresh-token",
-           refreshTokenController)
+           catchAsyncError(refreshTokenController))
 
 export default router;
