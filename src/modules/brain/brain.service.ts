@@ -52,7 +52,7 @@ export const createBrain = async (
 export const getBrains = async (
     { ownerId, query }: GetBrainsInput
 ) => {
-    const { search, tags } = query;
+    const { search, tags, page, limit } = query;
     const mongoQuery: Record<string, unknown> = {
          owner: ownerId 
         }
@@ -68,10 +68,28 @@ export const getBrains = async (
         ]
     }
 
-    const brains = await Brain.find(mongoQuery).sort({ createdAt: -1 });    
+    const skip = (page - 1) * limit;
+    
+    const [brains , total ] = await Promise.all([
+        Brain.find(mongoQuery)
+        .sort({createdAt: -1})
+        .skip(skip)
+        .limit(limit),
 
-    return brains;
+        Brain.countDocuments(mongoQuery) // returns the total number of documents that match the query, without applying skip and limit
+    ])
 
+    return {
+        data : brains,
+        pagination : {
+            page,
+            limit,
+            total,
+            totalPages : Math.ceil(total / limit),
+            hasNextPage : page * limit < total,
+            hasPrevPage : page > 1
+        }
+    }
 }
 
 

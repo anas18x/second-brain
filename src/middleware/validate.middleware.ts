@@ -3,6 +3,7 @@ import type { ZodSchema} from "zod";
 import { StatusCodes} from "http-status-codes";
 import { ErrorResponse} from "../utils/common/responseHandler.js";
 import {fromError} from "zod-validation-error";
+import type { GetBrainsQueryInput } from "../modules/brain/brain.schema.js";
 
 
 export const validate = ( schema: ZodSchema) => {
@@ -25,7 +26,7 @@ export const validate = ( schema: ZodSchema) => {
 
 
 
-export const validateQuery = ( schema: ZodSchema) => {
+export const validateQuery = ( schema: ZodSchema <GetBrainsQueryInput> ) => {
   return ( req: Request, res: Response, next: NextFunction) => {
     const result = schema.safeParse(req.query);
 
@@ -33,7 +34,8 @@ export const validateQuery = ( schema: ZodSchema) => {
       const validationErrors = fromError(result.error)
       return ErrorResponse( res, validationErrors.message ,StatusCodes.BAD_REQUEST);
     }
-
+      req.validatedQuery = result.data;
+      
     next();
   }
 }

@@ -32,11 +32,11 @@ export const getBrainController = async (
 ) => {
     try{
         const userId = req.user!.userId
-        const brains = await brainService.getBrains({
+        const result = await brainService.getBrains({
             ownerId: userId,
-            query: req.query,
+            query: req.validatedQuery!,
         })
-        SuccessResponse(res, {brains}, "Brains fetched successfully", StatusCodes.OK)
+        SuccessResponse(res, result , "Brains fetched successfully", StatusCodes.OK)
 
     }   catch (error) {
         next(error)

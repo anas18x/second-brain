@@ -37,6 +37,8 @@ export const updateBrainSchema = z.object({
 export const getBrainsQuerySchema = z.object({
   search: z.string().trim().optional(),
   tags: z.string().trim().optional(),
+  page : z.coerce.number().int().positive().default(1),          // coz query para are always strings, we need to coerce it to number
+  limit : z.coerce.number().int().positive().max(100).default(10),
 });
 
 
