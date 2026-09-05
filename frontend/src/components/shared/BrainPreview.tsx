@@ -1,273 +1,199 @@
-import {
-  ArrowUpRight,
-  FileText,
-  Play,
-  StickyNote,
-} from "lucide-react"
+import PreviewCard from "@/components/shared/PreviewCard"
 
-const items = [
+const previewBrains = [
   {
-    type: "youtube",
-    label: "YouTube",
+    id: "preview-1",
     title: "A travel video I want to watch before my next trip",
-    icon: Play,
+    body: "",
+    url: "https://youtube.com/watch?v=example",
+    tags: ["travel", "fun"],
   },
+
   {
-    type: "twitter",
-    label: "Twitter",
+    id: "preview-2",
     title:
-      "A reminder: you don't need to turn every hobby into a side hustle.",
-    icon: null,
+      "The goal isn't to be productive all the time. It's to have a life you actually like.",
+    body: "",
+    url: "https://x.com/naval/status/example",
+    tags: ["life", "ideas"],
   },
+
   {
-    type: "article",
-    label: "Article",
-    title: "How modern databases actually handle millions of requests",
-    icon: FileText,
+    id: "preview-3",
+    title:
+      "How modern databases actually handle millions of requests",
+    body:
+      "A useful breakdown of how modern systems handle traffic, caching, databases, and the boring things that suddenly become important at scale.",
+    url: "https://medium.com/@example/modern-databases",
+    tags: ["tech", "backend"],
   },
+
   {
-    type: "note",
-    label: "Personal Note",
+    id: "preview-4",
     title: "An idea I want to build someday",
-    icon: StickyNote,
+    body:
+      "A small tool that helps people organize things they want to learn. Something simple, useful, and actually enjoyable to build.",
+    url: "",
+    tags: ["ideas"],
+  },
+
+  {
+    id: "preview-5",
+    title:
+      "The surprisingly simple rule behind good system design",
+    body:
+      "Good systems aren't necessarily the ones with the most clever architecture. Start with the simplest thing that works, understand where the pressure actually comes from, and only then introduce complexity.",
+    url: "https://example.com/system-design",
+    tags: ["tech", "ideas"],
+  },
+
+  {
+    id: "preview-6",
+    title:
+      "This video completely changed how I think about learning",
+    body:
+      "I used to think learning was about consuming more information. The important part is actually being able to retrieve, apply, and explain what you've learned.",
+    url: "https://youtube.com/watch?v=learning",
+    tags: ["inspiration", "tech"],
+  },
+
+  {
+    id: "preview-7",
+    title:
+      "Don't optimize your life before you've figured out what you actually want.",
+    body: "",
+    url: "https://x.com/example/status/456",
+    tags: ["inspiration", "ideas"],
+  },
+
+  {
+    id: "preview-8",
+    title:
+      "Things I want to remember when building my next project",
+    body:
+      "Keep the architecture simple. Ship early. Don't build abstractions before they are needed. Make the boring parts boring. Good software doesn't need to look complicated to be impressive.",
+    url: "",
+    tags: ["tech", "ideas"],
   },
 ]
 
 function BrainPreview() {
   return (
-    <section className="px-6 pb-32">
-      <div className="mx-auto max-w-2xl text-center">
+    <section className="px-6 pb-28">
+      <div className="mx-auto w-full max-w-6xl">
 
-        {/* Capture Prompt */}
-        <div
-          className="
-            group
-            mx-auto
-            mb-8
-            max-w-lg
-            rounded-xl
-            border
-            border-slate-300/90
-            bg-white/85
-            px-5
-            py-4
-            text-left
-            shadow-[0_2px_4px_rgba(0,0,0,0.04),0_6px_12px_rgba(0,0,0,0.07),0_12px_24px_-10px_rgba(0,0,0,0.16)]
-            ring-1
-            ring-white/80
-            backdrop-blur-md
-            transition-all
-            duration-300
-            hover:-translate-y-0.5
-            hover:border-slate-400/80
-            hover:bg-white/95
-            hover:shadow-[0_4px_8px_rgba(0,0,0,0.05),0_10px_20px_rgba(0,0,0,0.08),0_18px_30px_-10px_rgba(0,0,0,0.18)]
-          "
-        >
-          <div className="flex items-center gap-3">
-            <span
-              className="
-                text-lg
-                font-medium
-                text-slate-500
-                transition-transform
-                duration-300
-                group-hover:rotate-90
-              "
-            >
-              +
-            </span>
-
-            <span className="text-sm font-semibold text-slate-800">
-              Something worth remembering...
-            </span>
-          </div>
+        {/* Section heading */}
+        <div className="mb-7 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
+            Your stuff, finally in one place.
+          </p>
         </div>
 
-        {/* Content Types */}
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {items.map((item) => {
-            const Icon = item.icon
+        {/* Product preview */}
+        <div className="relative">
 
-            return (
+          {/* Soft glow */}
+          <div
+            className="
+              pointer-events-none
+              absolute
+              -inset-12
+              -z-10
+              rounded-[50px]
+              bg-slate-300/10
+              blur-3xl
+            "
+          />
+
+          {/* Transparent browser frame */}
+          <div
+            className="
+              relative
+              overflow-hidden
+              rounded-[28px]
+              border
+              border-white/50
+              bg-white/[0.06]
+              p-3
+              shadow-[0_30px_80px_rgba(15,23,42,0.08)]
+              backdrop-blur-[2px]
+              sm:p-4
+            "
+          >
+
+            {/* Browser header */}
+            <div
+              className="
+                mb-4
+                flex
+                items-center
+                justify-between
+                border-b
+                border-white/40
+                pb-3
+              "
+            >
+              <div className="flex items-center gap-1.5">
+                <span className="size-1.5 rounded-full bg-slate-500/35" />
+                <span className="size-1.5 rounded-full bg-slate-500/35" />
+                <span className="size-1.5 rounded-full bg-slate-500/35" />
+              </div>
+
               <div
-                key={item.type}
                 className="
-                  group
-                  relative
-                  overflow-hidden
-                  rounded-xl
+                  hidden
+                  rounded-full
                   border
-                  border-slate-300/90
-                  bg-white/80
-                  p-4
-                  text-left
-                  shadow-[0_2px_4px_rgba(0,0,0,0.04),0_6px_14px_rgba(0,0,0,0.06)]
-                  backdrop-blur-md
-                  transition-all
-                  duration-300
-                  ease-out
-                  hover:-translate-y-1
-                  hover:border-slate-400
-                  hover:bg-white/95
-                  hover:shadow-[0_4px_8px_rgba(0,0,0,0.05),0_12px_24px_-8px_rgba(0,0,0,0.16)]
+                  border-white/60
+                  bg-white/20
+                  px-3
+                  py-1
+                  text-[9px]
+                  font-medium
+                  text-slate-500
+                  backdrop-blur-sm
+                  sm:block
                 "
               >
-                {/* Subtle Hover Glow */}
+                secondbrain.app
+              </div>
+
+              <div className="w-12" />
+            </div>
+
+            {/* Brain cards */}
+            <div className="columns-1 gap-3 sm:columns-2 lg:columns-3">
+              {previewBrains.map((brain) => (
                 <div
-                  className="
-                    pointer-events-none
-                    absolute
-                    -right-10
-                    -top-10
-                    size-24
-                    rounded-full
-                    bg-slate-300/20
-                    opacity-0
-                    blur-2xl
-                    transition-opacity
-                    duration-300
-                    group-hover:opacity-100
-                  "
-                />
-
-                {/* Type */}
-                <div className="relative mb-4 flex items-center gap-2">
-                  <div
-                    className="
-                      flex
-                      size-7
-                      items-center
-                      justify-center
-                      rounded-md
-                      border
-                      border-slate-300
-                      bg-white/90
-                      text-slate-700
-                      shadow-sm
-                      transition-all
-                      duration-300
-                      group-hover:border-slate-400
-                      group-hover:text-slate-950
-                    "
-                  >
-                    {Icon ? (
-                      <Icon className="size-3.5" />
-                    ) : (
-                      <span className="text-xs font-semibold">𝕏</span>
-                    )}
-                  </div>
-
-                  <span
-                    className="
-                      text-xs
-                      font-semibold
-                      text-slate-700
-                      transition-colors
-                      duration-300
-                      group-hover:text-slate-950
-                    "
-                  >
-                    {item.label}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <p
-                  className="
-                    relative
-                    pr-8
-                    text-sm
-                    font-semibold
-                    leading-5
-                    text-slate-900
-                    transition-transform
-                    duration-300
-                    group-hover:translate-x-0.5
-                  "
+                  key={brain.id}
+                  className="mb-3 break-inside-avoid"
                 >
-                  {item.title}
-                </p>
-
-                {/* Link */}
-                <div
-                  className="
-                    absolute
-                    bottom-4
-                    right-4
-                    flex
-                    size-7
-                    items-center
-                    justify-center
-                    rounded-md
-                    border
-                    border-slate-300
-                    bg-white/90
-                    text-slate-600
-                    shadow-sm
-                    transition-all
-                    duration-300
-                    group-hover:border-slate-800
-                    group-hover:bg-slate-900
-                    group-hover:text-white
-                  "
-                >
-                  <ArrowUpRight
-                    className="
-                      size-3.5
-                      transition-transform
-                      duration-300
-                      group-hover:translate-x-0.5
-                      group-hover:-translate-y-0.5
-                    "
+                  <PreviewCard
+                    title={brain.title}
+                    body={brain.body}
+                    url={brain.url}
+                    tags={brain.tags}
                   />
                 </div>
-              </div>
-            )
-          })}
-        </div>
+              ))}
+            </div>
 
-        {/* Tags */}
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          {[
-            "#travel",
-            "#tech",
-            "#ideas",
-            "#fun",
-            "#inspiration",
-          ].map((tag) => (
-            <span
-              key={tag}
+            {/* Bottom fade */}
+            <div
               className="
-                rounded-full
-                border
-                border-slate-300
-                bg-white/80
-                px-3
-                py-1
-                text-xs
-                font-semibold
-                text-slate-700
-                shadow-sm
-                backdrop-blur-sm
-                transition-all
-                duration-200
-                hover:-translate-y-0.5
-                hover:border-slate-400
-                hover:bg-white
-                hover:text-slate-950
+                pointer-events-none
+                absolute
+                bottom-0
+                left-0
+                right-0
+                h-24
+                bg-gradient-to-t
+                from-transparent
+                via-white/[0.02]
+                to-transparent
               "
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* Bottom Message */}
-        <div className="mt-10">
-          <p className="text-sm font-semibold text-slate-800">
-            One place for everything you don't want to forget.
-          </p>
+            />
+          </div>
         </div>
       </div>
     </section>
