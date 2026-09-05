@@ -1,42 +1,33 @@
-import { Moon, Sun } from "lucide-react"
+import { Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import logo from "@/assets/brain-cognative.svg"
+import Brand from "@/components/shared/Brand"
+import {Link} from "react-router-dom"
 
 
 function Navbar() {
   return (
     <nav className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5">
       {/* Brand */}
-      <div className="flex items-center gap-2.5">
-        <img
-          src={logo}
-          alt="Second Brain"
-          className="size-5 object-contain"
-        />
-
-        <span className="text-lg font-semibold tracking-tight">
-          Second Brain
-        </span>
-      </div>
+      <Brand />
 
       {/* Actions */}
       <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Toggle theme"
-        >
-          <Sun className="size-4 dark:hidden" />
-          <Moon className="hidden size-4 dark:block" />
-        </Button>
+        <Sun className="size-4 text-slate-800" />
 
-        <Button variant="ghost">
-          Sign In
-        </Button>
+        <Link to="/login">
+          <Button
+            variant="ghost"
+            className="cursor-pointer text-slate-900 hover:bg-white/30 hover:text-slate-950"
+          >
+            Sign In
+          </Button>
+        </Link>
 
-        <Button>
-          Get Started
-        </Button>
+        <Link to="/register">
+          <Button className="cursor-pointer">
+            Get Started
+          </Button>
+        </Link>
       </div>
     </nav>
   )
