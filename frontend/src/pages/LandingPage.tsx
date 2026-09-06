@@ -2,88 +2,20 @@ import Navbar from "@/components/shared/Navbar"
 import Hero from "@/components/shared/Hero"
 import BrainPreview from "@/components/shared/BrainPreview"
 import Footer from "@/components/shared/Footer"
+import PageBackground from "@/components/shared/PageBackground"
 
 function LandingPage() {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-white">
-      {/* Radial Gradient Background from Top */}
-      <div
-        className="pointer-events-none fixed inset-0 z-0"
-        style={{
-          background:
-            "radial-gradient(125% 125% at 50% 10%, #fff 40%, #475569 100%)",
-        }}
-      />
+    <PageBackground>
+      <Navbar />
 
-      {/* Dashed Top Fade Grid */}
-      <div
-        className="pointer-events-none fixed inset-0 z-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, #e7e5e4 1px, transparent 1px),
-            linear-gradient(to bottom, #e7e5e4 1px, transparent 1px)
-          `,
-          backgroundSize: "20px 20px",
-          backgroundPosition: "0 0, 0 0",
-          maskImage: `
-            repeating-linear-gradient(
-              to right,
-              black 0px,
-              black 3px,
-              transparent 3px,
-              transparent 8px
-            ),
-            repeating-linear-gradient(
-              to bottom,
-              black 0px,
-              black 3px,
-              transparent 3px,
-              transparent 8px
-            ),
-            radial-gradient(
-              ellipse 70% 60% at 50% 0%,
-              #000 60%,
-              transparent 100%
-            )
-          `,
-          WebkitMaskImage: `
-            repeating-linear-gradient(
-              to right,
-              black 0px,
-              black 3px,
-              transparent 3px,
-              transparent 8px
-            ),
-            repeating-linear-gradient(
-              to bottom,
-              black 0px,
-              black 3px,
-              transparent 3px,
-              transparent 8px
-            ),
-            radial-gradient(
-              ellipse 70% 60% at 50% 0%,
-              #000 60%,
-              transparent 100%
-            )
-          `,
-          maskComposite: "intersect",
-          WebkitMaskComposite: "source-in",
-        }}
-      />
+      <main>
+        <Hero />
+        <BrainPreview />
+      </main>
 
-      {/* Landing Page Content */}
-      <div className="relative z-10">
-        <Navbar />
-
-        <main>
-          <Hero />
-          <BrainPreview />
-        </main>
-
-        <Footer />
-      </div>
-    </div>
+      <Footer />
+    </PageBackground>
   )
 }
 

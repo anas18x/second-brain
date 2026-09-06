@@ -19,10 +19,12 @@ function BrainCard({
   const navigate = useNavigate()
 
   const isYouTube =
-    url?.includes("youtube.com") || url?.includes("youtu.be")
+    url?.includes("youtube.com") ||
+    url?.includes("youtu.be")
 
   const isTwitter =
-    url?.includes("twitter.com") || url?.includes("x.com")
+    url?.includes("twitter.com") ||
+    url?.includes("x.com")
 
   const isGitHub =
     url?.includes("github.com")
@@ -47,17 +49,19 @@ function BrainCard({
     }
   }
 
-  /*
-   * Card click -> internal Brain detail page
-   */
   const handleCardClick = () => {
     navigate(`/brain/${id}`)
   }
 
-  /*
-   * Bookmark click -> external URL.
-   * stopPropagation prevents the card click.
-   */
+  const handleCardKeyDown = (
+    event: React.KeyboardEvent<HTMLElement>,
+  ) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault()
+      navigate(`/brain/${id}`)
+    }
+  }
+
   const handleBookmarkClick = (
     event: React.MouseEvent<HTMLAnchorElement>,
   ) => {
@@ -66,7 +70,10 @@ function BrainCard({
 
   return (
     <article
+      role="link"
+      tabIndex={0}
       onClick={handleCardClick}
+      onKeyDown={handleCardKeyDown}
       className="
         group
         relative
@@ -82,15 +89,19 @@ function BrainCard({
         pl-5
         shadow-[0_3px_12px_rgba(15,23,42,0.04)]
         backdrop-blur-md
+        outline-none
         transition-all
         duration-300
         hover:-translate-y-1
         hover:border-slate-300
         hover:bg-white
         hover:shadow-[0_16px_35px_rgba(15,23,42,0.11)]
+        focus-visible:border-slate-400
+        focus-visible:ring-2
+        focus-visible:ring-slate-950/10
       "
     >
-      {/* Content type accent */}
+      {/* Content accent */}
       <div
         className={`
           absolute
@@ -107,7 +118,7 @@ function BrainCard({
         `}
       />
 
-      {/* Bookmark */}
+      {/* External URL */}
       {url && (
         <a
           href={url}
@@ -133,18 +144,14 @@ function BrainCard({
             hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)]
           "
         >
-          {/* Real website favicon */}
+          {/* Favicon */}
           <img
             src={`https://www.google.com/s2/favicons?domain=${getDomain()}&sz=64`}
             alt=""
-            className="
-              size-5
-              shrink-0
-              rounded-md
-            "
+            className="size-5 shrink-0 rounded-md"
           />
 
-          {/* User's actual URL */}
+          {/* URL information */}
           <div className="min-w-0 flex-1">
             <p className="truncate text-[10px] font-semibold text-slate-700">
               {getDomain()}
@@ -167,7 +174,7 @@ function BrainCard({
         </a>
       )}
 
-      {/* Content */}
+      {/* Main content */}
       <div className="relative mt-5">
         <h3
           className="
@@ -195,8 +202,18 @@ function BrainCard({
         )}
       </div>
 
-      {/* Footer */}
-      <div className="relative mt-5 flex items-end justify-between gap-3">
+      {/* Tags + status */}
+      <div
+        className="
+          relative
+          mt-5
+          flex
+          items-end
+          justify-between
+          gap-3
+        "
+      >
+        {/* Tags */}
         <div className="flex flex-wrap gap-1.5">
           {tags.map((tag) => (
             <span
@@ -216,6 +233,7 @@ function BrainCard({
           ))}
         </div>
 
+        {/* Saved */}
         <div
           className="
             flex

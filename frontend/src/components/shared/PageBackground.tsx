@@ -5,12 +5,18 @@ function PageBackground({
 }) {
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
-      {/* Radial Gradient Background */}
+      {/* Amber Glow Background */}
       <div
         className="pointer-events-none fixed inset-0 z-0"
         style={{
-          background:
-            "radial-gradient(125% 125% at 50% 10%, #fff 40%, #475569 100%)",
+          backgroundImage: `
+            radial-gradient(
+              125% 125% at 50% 10%,
+              #ffffff 40%,
+              #f59e0b 100%
+            )
+          `,
+          backgroundSize: "100% 100%",
         }}
       />
 
@@ -24,7 +30,6 @@ function PageBackground({
           `,
           backgroundSize: "20px 20px",
           backgroundPosition: "0 0, 0 0",
-
           maskImage: `
             repeating-linear-gradient(
               to right,
@@ -46,7 +51,6 @@ function PageBackground({
               transparent 100%
             )
           `,
-
           WebkitMaskImage: `
             repeating-linear-gradient(
               to right,
@@ -68,7 +72,6 @@ function PageBackground({
               transparent 100%
             )
           `,
-
           maskComposite: "intersect",
           WebkitMaskComposite: "source-in",
         }}
