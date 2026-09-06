@@ -8,7 +8,6 @@ const previewBrains = [
     url: "https://youtube.com/watch?v=example",
     tags: ["travel", "fun"],
   },
-
   {
     id: "preview-2",
     title:
@@ -17,7 +16,6 @@ const previewBrains = [
     url: "https://x.com/naval/status/example",
     tags: ["life", "ideas"],
   },
-
   {
     id: "preview-3",
     title:
@@ -27,7 +25,6 @@ const previewBrains = [
     url: "https://medium.com/@example/modern-databases",
     tags: ["tech", "backend"],
   },
-
   {
     id: "preview-4",
     title: "An idea I want to build someday",
@@ -36,7 +33,6 @@ const previewBrains = [
     url: "",
     tags: ["ideas"],
   },
-
   {
     id: "preview-5",
     title:
@@ -46,7 +42,6 @@ const previewBrains = [
     url: "https://example.com/system-design",
     tags: ["tech", "ideas"],
   },
-
   {
     id: "preview-6",
     title:
@@ -56,7 +51,6 @@ const previewBrains = [
     url: "https://youtube.com/watch?v=learning",
     tags: ["inspiration", "tech"],
   },
-
   {
     id: "preview-7",
     title:
@@ -65,7 +59,6 @@ const previewBrains = [
     url: "https://x.com/example/status/456",
     tags: ["inspiration", "ideas"],
   },
-
   {
     id: "preview-8",
     title:
@@ -81,7 +74,6 @@ function BrainPreview() {
   return (
     <section className="px-6 pb-28">
       <div className="mx-auto w-full max-w-6xl">
-
         {/* Section heading */}
         <div className="mb-7 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
@@ -91,7 +83,6 @@ function BrainPreview() {
 
         {/* Product preview */}
         <div className="relative">
-
           {/* Soft glow */}
           <div
             className="
@@ -120,7 +111,6 @@ function BrainPreview() {
               sm:p-4
             "
           >
-
             {/* Browser header */}
             <div
               className="
@@ -162,11 +152,11 @@ function BrainPreview() {
             </div>
 
             {/* Brain cards */}
-            <div className="columns-1 gap-3 sm:columns-2 lg:columns-3">
+            <div className="columns-2 gap-2.5 sm:columns-2 sm:gap-3 lg:columns-3">
               {previewBrains.map((brain) => (
                 <div
                   key={brain.id}
-                  className="mb-3 break-inside-avoid"
+                  className="mb-2.5 break-inside-avoid sm:mb-3"
                 >
                   <PreviewCard
                     title={brain.title}

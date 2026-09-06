@@ -53,8 +53,8 @@ function PreviewCard({
         border
         border-slate-200/80
         bg-white/90
-        p-3
-        pl-4
+        p-2.5
+        pl-3.5
         shadow-[0_2px_8px_rgba(15,23,42,0.04)]
         backdrop-blur-md
         transition-all
@@ -63,6 +63,8 @@ function PreviewCard({
         hover:border-slate-300
         hover:bg-white
         hover:shadow-[0_10px_24px_rgba(15,23,42,0.09)]
+        sm:p-3
+        sm:pl-4
       "
     >
       {/* Accent */}
@@ -85,13 +87,15 @@ function PreviewCard({
             flex
             min-w-0
             items-center
-            gap-2
+            gap-1.5
             rounded-md
             border
             border-slate-200/80
             bg-slate-50/80
-            px-2.5
+            px-2
             py-1.5
+            sm:gap-2
+            sm:px-2.5
           "
         >
           <img
@@ -115,31 +119,52 @@ function PreviewCard({
       )}
 
       {/* Content */}
-      <div className="relative mt-4">
-        <h3 className="text-[13px] font-semibold leading-5 tracking-tight text-slate-950">
+      <div className="relative mt-3 sm:mt-4">
+        <h3
+          className="
+            text-[12px]
+            font-semibold
+            leading-4.5
+            tracking-tight
+            text-slate-950
+            sm:text-[13px]
+            sm:leading-5
+          "
+        >
           {title}
         </h3>
 
         {body && (
-          <p className="mt-1.5 text-[10px] leading-4 text-slate-500">
+          <p
+            className="
+              mt-1.5
+              text-[9px]
+              leading-3.5
+              text-slate-500
+              sm:text-[10px]
+              sm:leading-4
+            "
+          >
             {body}
           </p>
         )}
       </div>
 
       {/* Tags */}
-      <div className="relative mt-3 flex flex-wrap gap-1">
+      <div className="relative mt-2.5 flex flex-wrap gap-1 sm:mt-3">
         {tags.map((tag) => (
           <span
             key={tag}
             className="
               rounded-full
               bg-slate-100
-              px-2
+              px-1.5
               py-0.5
-              text-[8px]
+              text-[7px]
               font-medium
               text-slate-600
+              sm:px-2
+              sm:text-[8px]
             "
           >
             #{tag}
