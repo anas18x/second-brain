@@ -81,27 +81,25 @@ function BrainCard({
         cursor-pointer
         flex-col
         overflow-hidden
-        rounded-2xl
+        rounded-xl
         border
-        border-slate-200/80
-        bg-white/90
-        p-4
-        pl-5
-        shadow-[0_3px_12px_rgba(15,23,42,0.04)]
-        backdrop-blur-md
+        border-slate-200/90
+        bg-white
+        p-3.5
+        pl-4.5
+        shadow-[0_4px_14px_rgba(15,23,42,0.07),0_1px_3px_rgba(15,23,42,0.05)]
         outline-none
         transition-all
         duration-300
         hover:-translate-y-1
         hover:border-slate-300
-        hover:bg-white
-        hover:shadow-[0_16px_35px_rgba(15,23,42,0.11)]
+        hover:shadow-[0_16px_35px_rgba(15,23,42,0.12),0_4px_10px_rgba(15,23,42,0.06)]
         focus-visible:border-slate-400
         focus-visible:ring-2
         focus-visible:ring-slate-950/10
       "
     >
-      {/* Content accent */}
+      {/* Accent */}
       <div
         className={`
           absolute
@@ -118,7 +116,7 @@ function BrainCard({
         `}
       />
 
-      {/* External URL */}
+      {/* Bookmark */}
       {url && (
         <a
           href={url}
@@ -130,34 +128,33 @@ function BrainCard({
             flex
             min-w-0
             items-center
-            gap-2.5
+            gap-2
             rounded-lg
             border
-            border-slate-200/80
-            bg-slate-50/80
-            px-3
-            py-2
+            border-slate-200
+            bg-slate-50
+            px-2.5
+            py-1.5
+            shadow-[0_1px_3px_rgba(15,23,42,0.04)]
             transition-all
             duration-200
             hover:border-slate-300
             hover:bg-white
-            hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)]
+            hover:shadow-[0_4px_10px_rgba(15,23,42,0.07)]
           "
         >
-          {/* Favicon */}
           <img
             src={`https://www.google.com/s2/favicons?domain=${getDomain()}&sz=64`}
             alt=""
-            className="size-5 shrink-0 rounded-md"
+            className="size-4.5 shrink-0 rounded-md"
           />
 
-          {/* URL information */}
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[10px] font-semibold text-slate-700">
+            <p className="truncate text-[9px] font-semibold text-slate-800">
               {getDomain()}
             </p>
 
-            <p className="truncate text-[9px] text-slate-400">
+            <p className="truncate text-[8px] font-medium text-slate-400">
               {url.replace(/^https?:\/\//, "")}
             </p>
           </div>
@@ -166,21 +163,22 @@ function BrainCard({
             className="
               size-3
               shrink-0
-              text-slate-300
+              text-slate-400
               transition-colors
+              duration-200
               group-hover:text-slate-500
             "
           />
         </a>
       )}
 
-      {/* Main content */}
-      <div className="relative mt-5">
+      {/* Content */}
+      <div className="relative mt-4">
         <h3
           className="
-            text-[15px]
+            text-[14px]
             font-semibold
-            leading-6
+            leading-5.5
             tracking-tight
             text-slate-950
           "
@@ -191,10 +189,11 @@ function BrainCard({
         {body && (
           <p
             className="
-              mt-2
-              text-xs
-              leading-5
-              text-slate-500
+              mt-1.5
+              text-[11px]
+              font-medium
+              leading-4.5
+              text-slate-600
             "
           >
             {body}
@@ -202,28 +201,29 @@ function BrainCard({
         )}
       </div>
 
-      {/* Tags + status */}
+      {/* Footer */}
       <div
         className="
           relative
-          mt-5
+          mt-4
           flex
           items-end
           justify-between
-          gap-3
+          gap-2
         "
       >
-        {/* Tags */}
         <div className="flex flex-wrap gap-1.5">
           {tags.map((tag) => (
             <span
               key={tag}
               className="
                 rounded-full
+                border
+                border-slate-200/80
                 bg-slate-100
-                px-2.5
-                py-1
-                text-[10px]
+                px-2
+                py-0.5
+                text-[9px]
                 font-medium
                 text-slate-600
               "
@@ -233,14 +233,13 @@ function BrainCard({
           ))}
         </div>
 
-        {/* Saved */}
         <div
           className="
             flex
             shrink-0
             items-center
             gap-1.5
-            text-[9px]
+            text-[8px]
             font-semibold
             uppercase
             tracking-[0.14em]

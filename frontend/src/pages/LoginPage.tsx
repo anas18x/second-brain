@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 import Brand from "@/components/shared/Brand"
-import PageBackground from "@/components/shared/PageBackground"
+import {PageBackground} from "@/components/shared/PageBackground"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"

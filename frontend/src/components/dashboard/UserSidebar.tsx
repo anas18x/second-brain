@@ -1,6 +1,4 @@
-import {
-  LogOut,
-} from "lucide-react"
+import { LogOut } from "lucide-react"
 
 import Brand from "@/components/shared/Brand"
 import ShareBrainDialog from "@/components/dashboard/ShareBrainDialog"
@@ -22,65 +20,19 @@ function UserSidebar() {
   return (
     <Sidebar
       collapsible="icon"
-      className="border-r border-slate-200/80"
+      className="
+        border-r
+        border-slate-200
+        bg-[#f5f5f3]
+        [&_[data-sidebar=sidebar-inner]]:bg-[#f5f5f3]
+      "
     >
-      {/* Background atmosphere */}
-      <div
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          -z-10
-        "
-        style={{
-          background: `
-            radial-gradient(
-              circle at 15% 8%,
-              rgba(148, 163, 184, 0.16),
-              transparent 28%
-            ),
-            radial-gradient(
-              circle at 90% 35%,
-              rgba(251, 146, 60, 0.08),
-              transparent 30%
-            ),
-            radial-gradient(
-              circle at 30% 90%,
-              rgba(100, 116, 139, 0.10),
-              transparent 35%
-            ),
-            linear-gradient(
-              180deg,
-              #ffffff 0%,
-              #f8fafc 48%,
-              #f1f5f9 100%
-            )
-          `,
-        }}
-      />
-
-      {/* Top glow */}
-      <div
-        className="
-          pointer-events-none
-          absolute
-          left-0
-          right-0
-          top-0
-          h-32
-          bg-gradient-to-b
-          from-white/80
-          to-transparent
-        "
-      />
-
       {/* Brand */}
       <SidebarHeader className="relative px-3 py-5">
         <Brand />
       </SidebarHeader>
 
       <SidebarContent className="relative">
-
         {/* User Info */}
         <SidebarGroup>
           <SidebarGroupContent>
@@ -102,15 +54,16 @@ function UserSidebar() {
                   justify-center
                   rounded-full
                   border
-                  border-white
-                  bg-gradient-to-br
-                  from-slate-100
-                  to-slate-200
+                  border-slate-800
+                  bg-slate-950
                   text-base
                   font-semibold
-                  text-slate-800
-                  shadow-[0_4px_14px_rgba(15,23,42,0.08)]
+                  text-white
+                  shadow-[0_6px_18px_rgba(15,23,42,0.16)]
+                  transition-all
+                  duration-200
                   group-data-[collapsible=icon]:size-8
+                  group-data-[collapsible=icon]:shadow-[0_3px_10px_rgba(15,23,42,0.14)]
                 "
               >
                 A
@@ -151,7 +104,7 @@ function UserSidebar() {
                   "
                 />
 
-                <span className="text-xs font-medium text-slate-600">
+                <span className="text-xs font-medium text-slate-700">
                   Brain is public
                 </span>
               </div>
@@ -165,12 +118,10 @@ function UserSidebar() {
             <ShareBrainDialog />
           </SidebarGroupContent>
         </SidebarGroup>
-
       </SidebarContent>
 
       {/* Footer */}
       <SidebarFooter className="relative px-2 pb-4">
-
         <SidebarMenu className="gap-1">
 
           {/* Change Password */}
@@ -178,10 +129,11 @@ function UserSidebar() {
             <div
               className="
                 rounded-lg
-                transition-colors
+                transition-all
                 duration-200
-                hover:bg-white/70
-                hover:shadow-[0_2px_8px_rgba(15,23,42,0.04)]
+                hover:bg-white/80
+                hover:shadow-[0_3px_10px_rgba(15,23,42,0.05)]
+                group-data-[collapsible=icon]:hover:bg-slate-200/70
               "
             >
               <ChangePasswordDialog />
@@ -196,7 +148,7 @@ function UserSidebar() {
                 h-9
                 rounded-lg
                 px-2.5
-                text-slate-600
+                text-slate-700
                 transition-all
                 duration-200
                 hover:bg-red-50
@@ -204,6 +156,8 @@ function UserSidebar() {
                 hover:shadow-[0_2px_8px_rgba(239,68,68,0.06)]
                 active:bg-red-100
                 active:text-red-700
+                group-data-[collapsible=icon]:hover:bg-slate-200/80
+                group-data-[collapsible=icon]:hover:text-slate-950
               "
             >
               <LogOut className="size-4" />
@@ -215,9 +169,7 @@ function UserSidebar() {
           </SidebarMenuItem>
 
         </SidebarMenu>
-
       </SidebarFooter>
-
     </Sidebar>
   )
 }

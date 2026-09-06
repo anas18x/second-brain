@@ -4,7 +4,7 @@ import TagFilter from "@/components/dashboard/TagFilter"
 import BrainGrid from "@/components/dashboard/BrainGrid"
 import AddBrainDialog from "@/components/dashboard/AddBrainDialog"
 
-import PageBackground from "@/components/shared/PageBackground"
+import {PageBackground} from "@/components/shared/PageBackground"
 
 import {
   SidebarInset,
@@ -62,7 +62,6 @@ function DashboardPage() {
                 <div className="shrink-0">
                   <AddBrainDialog />
                 </div>
-
               </div>
 
               {/* Search */}
