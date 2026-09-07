@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import v1Routes from './routes/v1/index.js';
 import errorMiddleware from './middleware/error.Middleware.js';
+import cors from 'cors';
 
 
 const limiter = rateLimit({
@@ -18,6 +19,13 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(limiter);
+
+app.use(
+    cors({
+        origin: 'http://localhost:5173',
+        credentials: true,
+    })
+);
 
 
 app.use("/api/v1", v1Routes);
