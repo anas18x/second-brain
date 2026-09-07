@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { Toaster } from "@/components/ui/sonner"
 
 import LandingPage from "./pages/LandingPage"
 import LoginPage from "./pages/LoginPage"
@@ -12,6 +13,7 @@ import PublicBrainPage from "./pages/PublicBrain"
 function App() {
   return (
     <BrowserRouter>
+     <Toaster position="top-center" />
       <Routes>
 
         <Route path="/" element={<LandingPage />} />

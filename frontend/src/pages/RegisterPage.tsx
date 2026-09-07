@@ -1,13 +1,46 @@
-import { Link } from "react-router-dom"
-
+import { Link, useNavigate } from "react-router-dom"
 import Brand from "@/components/shared/Brand"
 import { PageBackground } from "@/components/shared/PageBackground"
-
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import axios from "axios"
+import { useForm } from "react-hook-form"
+import { registerSchema, type RegisterInput } from "@/schema/auth.schema"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { register as UserRegister } from "@/services/auth/auth.api"
+import { useState } from "react"
+import { toast } from "sonner"
+
+
 
 function RegisterPage() {
+  const navigate = useNavigate()
+  const [serverError , setServerError] = useState("")
+
+  const{register,
+        handleSubmit,
+        formState: {errors , isSubmitting}
+      } = useForm <RegisterInput> ({resolver:zodResolver(registerSchema)})
+
+
+  async function onSubmit( data:RegisterInput ){
+    try{
+      setServerError("")
+      await UserRegister(data)
+
+      toast.success("Account created successfully. Please sign in.")
+      navigate("/login")
+      
+    } catch (error){
+      if(axios.isAxiosError(error)){
+        setServerError(error.response?.data?.message ?? "something went wrong. Please try again")
+      } else {
+        setServerError("something went wrong. Please try again")
+      }
+    }
+  }
+
   return (
     <PageBackground>
       {/* Header */}
@@ -43,7 +76,10 @@ function RegisterPage() {
               sm:p-7
             "
           >
-            <form className="space-y-3.5 sm:space-y-4">
+            {serverError && ( <p role="alert" className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-center text-xs font-medium text-red-600"> {serverError} </p> )}
+
+            <form onSubmit={handleSubmit(onSubmit)}
+            className="space-y-3.5 sm:space-y-4">
 
               {/* Username */}
               <div className="space-y-1.5 sm:space-y-2">
@@ -54,60 +90,49 @@ function RegisterPage() {
                   Username
                 </Label>
 
-                <Input
+                <Input {...register("username",{
+                  onChange: () => setServerError("")
+                })}
                   id="username"
-                  name="username"
                   type="text"
-                  placeholder="yourusername"
+                  placeholder="your username"
                   autoComplete="username"
                   className="h-10 bg-white/90 sm:h-11"
                 />
+               {errors.username && (<p className="text-xs text-red-500"> {errors.username.message}</p>)}
+
               </div>
 
-              {/* Email */}
-              <div className="space-y-1.5 sm:space-y-2">
-                <Label
-                  htmlFor="email"
-                  className="text-xs font-semibold text-slate-900 sm:text-sm"
-                >
-                  Email
-                </Label>
-
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  autoComplete="email"
-                  className="h-10 bg-white/90 sm:h-11"
-                />
-              </div>
+      
 
               {/* Password */}
               <div className="space-y-1.5 sm:space-y-2">
                 <Label
                   htmlFor="password"
                   className="text-xs font-semibold text-slate-900 sm:text-sm"
-                >
+                  >
                   Password
                 </Label>
 
-                <Input
+                <Input {...register("password", {
+                  onChange: () => setServerError("")
+                })}
                   id="password"
-                  name="password"
                   type="password"
                   placeholder="••••••••"
                   autoComplete="new-password"
                   className="h-10 bg-white/90 sm:h-11"
-                />
+                  />
+                  {errors.password && (<p className="text-xs text-red-500"> {errors.password.message}</p>)}
               </div>
 
               {/* Submit */}
               <Button
                 type="submit"
+                disabled={isSubmitting}
                 className="mt-2 h-10 w-full cursor-pointer sm:h-11"
               >
-                Create Account
+                {isSubmitting ? "Creating Account..." : "Create Account"}
               </Button>
             </form>
           </div>
