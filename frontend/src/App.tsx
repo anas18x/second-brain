@@ -7,34 +7,32 @@ import RegisterPage from "./pages/RegisterPage"
 import DashBoardPage from "./pages/DashboardPage"
 import BrainDetailPage from "./pages/BrainDetailPage"
 import PublicBrainPage from "./pages/PublicBrain"
-
+import {ProtectedRoute} from "@/components/auth/ProtectedRoutes"
 
 
 function App() {
+
   return (
     <BrowserRouter>
      <Toaster position="top-center" />
       <Routes>
-
+        
+        // Public Routes
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-
-        <Route path="/dashboard" element={<DashBoardPage />} />
-        <Route path="/brain/:id" element={<BrainDetailPage />} />
-
         <Route path="/share/:shareSlug" element={<PublicBrainPage />} />
 
-         <Route
-          path="*"
-          element={
-            <div className="flex min-h-screen items-center justify-center">
-              <h1 className="text-xl font-semibold">
-                Page not found
-              </h1>
-            </div>
-          }
-        />
+        // Protected Routes
+        <Route element={<ProtectedRoute/>}>
+        <Route path="/dashboard" element={<DashBoardPage />} />
+        <Route path="/brain/:id" element={<BrainDetailPage />} />
+        </Route>
+         
+
+        <Route path="*" element={ <div className="flex min-h-screen items-center justify-center"> <h1 className="text-xl font-semibold">
+                Page not found </h1> </div> 
+        }/>
 
       </Routes>
     </BrowserRouter>
