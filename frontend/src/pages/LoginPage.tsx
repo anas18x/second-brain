@@ -11,9 +11,12 @@ import { loginSchema, type LoginInput } from "@/schema/auth.schema"
 import { login } from "@/services/auth/auth.api"
 import axios from "axios"
 import { useState } from "react"
+import { useAuthStore } from "@/store/auth.store"
 
 
 function LoginPage() {
+  const initializeAuth = useAuthStore((state) =>state.initializeAuth)
+
   const navigate = useNavigate()
     const [serverError , setServerError] = useState("")
   
@@ -28,6 +31,8 @@ function LoginPage() {
       setServerError("")
       await login(data)
 
+      // After successful login, we need to re-initialize the auth state to fetch the current user and update Zustand store in order to access the protected routes
+      await initializeAuth()
       navigate("/dashboard")
 
     } catch (error){
@@ -87,9 +92,7 @@ function LoginPage() {
                   Username
                 </Label>
 
-                <Input {...register("username", {
-                  onChange: () => setServerError("")
-                })}
+                <Input {...register("username", { onChange: () => setServerError("")})}
                   id="username"
                   type="text"
                   placeholder="your username"
@@ -110,9 +113,7 @@ function LoginPage() {
                   Password
                 </Label>
 
-                <Input {...register("password",{
-                  onChange: () => setServerError("")
-                })}
+                <Input {...register("password",{ onChange: () => setServerError("")})}
                   id="password"
                   type="password"
                   placeholder="••••••••"

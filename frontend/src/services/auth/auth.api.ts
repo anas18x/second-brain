@@ -44,12 +44,6 @@ export const changePassword = async (
 }
 
 
-export const refreshToken = async () => {
-  const response = await apiClient.post("/auth/refresh-token")
-  return response.data
-}
-
-
 export const logout = async () => {
   const response = await apiClient.post("/auth/logout")
   return response.data

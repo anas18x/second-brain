@@ -1,22 +1,31 @@
 import { LogOut } from "lucide-react"
-
 import Brand from "@/components/shared/Brand"
 import ShareBrainDialog from "@/components/dashboard/ShareBrainDialog"
 import ChangePasswordDialog from "@/components/dashboard/ChangePasswordDialog"
-
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+import { Sidebar, SidebarContent,SidebarFooter,SidebarGroup,SidebarGroupContent,SidebarHeader,SidebarMenu,SidebarMenuButton,SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import {logout} from "@/services/auth/auth.api"
+import { useNavigate } from "react-router-dom"
+import { useAuthStore } from "@/store/auth.store"
+import { toast } from "sonner"
+
+
 
 function UserSidebar() {
+  const navigate = useNavigate()
+  const clearUser = useAuthStore((state) => state.clearUser)
+  
+  async function handleLogout(){
+    try{
+      await logout()
+      clearUser()
+      navigate("/login")
+
+    } catch(error){
+        toast.error("Unable to log out. Please try again.")
+    }
+  }
+
   return (
     <Sidebar
       collapsible="icon"
@@ -143,6 +152,7 @@ function UserSidebar() {
           {/* Logout */}
           <SidebarMenuItem>
             <SidebarMenuButton
+              onClick={handleLogout}
               tooltip="Log out"
               className="
                 h-9
