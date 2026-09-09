@@ -11,6 +11,7 @@ import cors from 'cors';
 const limiter = rateLimit({
     windowMs : 15 * 60 * 1000,      // 15 min
     limit : 100,                   // max 100 requests per windowMs
+    skip : (req) => req.method === "OPTIONS",
     message : 'Too many requests from this IP, please try again later.'
 }) 
 
@@ -18,7 +19,6 @@ const limiter = rateLimit({
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(limiter);
 
 app.use(
     cors({
@@ -27,6 +27,7 @@ app.use(
     })
 );
 
+app.use(limiter);
 
 app.use("/api/v1", v1Routes);
 
