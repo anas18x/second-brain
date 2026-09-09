@@ -58,8 +58,7 @@ function Hero() {
 
         {/* Description */}
         <p className="mt-5 max-w-xl text-base font-medium leading-7 text-slate-800">
-          Save notes, ideas, links, and knowledge. Keep everything organized
-          and easy to find.
+          Keep your bookmarks, notes, ideas, and saved links organized in one place.
         </p>
 
         {/* CTA */}

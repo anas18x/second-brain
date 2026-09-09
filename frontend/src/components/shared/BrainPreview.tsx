@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react"
 import PreviewCard from "@/components/shared/PreviewCard"
 
 const previewBrains = [
@@ -8,6 +9,7 @@ const previewBrains = [
     url: "https://youtube.com/watch?v=example",
     tags: ["travel", "fun"],
   },
+
   {
     id: "preview-2",
     title:
@@ -16,6 +18,7 @@ const previewBrains = [
     url: "https://x.com/naval/status/example",
     tags: ["life", "ideas"],
   },
+
   {
     id: "preview-3",
     title:
@@ -25,6 +28,7 @@ const previewBrains = [
     url: "https://medium.com/@example/modern-databases",
     tags: ["tech", "backend"],
   },
+
   {
     id: "preview-4",
     title: "An idea I want to build someday",
@@ -33,6 +37,7 @@ const previewBrains = [
     url: "",
     tags: ["ideas"],
   },
+
   {
     id: "preview-5",
     title:
@@ -42,6 +47,7 @@ const previewBrains = [
     url: "https://example.com/system-design",
     tags: ["tech", "ideas"],
   },
+
   {
     id: "preview-6",
     title:
@@ -51,6 +57,7 @@ const previewBrains = [
     url: "https://youtube.com/watch?v=learning",
     tags: ["inspiration", "tech"],
   },
+
   {
     id: "preview-7",
     title:
@@ -59,6 +66,7 @@ const previewBrains = [
     url: "https://x.com/example/status/456",
     tags: ["inspiration", "ideas"],
   },
+
   {
     id: "preview-8",
     title:
@@ -69,6 +77,35 @@ const previewBrains = [
     tags: ["tech", "ideas"],
   },
 ]
+
+function useRevealOnScroll() {
+  const ref = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const element = ref.current
+
+    if (!element) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.unobserve(element)
+        }
+      },
+      {
+        threshold: 0.1,
+      },
+    )
+
+    observer.observe(element)
+
+    return () => observer.disconnect()
+  }, [])
+
+  return { ref, isVisible }
+}
 
 function BrainPreview() {
   return (
@@ -153,19 +190,36 @@ function BrainPreview() {
 
             {/* Brain cards */}
             <div className="columns-2 gap-2.5 sm:columns-2 sm:gap-3 lg:columns-3">
-              {previewBrains.map((brain) => (
-                <div
-                  key={brain.id}
-                  className="mb-2.5 break-inside-avoid sm:mb-3"
-                >
-                  <PreviewCard
-                    title={brain.title}
-                    body={brain.body}
-                    url={brain.url}
-                    tags={brain.tags}
-                  />
-                </div>
-              ))}
+              {previewBrains.map((brain) => {
+                const { ref, isVisible } = useRevealOnScroll()
+
+                return (
+                  <div
+                    key={brain.id}
+                    ref={ref}
+                    className={`
+                      mb-2.5
+                      break-inside-avoid
+                      transition-all
+                      duration-700
+                      ease-out
+                      sm:mb-3
+                      ${
+                        isVisible
+                          ? "translate-y-0 opacity-100"
+                          : "translate-y-6 opacity-0"
+                      }
+                    `}
+                  >
+                    <PreviewCard
+                      title={brain.title}
+                      body={brain.body}
+                      url={brain.url}
+                      tags={brain.tags}
+                    />
+                  </div>
+                )
+              })}
             </div>
 
             {/* Bottom fade */}

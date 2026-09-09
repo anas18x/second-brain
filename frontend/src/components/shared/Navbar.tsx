@@ -17,8 +17,7 @@ function Navbar() {
       <div className="flex items-center gap-1 sm:gap-2">
 
         {/* Theme */}
-        <Sun className="size-3.5 text-slate-800 sm:size-4" />
-
+        <Sun className="hidden size-3.5 text-slate-800 sm:block sm:size-4" />
         {/* Sign In */}
         <Link to="/login">
           <Button
