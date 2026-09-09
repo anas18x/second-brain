@@ -5,76 +5,81 @@ const previewBrains = [
   {
     id: "preview-1",
     title: "A travel video I want to watch before my next trip",
-    body: "",
+    body: "✈️ Saving this for the next trip. Looks like exactly the kind of place I'd love to explore.",
     url: "https://youtube.com/watch?v=example",
     tags: ["travel", "fun"],
   },
 
   {
     id: "preview-2",
-    title:
-      "The goal isn't to be productive all the time. It's to have a life you actually like.",
-    body: "",
-    url: "https://x.com/naval/status/example",
-    tags: ["life", "ideas"],
+    title: "A quote that stuck with me",
+    body:
+      "💭 Some things are worth saving simply because they made you stop and think.",
+    url: "https://x.com/example/status/789",
+    tags: ["quotes", "ideas"],
   },
 
   {
     id: "preview-3",
-    title:
-      "How modern databases actually handle millions of requests",
+    title: "The surprisingly simple rule behind good system design",
     body:
-      "A useful breakdown of how modern systems handle traffic, caching, databases, and the boring things that suddenly become important at scale.",
-    url: "https://medium.com/@example/modern-databases",
-    tags: ["tech", "backend"],
-  },
-
-  {
-    id: "preview-4",
-    title: "An idea I want to build someday",
-    body:
-      "A small tool that helps people organize things they want to learn. Something simple, useful, and actually enjoyable to build.",
-    url: "",
-    tags: ["ideas"],
-  },
-
-  {
-    id: "preview-5",
-    title:
-      "The surprisingly simple rule behind good system design",
-    body:
-      "Good systems aren't necessarily the ones with the most clever architecture. Start with the simplest thing that works, understand where the pressure actually comes from, and only then introduce complexity.",
-    url: "https://example.com/system-design",
+      "💡 Good systems aren't necessarily the ones with the most clever architecture. Start with the simplest thing that works, understand where the pressure actually comes from, and only then introduce complexity.",
+    url: "https://medium.com/system-design",
     tags: ["tech", "ideas"],
   },
 
   {
-    id: "preview-6",
-    title:
-      "This video completely changed how I think about learning",
-    body:
-      "I used to think learning was about consuming more information. The important part is actually being able to retrieve, apply, and explain what you've learned.",
-    url: "https://youtube.com/watch?v=learning",
-    tags: ["inspiration", "tech"],
-  },
-
-  {
-    id: "preview-7",
+    id: "preview-4",
     title:
       "Don't optimize your life before you've figured out what you actually want.",
-    body: "",
+    body: "🧠 Something worth coming back to.",
     url: "https://x.com/example/status/456",
     tags: ["inspiration", "ideas"],
   },
 
   {
-    id: "preview-8",
-    title:
-      "Things I want to remember when building my next project",
+    id: "preview-5",
+    title: "An idea I don't want to forget",
     body:
-      "Keep the architecture simple. Ship early. Don't build abstractions before they are needed. Make the boring parts boring. Good software doesn't need to look complicated to be impressive.",
+      "✨ A small idea that came to mind today. It might turn into something useful someday, or maybe it won't. Either way, worth keeping.",
     url: "",
-    tags: ["tech", "ideas"],
+    tags: ["ideas"],
+  },
+
+  {
+    id: "preview-6",
+    title: "Future me is going to be very glad I saved this.",
+    body:
+      "😅 Future me has absolutely no idea what this is, but apparently present me thought it was important enough to save.",
+    url: "",
+    tags: ["life", "random"],
+  },
+
+  {
+    id: "preview-7",
+    title: "A few places I want to visit someday",
+    body:
+      "🌍 Save the places that catch your attention. No need to plan everything now. Just keep them somewhere you'll actually find them later.",
+    url: "https://example.com/travel",
+    tags: ["travel", "ideas"],
+  },
+
+  {
+    id: "preview-8",
+    title: "This video completely changed how I think about learning",
+    body:
+      "📚 I used to think learning was about consuming more information. The important part is actually being able to retrieve, apply, and explain what you've learned.",
+    url: "https://youtube.com/watch?v=learning",
+    tags: ["inspiration", "tech"],
+  },
+
+  {
+    id: "preview-9",
+    title: "An idea I want to build someday",
+    body:
+      "🚀 A small tool that helps people organize things they want to learn. Something simple, useful, and actually enjoyable to build.",
+    url: "",
+    tags: ["ideas"],
   },
 ]
 
