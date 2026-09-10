@@ -2,7 +2,7 @@ import express from "express"
 import cookieParser from "cookie-parser"
 import rateLimit from "express-rate-limit"
 import cors from "cors"
-
+import {ENV } from "./config/ENV.config.js"
 import v1Routes from "./routes/v1/index.js"
 import errorMiddleware from "./middleware/error.Middleware.js"
 
@@ -21,7 +21,7 @@ app.use(cookieParser())
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ENV.FRONTEND_URL,
     credentials: true,
   }),
 )
