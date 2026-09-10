@@ -1,6 +1,6 @@
 import express from "express"
 import cookieParser from "cookie-parser"
-import rateLimit from "express-rate-limit"
+import {rateLimit} from "express-rate-limit"
 import cors from "cors"
 import {ENV } from "./config/ENV.config.js"
 import v1Routes from "./routes/v1/index.js"
