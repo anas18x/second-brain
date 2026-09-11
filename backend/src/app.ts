@@ -19,10 +19,24 @@ const app = express()
 
 app.set("trust proxy", 1)
 
-app.get("/api/v1/health/db", (_req, res) => {
-  res.json({
-    mongoReadyState: mongoose.connection.readyState,
-  })
+app.get("/api/v1/health/db", async (_req, res) => {
+  try {
+    if (mongoose.connection.readyState !== 1) {
+      await mongoose.connect(ENV.MONGO_URI, {
+        serverSelectionTimeoutMS: 5000,
+      })
+    }
+
+    res.json({
+      mongoReadyState: mongoose.connection.readyState,
+      message: "MongoDB connected",
+    })
+  } catch (error) {
+    res.status(500).json({
+      mongoReadyState: mongoose.connection.readyState,
+      error: error instanceof Error ? error.message : String(error),
+    })
+  }
 })
 
 app.use(express.json())
