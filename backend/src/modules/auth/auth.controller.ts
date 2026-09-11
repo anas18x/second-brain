@@ -48,7 +48,7 @@ export const loginController = async (
             {
                 httpOnly: true,         // JavaScript cannot access it. document.cookie cannot read token
                 secure: true,           // only sent over HTTPS
-                sameSite: "strict",
+                sameSite: "none",         // sent in cross-site requests
                 maxAge: 15 * 60 * 1000  // 15 minutes
             })
 
@@ -58,7 +58,7 @@ export const loginController = async (
             {
                 httpOnly: true, 
                 secure: true,
-                sameSite: "strict",
+                sameSite: "none",         // sent in cross-site requests
                 maxAge: 7 * 24 * 60 * 60 * 1000  // 7 days
             })
     
@@ -123,7 +123,7 @@ export const refreshTokenController = async (
             {
                 httpOnly: true, 
                 secure: true,        
-                sameSite: "strict",
+                sameSite: "none",         // sent in cross-site requests
                 maxAge: 15 * 60 * 1000  
             })
         
