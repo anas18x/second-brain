@@ -1,21 +1,17 @@
 import mongoose from "mongoose"
 import { ENV } from "./config/ENV.config.js"
 
-let dbInitialized = false
-
 export async function connectDB() {
-  if (mongoose.connection.readyState === 1) {
-    return
-  }
+  try {
+    if (mongoose.connection.readyState === 1) {
+      return
+    }
 
-  await mongoose.connect(ENV.MONGO_URI)
+    await mongoose.connect(ENV.MONGO_URI)
 
-  dbInitialized = true
-}
-
-export function getDBStatus() {
-  return {
-    readyState: mongoose.connection.readyState,
-    dbInitialized,
+    console.log("Connected to MongoDB")
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error)
+    throw error
   }
 }
