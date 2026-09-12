@@ -9,7 +9,7 @@ export const createBrainSchema = z.object({
       .min(1, "Title is required")
       .max(200, "Title must be at most 200 characters long"),
     body: z.string().trim().optional(),
-    url: z.string().trim().url().optional(),
+    url: z.url().optional(),
     tags: z.array(z.string().trim()).max(10).optional().default([]),
   })
   
@@ -18,9 +18,8 @@ export const createBrainSchema = z.object({
 export const updateBrainSchema = z.object({
     title: z.string().trim().min(1, "Title is required").max(200).optional(),
     body: z.string().trim().optional(),
-    url: z.string().trim().url("Invalid URL").optional().refine(
-      (val) => val === "" || z.string().url().safeParse(val).success,
-    ),
+    // URL validation: either empty string or valid URL
+    url: z.string().trim().refine((val)=> val === "" || z.url().safeParse(val).success, "Invalid URL").optional(),
     tags: z.array(z.string().trim()).max(10).optional(),
   })
   .refine(
