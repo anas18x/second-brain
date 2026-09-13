@@ -50,15 +50,15 @@ function RegisterPage() {
       </header>
 
       {/* Register */}
-      <main className="flex min-h-[calc(100vh-68px)] items-center justify-center px-4 py-10 sm:min-h-[calc(100vh-76px)] sm:px-6 sm:py-16">
+      <main className="flex min-h-[calc(100vh-68px)] items-center justify-center px-4 py-4 sm:min-h-[calc(100vh-76px)] sm:px-6 sm:py-16">
         <div className="w-full max-w-sm sm:max-w-md">
           {/* Heading */}
           <div className="mb-7 min-h-[82px] text-center sm:mb-8 sm:min-h-[88px]">
-            <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-4xl">
               Create your account
             </h1>
 
-            <p className="mt-2.5 text-sm leading-6 text-muted-foreground sm:mt-3 sm:text-base">
+            <p className="mt-2 text-xs leading-5 text-muted-foreground sm:mt-3 sm:text-base">
               Start building your second brain today.
             </p>
           </div>
@@ -66,12 +66,12 @@ function RegisterPage() {
           {/* Register Card */}
           <div
             className="
-              min-h-[272px]
+              min-h-[250px]
               rounded-2xl
               border
               border-white/10
               bg-white/[0.04]
-              p-5
+              p-4
               shadow-[0_20px_50px_rgba(0,0,0,0.35)]
               backdrop-blur-xl
               sm:min-h-[286px]
