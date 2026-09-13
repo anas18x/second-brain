@@ -8,22 +8,23 @@ import DashBoardPage from "./pages/DashboardPage"
 import BrainDetailPage from "./pages/BrainDetailPage"
 import PublicBrainPage from "./pages/PublicBrain"
 import {ProtectedRoute} from "@/components/auth/ProtectedRoutes"
-
+import PageBackground from "@/components/shared/PageBackground"
 
 function App() {
 
   return (
     <BrowserRouter>
+    <PageBackground>
      <Toaster position="top-center" />
       <Routes>
         
-        // Public Routes
+         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/share/:shareSlug" element={<PublicBrainPage />} />
 
-        // Protected Routes
+        {/* Protected Routes */}
         <Route element={<ProtectedRoute/>}>
         <Route path="/dashboard" element={<DashBoardPage />} />
         <Route path="/brain/:id" element={<BrainDetailPage />} />
@@ -35,6 +36,7 @@ function App() {
         }/>
 
       </Routes>
+    </PageBackground>
     </BrowserRouter>
   )
 }

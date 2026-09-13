@@ -5,7 +5,9 @@ import {
   Save,
   X,
 } from "lucide-react"
+
 import { useEffect, useRef, useState } from "react"
+
 import { useNavigate } from "react-router-dom"
 
 import DeleteBrainDialog from "@/components/dashboard/DeleteBrainDialog"
@@ -81,77 +83,17 @@ function BrainDetailPage() {
   }
 
   const handleSave = () => {
-    // API integration will come here later.
+    /* API integration will come here later. */
     setIsEditing(false)
   }
 
   return (
     <div className="relative min-h-screen w-full">
-
-      {/* Dashed Bottom Right Fade Grid */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, #e7e5e4 1px, transparent 1px),
-            linear-gradient(to bottom, #e7e5e4 1px, transparent 1px)
-          `,
-          backgroundSize: "20px 20px",
-          backgroundPosition: "0 0, 0 0",
-          maskImage: `
-            repeating-linear-gradient(
-              to right,
-              black 0px,
-              black 3px,
-              transparent 3px,
-              transparent 8px
-            ),
-            repeating-linear-gradient(
-              to bottom,
-              black 0px,
-              black 3px,
-              transparent 3px,
-              transparent 8px
-            ),
-            radial-gradient(
-              ellipse 80% 80% at 100% 100%,
-              #000 50%,
-              transparent 90%
-            )
-          `,
-          WebkitMaskImage: `
-            repeating-linear-gradient(
-              to right,
-              black 0px,
-              black 3px,
-              transparent 3px,
-              transparent 8px
-            ),
-            repeating-linear-gradient(
-              to bottom,
-              black 0px,
-              black 3px,
-              transparent 3px,
-              transparent 8px
-            ),
-            radial-gradient(
-              ellipse 80% 80% at 100% 100%,
-              #000 50%,
-              transparent 90%
-            )
-          `,
-          maskComposite: "intersect",
-          WebkitMaskComposite: "source-in",
-        }}
-      />
-
       {/* Page Content */}
       <main className="relative z-10 min-h-screen px-6 py-6 sm:px-8 lg:px-10">
         <div className="mx-auto w-full max-w-5xl">
-
           {/* Top Navigation */}
           <div className="flex items-center justify-between">
-
             {/* Back */}
             <button
               type="button"
@@ -166,10 +108,10 @@ function BrainDetailPage() {
                 py-1
                 text-xs
                 font-medium
-                text-slate-600
+                text-muted-foreground
                 transition-colors
                 duration-200
-                hover:text-slate-950
+                hover:text-foreground
               "
             >
               <ArrowLeft className="size-4" />
@@ -179,7 +121,6 @@ function BrainDetailPage() {
             {/* Actions */}
             {!isEditing && (
               <div className="flex items-center gap-1">
-
                 {/* Edit */}
                 <button
                   type="button"
@@ -192,11 +133,11 @@ function BrainDetailPage() {
                     items-center
                     justify-center
                     rounded-md
-                    text-slate-500
+                    text-muted-foreground
                     transition-all
                     duration-200
-                    hover:bg-white/70
-                    hover:text-slate-800
+                    hover:bg-white/[0.06]
+                    hover:text-foreground
                   "
                 >
                   <Pencil className="size-4" />
@@ -204,7 +145,6 @@ function BrainDetailPage() {
 
                 {/* Delete */}
                 <DeleteBrainDialog />
-
               </div>
             )}
           </div>
@@ -212,10 +152,8 @@ function BrainDetailPage() {
           {/* ========================= */}
           {/* EDIT MODE                  */}
           {/* ========================= */}
-
           {isEditing ? (
             <div className="mt-12">
-
               {/* Title */}
               <input
                 ref={titleInputRef}
@@ -232,9 +170,9 @@ function BrainDetailPage() {
                   font-semibold
                   leading-tight
                   tracking-[-0.025em]
-                  text-slate-950
+                  text-foreground
                   outline-none
-                  placeholder:text-slate-400
+                  placeholder:text-muted-foreground/50
                   sm:text-4xl
                 "
                 placeholder="Give it a title"
@@ -254,14 +192,13 @@ function BrainDetailPage() {
                     p-0
                     text-xs
                     font-medium
-                    text-slate-600
+                    text-muted-foreground
                     outline-none
-                    placeholder:text-slate-400
+                    placeholder:text-muted-foreground/50
                   "
                   placeholder="ideas, productivity, habits"
                 />
-
-                <p className="mt-1.5 text-[10px] font-medium text-slate-500">
+                <p className="mt-1.5 text-[10px] font-medium text-muted-foreground/60">
                   Separate tags with commas.
                 </p>
               </div>
@@ -275,7 +212,7 @@ function BrainDetailPage() {
                     font-semibold
                     uppercase
                     tracking-[0.14em]
-                    text-slate-500
+                    text-muted-foreground
                   "
                 >
                   URL
@@ -291,18 +228,19 @@ function BrainDetailPage() {
                     w-full
                     rounded-lg
                     border
-                    border-slate-200
-                    bg-white/70
+                    border-white/10
+                    bg-white/[0.04]
                     px-3
                     text-xs
                     font-medium
-                    text-slate-700
+                    text-foreground
                     outline-none
                     transition-all
-                    focus:border-slate-400
-                    focus:bg-white
+                    placeholder:text-muted-foreground/50
+                    focus:border-[#ef3340]/40
+                    focus:bg-white/[0.06]
                     focus:ring-2
-                    focus:ring-slate-950/10
+                    focus:ring-[#ef3340]/15
                   "
                   placeholder="https://example.com"
                 />
@@ -317,7 +255,7 @@ function BrainDetailPage() {
                     font-semibold
                     uppercase
                     tracking-[0.14em]
-                    text-slate-500
+                    text-muted-foreground
                   "
                 >
                   Note
@@ -334,20 +272,21 @@ function BrainDetailPage() {
                     resize-none
                     rounded-lg
                     border
-                    border-slate-200
-                    bg-white/70
+                    border-white/10
+                    bg-white/[0.04]
                     px-3
                     py-3
                     text-sm
                     font-medium
                     leading-7
-                    text-slate-700
+                    text-foreground
                     outline-none
                     transition-all
-                    focus:border-slate-400
-                    focus:bg-white
+                    placeholder:text-muted-foreground/50
+                    focus:border-[#ef3340]/40
+                    focus:bg-white/[0.06]
                     focus:ring-2
-                    focus:ring-slate-950/10
+                    focus:ring-[#ef3340]/15
                   "
                   placeholder="Add a note..."
                 />
@@ -355,7 +294,6 @@ function BrainDetailPage() {
 
               {/* Edit Actions */}
               <div className="mt-7 flex justify-end gap-2">
-
                 <button
                   type="button"
                   onClick={handleCancel}
@@ -366,18 +304,18 @@ function BrainDetailPage() {
                     gap-1.5
                     rounded-lg
                     border
-                    border-slate-300
-                    bg-white/70
+                    border-white/10
+                    bg-white/[0.04]
                     px-3
                     py-2
                     font-['Space_Grotesk']
                     text-xs
                     font-semibold
-                    text-slate-600
+                    text-muted-foreground
                     transition-all
-                    hover:border-slate-400
-                    hover:bg-white
-                    hover:text-slate-900
+                    hover:border-white/15
+                    hover:bg-white/[0.08]
+                    hover:text-foreground
                   "
                 >
                   <X className="size-3.5" />
@@ -393,36 +331,36 @@ function BrainDetailPage() {
                     items-center
                     gap-1.5
                     rounded-lg
-                    bg-slate-950
+                    border
+                    border-[#ef3340]
+                    bg-[#ef3340]
                     px-3.5
                     py-2
                     font-['Space_Grotesk']
                     text-xs
                     font-semibold
                     text-white
-                    shadow-[0_3px_10px_rgba(15,23,42,0.12)]
+                    shadow-[0_3px_10px_rgba(239,51,64,0.14)]
                     transition-all
                     hover:-translate-y-0.5
-                    hover:bg-slate-800
+                    hover:bg-[#ef3340]/90
+                    hover:shadow-[0_7px_18px_rgba(239,51,64,0.22)]
                     active:translate-y-0
                   "
                 >
                   <Save className="size-3.5" />
                   Save Changes
                 </button>
-
               </div>
             </div>
           ) : (
-
-            /* ========================= */
-            /* VIEW MODE                  */
-            /* ========================= */
-
             <>
+              {/* ========================= */}
+              {/* VIEW MODE                  */}
+              {/* ========================= */}
+
               {/* Header */}
               <header className="mt-12">
-
                 <h1
                   className="
                     max-w-4xl
@@ -430,7 +368,7 @@ function BrainDetailPage() {
                     font-semibold
                     leading-tight
                     tracking-[-0.025em]
-                    text-slate-950
+                    text-foreground
                     sm:text-4xl
                   "
                 >
@@ -439,33 +377,32 @@ function BrainDetailPage() {
 
                 {/* Metadata */}
                 <div className="mt-5 flex flex-wrap items-center gap-2.5">
-
                   {tagList.map((tag) => (
                     <span
                       key={tag}
                       className="
                         rounded-full
-                        bg-white/70
+                        border
+                        border-white/10
+                        bg-white/[0.04]
                         px-2.5
                         py-1
                         text-[10px]
                         font-medium
-                        text-slate-600
-                        shadow-[0_1px_3px_rgba(15,23,42,0.04)]
+                        text-muted-foreground
                       "
                     >
                       #{tag}
                     </span>
                   ))}
 
-                  <span className="mx-1 text-sm text-slate-400">
+                  <span className="mx-1 text-sm text-muted-foreground/40">
                     /
                   </span>
 
-                  <span className="text-[10px] font-medium text-slate-500">
+                  <span className="text-[10px] font-medium text-muted-foreground/60">
                     Saved {createdAt}
                   </span>
-
                 </div>
               </header>
 
@@ -484,17 +421,17 @@ function BrainDetailPage() {
                     gap-3
                     rounded-xl
                     border
-                    border-slate-200/90
-                    bg-white/75
+                    border-white/10
+                    bg-white/[0.04]
                     px-4
                     py-3
-                    shadow-[0_3px_12px_rgba(15,23,42,0.04)]
+                    shadow-[0_3px_12px_rgba(0,0,0,0.2)]
                     backdrop-blur-sm
                     transition-all
                     duration-200
-                    hover:border-slate-300
-                    hover:bg-white
-                    hover:shadow-[0_8px_22px_rgba(15,23,42,0.07)]
+                    hover:border-white/15
+                    hover:bg-white/[0.06]
+                    hover:shadow-[0_8px_22px_rgba(0,0,0,0.28)]
                   "
                 >
                   <img
@@ -504,35 +441,32 @@ function BrainDetailPage() {
                   />
 
                   <div className="min-w-0 flex-1">
-
-                    <p className="text-xs font-semibold text-slate-800">
+                    <p className="text-xs font-semibold text-foreground">
                       {getDomain()}
                     </p>
 
-                    <p className="mt-0.5 truncate text-[10px] font-medium text-slate-500">
+                    <p className="mt-0.5 truncate text-[10px] font-medium text-muted-foreground/60">
                       {getUrlWithoutProtocol()}
                     </p>
-
                   </div>
 
                   <ExternalLink
                     className="
                       size-4
                       shrink-0
-                      text-slate-400
+                      text-muted-foreground/50
                       transition-colors
-                      group-hover:text-slate-700
+                      group-hover:text-muted-foreground
                     "
                   />
                 </a>
               )}
 
               {/* Divider */}
-              <div className="mt-9 h-px w-full bg-slate-300/70" />
+              <div className="mt-9 h-px w-full bg-white/10" />
 
               {/* Note */}
               <section className="py-9">
-
                 {body ? (
                   <p
                     className="
@@ -541,22 +475,21 @@ function BrainDetailPage() {
                       text-sm
                       font-medium
                       leading-8
-                      text-slate-700
+                      text-muted-foreground
                       sm:text-[15px]
                     "
                   >
                     {body}
                   </p>
                 ) : (
-                  <p className="text-sm font-medium text-slate-500">
+                  <p className="text-sm font-medium text-muted-foreground/60">
                     No note added.
                   </p>
                 )}
-
               </section>
 
               {/* Bottom Divider */}
-              <div className="h-px w-full bg-slate-300/70" />
+              <div className="h-px w-full bg-white/10" />
 
               {/* Bottom Back */}
               <button
@@ -570,9 +503,9 @@ function BrainDetailPage() {
                   gap-2
                   text-xs
                   font-medium
-                  text-slate-600
+                  text-muted-foreground
                   transition-colors
-                  hover:text-slate-950
+                  hover:text-foreground
                 "
               >
                 <ArrowLeft className="size-3.5" />
@@ -580,7 +513,6 @@ function BrainDetailPage() {
               </button>
             </>
           )}
-
         </div>
       </main>
     </div>

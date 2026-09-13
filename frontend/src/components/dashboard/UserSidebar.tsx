@@ -1,28 +1,42 @@
 import { LogOut } from "lucide-react"
+
 import Brand from "@/components/shared/Brand"
+
 import ShareBrainDialog from "@/components/dashboard/ShareBrainDialog"
+
 import ChangePasswordDialog from "@/components/dashboard/ChangePasswordDialog"
-import { Sidebar, SidebarContent,SidebarFooter,SidebarGroup,SidebarGroupContent,SidebarHeader,SidebarMenu,SidebarMenuButton,SidebarMenuItem,
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import {logout} from "@/services/auth/auth.api"
+
+import { logout } from "@/services/auth/auth.api"
+
 import { useNavigate } from "react-router-dom"
+
 import { useAuthStore } from "@/store/auth.store"
+
 import { toast } from "sonner"
-
-
 
 function UserSidebar() {
   const navigate = useNavigate()
   const clearUser = useAuthStore((state) => state.clearUser)
-  
-  async function handleLogout(){
-    try{
+
+  async function handleLogout() {
+    try {
       await logout()
       clearUser()
       navigate("/login")
-
-    } catch(error){
-        toast.error("Unable to log out. Please try again.")
+    } catch (error) {
+      toast.error("Unable to log out. Please try again.")
     }
   }
 
@@ -31,9 +45,9 @@ function UserSidebar() {
       collapsible="icon"
       className="
         border-r
-        border-slate-200
-        bg-[#f5f5f3]
-        [&_[data-sidebar=sidebar-inner]]:bg-[#f5f5f3]
+        border-white/10
+        bg-[#0a0a0a]
+        [&_[data-sidebar=sidebar-inner]]:bg-[#0a0a0a]
       "
     >
       {/* Brand */}
@@ -63,16 +77,16 @@ function UserSidebar() {
                   justify-center
                   rounded-full
                   border
-                  border-slate-800
-                  bg-slate-950
+                  border-white/10
+                  bg-white/[0.08]
                   text-base
                   font-semibold
-                  text-white
-                  shadow-[0_6px_18px_rgba(15,23,42,0.16)]
+                  text-foreground
+                  shadow-[0_6px_18px_rgba(0,0,0,0.3)]
                   transition-all
                   duration-200
                   group-data-[collapsible=icon]:size-8
-                  group-data-[collapsible=icon]:shadow-[0_3px_10px_rgba(15,23,42,0.14)]
+                  group-data-[collapsible=icon]:shadow-[0_3px_10px_rgba(0,0,0,0.25)]
                 "
               >
                 A
@@ -86,7 +100,7 @@ function UserSidebar() {
                   text-sm
                   font-semibold
                   tracking-tight
-                  text-slate-950
+                  text-foreground
                   group-data-[collapsible=icon]:hidden
                 "
               >
@@ -112,8 +126,7 @@ function UserSidebar() {
                     shadow-[0_0_0_3px_rgba(16,185,129,0.10)]
                   "
                 />
-
-                <span className="text-xs font-medium text-slate-700">
+                <span className="text-xs font-medium text-muted-foreground">
                   Brain is public
                 </span>
               </div>
@@ -132,7 +145,6 @@ function UserSidebar() {
       {/* Footer */}
       <SidebarFooter className="relative px-2 pb-4">
         <SidebarMenu className="gap-1">
-
           {/* Change Password */}
           <SidebarMenuItem>
             <div
@@ -140,9 +152,9 @@ function UserSidebar() {
                 rounded-lg
                 transition-all
                 duration-200
-                hover:bg-white/80
-                hover:shadow-[0_3px_10px_rgba(15,23,42,0.05)]
-                group-data-[collapsible=icon]:hover:bg-slate-200/70
+                hover:bg-white/[0.06]
+                hover:shadow-[0_3px_10px_rgba(0,0,0,0.2)]
+                group-data-[collapsible=icon]:hover:bg-white/[0.08]
               "
             >
               <ChangePasswordDialog />
@@ -158,26 +170,23 @@ function UserSidebar() {
                 h-9
                 rounded-lg
                 px-2.5
-                text-slate-700
+                text-muted-foreground
                 transition-all
                 duration-200
-                hover:bg-red-50
-                hover:text-red-600
-                hover:shadow-[0_2px_8px_rgba(239,68,68,0.06)]
-                active:bg-red-100
-                active:text-red-700
-                group-data-[collapsible=icon]:hover:bg-slate-200/80
-                group-data-[collapsible=icon]:hover:text-slate-950
+                hover:bg-white/[0.06]
+                hover:text-foreground
+                hover:shadow-[0_2px_8px_rgba(0,0,0,0.2)]
+                active:bg-white/[0.08]
+                group-data-[collapsible=icon]:hover:bg-white/[0.08]
+                group-data-[collapsible=icon]:hover:text-foreground
               "
             >
               <LogOut className="size-4" />
-
               <span className="text-xs font-medium">
                 Log out
               </span>
             </SidebarMenuButton>
           </SidebarMenuItem>
-
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>

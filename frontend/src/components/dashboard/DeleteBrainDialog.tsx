@@ -24,24 +24,24 @@ function DeleteBrainDialog() {
           justify-center
           rounded-lg
           p-2
-          text-slate-400
+          text-muted-foreground/60
           transition-colors
           duration-200
-          hover:bg-red-50
-          hover:text-red-600
+          hover:bg-white/[0.06]
+          hover:text-foreground
         "
       >
         <Trash2 className="size-4" strokeWidth={1.8} />
       </AlertDialogTrigger>
-
       {/* Confirmation */}
       <AlertDialogContent
         className="
           rounded-2xl
           border
-          border-slate-300
-          bg-white
-          shadow-[0_20px_60px_rgba(15,23,42,0.15)]
+          border-white/10
+          bg-[#0d0d0d]
+          text-foreground
+          shadow-[0_20px_60px_rgba(0,0,0,0.5)]
           sm:max-w-[400px]
         "
       >
@@ -54,8 +54,10 @@ function DeleteBrainDialog() {
               items-center
               justify-center
               rounded-xl
-              bg-red-50
-              text-red-600
+              border
+              border-[#ef3340]/20
+              bg-[#ef3340]/10
+              text-[#ff6b73]
             "
           >
             <Trash2
@@ -63,61 +65,62 @@ function DeleteBrainDialog() {
               strokeWidth={1.8}
             />
           </div>
-
           <AlertDialogTitle
             className="
               font-sans
               text-lg
               font-medium
               tracking-tight
-              text-slate-950
+              text-foreground
             "
           >
             Delete this brain?
           </AlertDialogTitle>
-
           <AlertDialogDescription
             className="
               font-['Geist_Mono']
               text-xs
               leading-5
-              text-slate-500
+              text-muted-foreground
             "
           >
             This will permanently remove this entry from
             your second brain. This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
-
         <AlertDialogFooter className="mt-2">
           <AlertDialogCancel
             className="
               cursor-pointer
               rounded-lg
-              border-slate-300
+              border-white/10
+              bg-white/[0.04]
               font-['Space_Grotesk']
               text-xs
               font-semibold
-              hover:bg-slate-50
+              text-muted-foreground
+              hover:bg-white/[0.08]
+              hover:text-foreground
             "
           >
             Cancel
           </AlertDialogCancel>
-
           <AlertDialogAction
             className="
               cursor-pointer
               rounded-lg
-              bg-red-600
+              border
+              border-[#ef3340]
+              bg-[#ef3340]
               font-['Space_Grotesk']
               text-xs
               font-semibold
               text-white
-              shadow-none
+              shadow-[0_4px_12px_rgba(239,51,64,0.14)]
               transition-all
               duration-200
-              hover:bg-red-700
-              hover:shadow-[0_6px_16px_rgba(220,38,38,0.18)]
+              hover:bg-[#ef3340]/90
+              hover:shadow-[0_6px_16px_rgba(239,51,64,0.22)]
             "
           >
             Delete

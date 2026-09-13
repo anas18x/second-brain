@@ -1,4 +1,5 @@
 import { Search, Command } from "lucide-react"
+
 import { Input } from "@/components/ui/input"
 
 function SearchBar() {
@@ -14,42 +15,37 @@ function SearchBar() {
           z-10
           size-[18px]
           -translate-y-1/2
-          text-slate-500
+          text-muted-foreground
         "
       />
-
       <Input
         type="search"
         placeholder="Search your brain..."
         className="
           h-12
           rounded-xl
-          border-slate-300/70
-          bg-white/75
+          border-white/10
+          bg-white/[0.04]
           pl-11
           pr-24
           text-sm
           font-medium
-          text-slate-900
-          shadow-[0_4px_16px_rgba(15,23,42,0.06)]
+          text-foreground
+          shadow-[0_4px_16px_rgba(0,0,0,0.25)]
           backdrop-blur-md
           transition-all
           duration-300
-
-          placeholder:text-slate-500
-
-          hover:border-slate-400
-          hover:bg-white/90
-          hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)]
-
-          focus:border-slate-400
-          focus:bg-white
+          placeholder:text-muted-foreground/60
+          hover:border-white/15
+          hover:bg-white/[0.06]
+          hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)]
+          focus:border-[#ef3340]/40
+          focus:bg-white/[0.06]
           focus:ring-2
-          focus:ring-slate-950/10
-          focus:shadow-[0_10px_30px_rgba(15,23,42,0.10)]
+          focus:ring-[#ef3340]/15
+          focus:shadow-[0_10px_30px_rgba(239,51,64,0.08)]
         "
       />
-
       {/* Keyboard shortcut */}
       <div
         className="
@@ -63,13 +59,13 @@ function SearchBar() {
           gap-1
           rounded-md
           border
-          border-slate-200
-          bg-slate-50/90
+          border-white/10
+          bg-white/[0.06]
           px-2
           py-1
           text-[10px]
           font-medium
-          text-slate-500
+          text-muted-foreground
         "
       >
         <Command className="size-3" />

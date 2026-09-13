@@ -17,7 +17,7 @@ function Brand() {
       <img
         src={logo}
         alt="Second Brain"
-        className="size-6 shrink-0 object-contain"
+        className="size-5 shrink-0 object-contain"
       />
 
       <span
@@ -26,7 +26,7 @@ function Brand() {
           text-base
           font-semibold
           tracking-tight
-          text-slate-950
+          text-white
           group-data-[collapsible=icon]:hidden
         "
       >

@@ -4,8 +4,6 @@ import TagFilter from "@/components/dashboard/TagFilter"
 import BrainGrid from "@/components/dashboard/BrainGrid"
 import AddBrainDialog from "@/components/dashboard/AddBrainDialog"
 
-import {PageBackground} from "@/components/shared/PageBackground"
-
 import {
   SidebarInset,
   SidebarProvider,
@@ -14,24 +12,29 @@ import {
 
 function DashboardPage() {
   return (
-    <PageBackground>
+    <>
       <SidebarProvider defaultOpen={true}>
         <UserSidebar />
 
         <SidebarInset className="min-w-0 bg-transparent">
           <main className="min-h-screen min-w-0 px-5 py-5 sm:px-8 lg:px-10">
-
             {/* Sidebar Trigger */}
             <div className="flex items-center">
-              <SidebarTrigger />
+              <SidebarTrigger
+                className="
+                  cursor-pointer
+                  text-muted-foreground
+                  transition-colors
+                  hover:bg-white/[0.06]
+                  hover:text-foreground
+                "
+              />
             </div>
 
             {/* Main Dashboard Container */}
             <div className="mx-auto mt-8 w-full max-w-7xl">
-
               {/* Header */}
               <div className="flex items-start justify-between gap-8">
-
                 {/* Heading */}
                 <div className="min-w-0">
                   <h1
@@ -39,7 +42,7 @@ function DashboardPage() {
                       text-3xl
                       font-semibold
                       tracking-tight
-                      text-slate-950
+                      text-foreground
                       sm:text-4xl
                     "
                   >
@@ -50,7 +53,7 @@ function DashboardPage() {
                     className="
                       mt-2
                       text-sm
-                      text-slate-600
+                      text-muted-foreground
                     "
                   >
                     Keep the useful stuff close, without keeping it
@@ -74,12 +77,11 @@ function DashboardPage() {
 
               {/* Brain Cards */}
               <BrainGrid />
-
             </div>
           </main>
         </SidebarInset>
       </SidebarProvider>
-    </PageBackground>
+    </>
   )
 }
 

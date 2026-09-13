@@ -1,16 +1,20 @@
 import { Check, Copy, Share2 } from "lucide-react"
+
 import { useState } from "react"
 
 import { Switch } from "@/components/ui/switch"
+
 import { useSidebar } from "@/components/ui/sidebar"
 
 function ShareBrainDialog() {
   const { state } = useSidebar()
 
   const [isPublic, setIsPublic] = useState(true)
+
   const [copied, setCopied] = useState(false)
 
   const shareSlug = "anas-second-brain"
+
   const shareUrl = `${window.location.origin}/share/${shareSlug}`
 
   const handleCopy = async () => {
@@ -31,19 +35,17 @@ function ShareBrainDialog() {
           type="button"
           title="Share Brain"
           className="
-            flex
-            size-8
-            cursor-pointer
-            items-center
-            justify-center
-            rounded-md
-            text-slate-700
-            transition-all
-            duration-200
-            hover:bg-slate-200/80
-            hover:text-slate-950
-            hover:shadow-[0_3px_10px_rgba(15,23,42,0.06)]
-            active:bg-slate-300/70
+            flex size-8 cursor-pointer items-center justify-center
+            rounded-lg
+            border border-white/10
+            bg-white/[0.04]
+            text-muted-foreground
+            transition-all duration-200
+            hover:border-[#ef3340]/20
+            hover:bg-[#ef3340]/10
+            hover:text-[#ff6b73]
+            hover:shadow-[0_4px_12px_rgba(239,51,64,0.08)]
+            active:bg-[#ef3340]/15
           "
         >
           <Share2 className="size-4" />
@@ -58,29 +60,23 @@ function ShareBrainDialog() {
       <div className="flex items-start gap-2.5">
         <div
           className="
-            mt-0.5
-            flex
-            size-7
-            shrink-0
-            items-center
-            justify-center
-            rounded-md
-            border
-            border-slate-800
-            bg-slate-950
-            text-white
-            shadow-[0_3px_10px_rgba(15,23,42,0.12)]
+            mt-0.5 flex size-7 shrink-0 items-center justify-center
+            rounded-lg
+            border border-[#ef3340]/20
+            bg-[#ef3340]/10
+            text-[#ff6b73]
+            shadow-[0_3px_12px_rgba(239,51,64,0.08)]
           "
         >
           <Share2 className="size-3.5" />
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-semibold tracking-tight text-slate-950">
+          <p className="text-xs font-semibold tracking-tight text-foreground">
             Share Brain
           </p>
 
-          <p className="mt-0.5 text-[10px] font-medium leading-4 text-slate-600">
+          <p className="mt-0.5 text-[10px] font-medium leading-4 text-muted-foreground">
             Let others view your saved entries.
           </p>
         </div>
@@ -89,22 +85,21 @@ function ShareBrainDialog() {
       {/* Public / Private */}
       <div
         className="
-          mt-4
-          rounded-xl
-          border
-          border-slate-200
-          bg-white/80
+          mt-4 rounded-xl
+          border border-white/10
+          bg-white/[0.04]
           p-3
-          shadow-[0_3px_12px_rgba(15,23,42,0.04)]
+          shadow-[0_4px_16px_rgba(0,0,0,0.2)]
+          backdrop-blur-sm
         "
       >
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0 pr-3">
-            <p className="text-[11px] font-semibold tracking-tight text-slate-950">
+            <p className="text-[11px] font-semibold tracking-tight text-foreground">
               {isPublic ? "Public" : "Private"}
             </p>
 
-            <p className="mt-0.5 text-[9px] font-medium leading-4 text-slate-600">
+            <p className="mt-0.5 text-[9px] font-medium leading-4 text-muted-foreground">
               {isPublic
                 ? "Anyone with the link can view it."
                 : "Only you can view your brain."}
@@ -114,7 +109,10 @@ function ShareBrainDialog() {
           <Switch
             checked={isPublic}
             onCheckedChange={setIsPublic}
-            className="shrink-0 cursor-pointer"
+            className="
+              shrink-0 cursor-pointer
+              data-[state=checked]:bg-[#ef3340]
+            "
           />
         </div>
       </div>
@@ -122,25 +120,22 @@ function ShareBrainDialog() {
       {/* Share Link */}
       {isPublic && (
         <div className="mt-4">
-          <p className="mb-1.5 text-[10px] font-semibold text-slate-700">
+          <p className="mb-1.5 text-[10px] font-semibold text-muted-foreground">
             Share link
           </p>
 
           <div className="flex min-w-0 items-center gap-1.5">
             <div
               className="
-                min-w-0
-                flex-1
+                min-w-0 flex-1
                 rounded-lg
-                border
-                border-slate-200
-                bg-white
-                px-2.5
-                py-2
-                shadow-[0_2px_8px_rgba(15,23,42,0.025)]
+                border border-white/10
+                bg-white/[0.04]
+                px-2.5 py-2
+                shadow-[0_2px_8px_rgba(0,0,0,0.2)]
               "
             >
-              <p className="truncate text-[9px] font-medium text-slate-600">
+              <p className="truncate text-[9px] font-medium text-muted-foreground">
                 {shareUrl}
               </p>
             </div>
@@ -149,25 +144,21 @@ function ShareBrainDialog() {
               type="button"
               onClick={handleCopy}
               className="
-                inline-flex
-                shrink-0
-                cursor-pointer
-                items-center
-                gap-1.5
+                inline-flex shrink-0 cursor-pointer
+                items-center gap-1.5
                 rounded-lg
-                bg-slate-950
-                px-2.5
-                py-2
+                border border-[#ef3340]
+                bg-[#ef3340]
+                px-2.5 py-2
                 font-['Space_Grotesk']
                 text-[10px]
                 font-semibold
                 text-white
-                shadow-[0_3px_10px_rgba(15,23,42,0.12)]
-                transition-all
-                duration-200
+                shadow-[0_3px_10px_rgba(239,51,64,0.16)]
+                transition-all duration-200
                 hover:-translate-y-0.5
-                hover:bg-slate-800
-                hover:shadow-[0_6px_14px_rgba(15,23,42,0.16)]
+                hover:bg-[#ef3340]/90
+                hover:shadow-[0_6px_16px_rgba(239,51,64,0.24)]
                 active:translate-y-0
                 active:shadow-none
               "
