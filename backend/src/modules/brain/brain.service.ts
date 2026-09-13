@@ -4,6 +4,7 @@ import User from "../users/user.model.js";
 import AppError from "../../utils/error/AppError.js";
 import { StatusCodes } from "http-status-codes";
 import { nanoid } from "nanoid";
+import BrainShareView from "./brainShareView.model.js";
 
 type BrainInput = {
     ownerId: string;
@@ -174,15 +175,39 @@ export const enableBrainSharing = async (
 }
 
 
-export const getPublicBrain = async (
-    { shareSlug }: { shareSlug: string }
+export const getPublicBrain = async ({
+     shareSlug,
+     viewerId
+    }: { shareSlug: string; viewerId:string }
 ) => {
     const user = await User.findOne({ shareSlug, isBrainPublic: true }).select("username");
     if (!user) throw new AppError("brain not found", StatusCodes.NOT_FOUND);
     
-    const brains = await Brain.find({ owner: user._id }).sort({ createdAt: -1 }).select("-owner -__v -updatedAt");  // Exclude owner, __v, and updatedAt fields from the result
+    // Record the view in BrainShareView collection, ensuring that each viewer is only recorded once per owner
+    // Using upsert to insert a new document if it doesn't exist.
+    // If the document already exists, $setOnInsert makes no changes.
+    // The $setOnInsert operator sets the specified fields only when a new document is inserted, and does nothing if the document already exists
+    
+    // Only record the view if the viewer is not the owner themselves
+    if(user._id.toString() !== viewerId ){
+        await BrainShareView.updateOne(
+            {owner : user._id, viewer:viewerId},
+            {$setOnInsert : {
+                owner: user._id,
+                viewer: viewerId
+            }},
+            {upsert : true}
+        )
+    }
 
-    return { owner:{ username: user.username }, brains };
+    const brains = await Brain.find({
+        owner : user._id,
+    }).sort({createdAt : -1}).select("-owner -__v -updatedAt")
+
+    return {
+        owner:{username : user.username},
+        brains
+    }
 }   
 
 
@@ -193,4 +218,17 @@ export const disableBrainSharing = async (
 
     if (!user) throw new AppError("User not found", StatusCodes.NOT_FOUND);
 
+    // Remove all previous viewer records when sharing is disabled.
+    // A new sharing session should start with a fresh viewer list.
+    await BrainShareView.deleteMany({ owner: userId }); 
 }
+
+
+export const getBrainShareViews = async (
+  { ownerId }: { ownerId: string }
+) => {
+  const views = await BrainShareView.find({ owner: ownerId })
+    .populate("viewer", "username") // Populate the viewer field with the username of the viewer
+    .sort({ createdAt: -1 }); // Sort by most recent views
+    return views;
+};

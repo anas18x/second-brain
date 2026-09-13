@@ -139,7 +139,8 @@ export const getPublicBrainController = async (
 ) => {
     try{
         const brain = await brainService.getPublicBrain({
-            shareSlug : req.params.shareSlug as string
+            shareSlug : req.params.shareSlug as string,
+            viewerId : req.user!.userId
         })
         SuccessResponse(res, {brain}, "Public brain fetched successfully", StatusCodes.OK)
     } catch (error) {
@@ -161,3 +162,21 @@ export const disableBrainSharingController = async (
         next(error);
     }
 }
+
+
+
+export const getBrainShareViewsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const views = await brainService.getBrainShareViews({
+      ownerId: req.user!.userId,
+    });
+
+    SuccessResponse(res,{ views },"Brain share views fetched successfully",StatusCodes.OK,);
+  } catch (error) {
+    next(error);
+  }
+};

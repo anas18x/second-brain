@@ -1,33 +1,34 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
     username: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
     },
     password: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     refreshToken: {
-        type: String,
+      type: String,
     },
     shareSlug: {
-        type: String,
-        unique: true,
-        sparse: true,   // 'sparse' allows multiple documents to have a null value for this field, but still enforces uniqueness for non-null values
+      type: String,
+      unique: true,
+      sparse: true, // Allows multiple null values for shareSlug
     },
+
     isBrainPublic: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
+  },
+  { timestamps: true },
+);
 
-
-
-}, { timestamps: true })
-
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model("User", userSchema);
 
 export default User;

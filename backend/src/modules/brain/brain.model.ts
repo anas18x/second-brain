@@ -27,33 +27,19 @@ const brainSchema = new mongoose.Schema(
 
     tags: {
       type: [
-    {
-      type: String,
-      trim: true,
-      lowercase: true,
+        {
+          type: String,
+          trim: true,
+          lowercase: true,
+        },
+      ],
+      default: [],
     },
-  ],
-  default: [],
-},
-
-    metadata: {
-      _id: false,            //prevents Mongoose from creating an _id field for the metadata subdocument  
-      title: { type: String },
-
-      description: { type: String },
-
-      image: { type: String },
-
-      siteName: { type: String },
-    }, 
-
   },
   {
     timestamps: true,
   },
 );
-
-
 
 brainSchema.index({
   owner: 1,
