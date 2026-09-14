@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom"
 import Brand from "@/components/shared/Brand"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,35 +9,32 @@ import { login } from "@/services/auth/auth.api"
 import axios from "axios"
 import { useState } from "react"
 import { useAuthStore } from "@/store/auth.store"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 
 function LoginPage() {
   const initializeAuth = useAuthStore((state) => state.initializeAuth)
   const navigate = useNavigate()
   const [serverError, setServerError] = useState("")
-
   const {
-       register,
-       handleSubmit,
-       formState: { errors, isSubmitting },
-  } = useForm<LoginInput>({resolver: zodResolver(loginSchema)})
-
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm<LoginInput>({ resolver: zodResolver(loginSchema) })
 
   async function onSubmit(data: LoginInput) {
     try {
+
       setServerError("")
       await login(data)
-
+      
       // After successful login, we need to re-initialize the auth state to fetch the current user and update Zustand store in order to access the protected routes
       await initializeAuth()
       navigate("/dashboard")
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setServerError(
-          error.response?.data?.message ??
-            "something went wrong. Please try again",
-        )
+        setServerError(error.response?.data?.message ?? "something went wrong. Please try again")
       } else {
         setServerError("something went wrong. Please try again")
       }
@@ -47,47 +43,36 @@ function LoginPage() {
 
   return (
     <>
-      {/* Header */}
-      <header className="mx-auto w-full max-w-6xl px-4 py-4 sm:px-6 sm:py-5">
-        <Brand />
-      </header>
-
       {/* Login */}
-      <main className="flex min-h-[calc(100vh-68px)] items-center justify-center px-4 py-4 sm:min-h-[calc(100vh-76px)] sm:px-6 sm:py-16">
-        <div className="w-full max-w-sm sm:max-w-md">
-          {/* Heading */}
-          <div className="mb-7 min-h-[82px] text-center sm:mb-8 sm:min-h-[88px]">
-           <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-4xl">
-              Welcome back
-            </h1>
-
-            <p className="mt-2 text-sm leading-5 text-muted-foreground sm:mt-3 sm:text-base">
-              Sign in to continue to your second brain.
-            </p>
+      <main className="flex min-h-screen items-center justify-center px-4 py-8 sm:px-6 sm:py-12">
+        <div
+          className=" w-full max-w-[350px] -translate-y-5 rounded-xl border border-white/10 bg-white/[0.015] px-5 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-md sm:max-w-[410px] sm:translate-y-0 sm:px-8 sm:py-9"
+        >
+          {/* Brand */}
+          <div className="mx-auto w-fit">
+            <Brand />
           </div>
 
-          {/* Login Card */}
-          <div
-            className="
-              min-h-[250px]
-              rounded-2xl
-              border
-              border-white/10
-              bg-white/[0.04]
-              p-4
-              shadow-[0_20px_50px_rgba(0,0,0,0.35)]
-              backdrop-blur-xl
-              sm:min-h-[286px]
-              sm:p-7
-            "
-          >
-            {/* Server Error */}
-            {serverError && (<p role="alert" className=" mb-4 rounded-lg border border-[#ef3340]/20 bg-[#ef3340]/10px-3py-2.5 text-center text-xs font-medium text-[#ff6b73]">{serverError}</p>)}
+          {/* Heading */}
+          <div className="mb-7 mt-8 text-center sm:mb-8 sm:mt-9">
+            <h1 className="whitespace-nowrap text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+              Let&apos;s Get You In 👋
+            </h1>
+          </div>
 
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="space-y-5 sm:space-y-6"
-            >
+          {/* Login Form */}
+          <div>
+            {/* Server Error */}
+            {serverError && (
+              <p
+                role="alert"
+                className="mb-4 rounded-lg border border-[#ef3340]/20 bg-[#ef3340]/10 px-3 py-2.5 text-center text-xs font-medium text-[#ff6b73]"
+              >
+                {serverError}
+              </p>
+            )}
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 sm:space-y-6">
               {/* Username */}
               <div className="space-y-2 sm:space-y-2.5">
                 <Label
@@ -96,26 +81,17 @@ function LoginPage() {
                 >
                   Username
                 </Label>
-
                 <Input
-                  {...register("username", {onChange: () => setServerError("")})}
+                  {...register("username", { onChange: () => setServerError("") })}
                   id="username"
                   type="text"
                   placeholder="your username"
                   autoComplete="username"
-                  className="
-                    h-10
-                    border-white/10
-                    bg-white/[0.04]
-                    text-foreground
-                    placeholder:text-muted-foreground/60
-                    focus-visible:border-[#ef3340]/50
-                    focus-visible:ring-[#ef3340]/20
-                    sm:h-11
-                  "
+                  className="h-10 border-white/10 bg-white/[0.04] text-foreground placeholder:text-muted-foreground/60 focus-visible:border-[#ef3340]/50 focus-visible:ring-[#ef3340]/20 sm:h-11"
                 />
-
-                {errors.username && (<p className="text-xs text-[#ff6b73]">{errors.username.message}</p>)}
+                {errors.username && (
+                  <p className="text-xs text-[#ff6b73]">{errors.username.message}</p>
+                )}
               </div>
 
               {/* Password */}
@@ -126,9 +102,8 @@ function LoginPage() {
                 >
                   Password
                 </Label>
-
                 <Input
-                  {...register("password", {onChange: () => setServerError("")})}
+                  {...register("password", { onChange: () => setServerError("") })}
                   id="password"
                   type="password"
                   placeholder="••••••••"
@@ -144,8 +119,9 @@ function LoginPage() {
                     sm:h-11
                   "
                 />
-
-                {errors.password && (<p className="text-xs text-[#ff6b73]">{errors.password.message}</p>)}
+                {errors.password && (
+                  <p className="text-xs text-[#ff6b73]">{errors.password.message}</p>
+                )}
               </div>
 
               {/* Submit */}
@@ -153,6 +129,7 @@ function LoginPage() {
                 type="submit"
                 disabled={isSubmitting}
                 className="
+                  mt-2
                   h-10
                   w-full
                   cursor-pointer
@@ -179,7 +156,7 @@ function LoginPage() {
           </div>
 
           {/* Register */}
-          <div className="mt-6 flex min-h-[20px] items-center justify-center sm:mt-7 sm:min-h-[22px]">
+          <div className="mt-8 flex items-center justify-center">
             <p className="text-center text-xs text-muted-foreground sm:text-sm">
               Don&apos;t have an account?{" "}
               <Link
