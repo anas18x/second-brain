@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom"
 type BrainCardProps = {
   id: string
   title: string
-  body?: string
-  url?: string
+  body?: string | null
+  url?: string | null
   tags: string[]
 }
 
