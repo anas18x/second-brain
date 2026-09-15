@@ -13,6 +13,9 @@ export const useCreateBrain = () => {
             queryClient.invalidateQueries({
                 queryKey : ["brains"]
             })
+            queryClient.invalidateQueries({
+                queryKey : ["tags"]
+            })
         }
     })
 } 

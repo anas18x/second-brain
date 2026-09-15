@@ -6,15 +6,23 @@ import AddBrainDialog from "@/components/dashboard/AddBrainDialog";
 import {SidebarInset,SidebarProvider,SidebarTrigger} from "@/components/ui/sidebar";
 import { useBrains } from "@/hooks/brain/useBrains";
 import BrainSkeleton from "@/components/dashboard/BrainSkeleton";
-
-
+import { useState } from "react";
+import { useDebounce } from "@/hooks/brain/useDebounce"
 
 
 function DashboardPage() {
+  const [search, setSearch] = useState("")
+  const debouncedSetSearch = useDebounce(setSearch, 500)
+
+  const [tag, setTag] = useState("")
+
   const { data, isLoading, isError } = useBrains({
+    search,
+    tags: tag,
     page: 1,
     limit: 10,
   });
+
 
   return (
     <SidebarProvider defaultOpen={true}>
@@ -41,10 +49,10 @@ function DashboardPage() {
             </div>
 
             <div className="mt-7">
-              <SearchBar />
+              <SearchBar value={search} setSearch={debouncedSetSearch} />
             </div>
 
-            <TagFilter />
+            <TagFilter value={tag} setTag={setTag} />
 
             {isLoading ? ( <div className="mt-7"> <BrainSkeleton /> </div> ) : isError ? (
               <div className="mt-7 rounded-xl border border-white/10 bg-[#111111] px-6 py-10 text-center">
