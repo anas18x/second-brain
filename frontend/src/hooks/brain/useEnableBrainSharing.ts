@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import { enableBrainSharing } from "@/services/brain/brain.api"
 import { useAuthStore } from "@/store/auth.store"
+import { toast } from "sonner"
 
 export const useEnableBrainSharing = () => {
     const setBrainPublic = useAuthStore((state) => state.setBrainPublic)
@@ -10,6 +11,7 @@ export const useEnableBrainSharing = () => {
     
     onSuccess: () => {
       setBrainPublic(true)
+      toast.success("Brain sharing enabled ")
     }
   })
 }

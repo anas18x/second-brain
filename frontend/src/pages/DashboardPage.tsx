@@ -62,10 +62,14 @@ function DashboardPage() {
               <div className="flex min-h-[420px] items-center justify-center">
                 <div className="text-center">
                   <h2 className="text-xl font-semibold tracking-tight text-foreground">
-                    Nothing here yet
+                    {search.trim() ? "No brains found" : "Nothing here yet"}
                   </h2>
 
-                  <p className="mt-2 text-sm text-muted-foreground"> Your second brain is empty. Start saving something useful.</p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                     {search.trim()
+                       ? "Nothing matches your current search.."
+                       : "Your second brain is empty. Start saving something useful."}
+                     </p>
                 </div>
               </div>
               

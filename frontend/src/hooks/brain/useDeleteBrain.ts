@@ -1,5 +1,6 @@
 import { deleteBrain } from "@/services/brain/brain.api"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 
 export const useDeleteBrain = () => {
@@ -10,6 +11,8 @@ export const useDeleteBrain = () => {
         onSuccess : ( _ , id) => {
                 queryClient.invalidateQueries({ queryKey: ["brains"] })
                 queryClient.removeQueries({ queryKey: ["brain", id] })
+
+                toast.success("Brain deleted successfully")
         }
     })
 }

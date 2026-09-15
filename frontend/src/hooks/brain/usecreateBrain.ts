@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createBrain } from "@/services/brain/brain.api";
 import type { CreateBrainInput } from "@/schema/brain.schema";
+import { toast } from "sonner"
 
 
 export const useCreateBrain = () => {
@@ -16,6 +17,8 @@ export const useCreateBrain = () => {
             queryClient.invalidateQueries({
                 queryKey : ["tags"]
             })
+
+            toast.success("Brain created successfully")
         }
     })
 } 

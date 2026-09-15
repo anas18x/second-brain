@@ -1,4 +1,4 @@
-import { Search } from "lucide-react"
+import { Search, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 
 
@@ -26,7 +26,8 @@ function SearchBar({ value, setSearch }: SearchBarProps) {
           text-muted-foreground
         "
       />
-
+    
+     
       <Input
         type="search"
         value={value}
@@ -57,6 +58,28 @@ function SearchBar({ value, setSearch }: SearchBarProps) {
         "
       />
 
+      {/* Clear button */}
+       {value && (
+        <button
+        type="button"
+        onClick={() => setSearch("")}
+        className="
+        absolute
+        right-3
+        top-1/2
+        -translate-y-1/2
+        cursor-pointer
+        rounded-md
+        p-1
+        text-muted-foreground
+        transition-colors
+        hover:bg-white/[0.06]
+        hover:text-foreground
+        "aria-label="Clear search">
+        <X className="size-4" />
+    </button>
+      
+ )}
     </div>
   )
 }

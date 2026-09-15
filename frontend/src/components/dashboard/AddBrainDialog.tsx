@@ -302,12 +302,14 @@ function AddBrainDialog() {
                 type="text"
                 placeholder="tech, ideas, travel"
                 {...register("tags", {
-                  setValueAs: (value) =>
-                    value
+                    setValueAs: (value) =>
+                     typeof value === "string"
+                      ? value
                       .split(",")
-                      .map((tag: string) => tag.trim())
-                      .filter(Boolean),
-                })}
+                     .map((tag: string) => tag.trim())
+                      .filter(Boolean)
+                      : value ?? [],
+                        })}
                 className="
                   h-[42px]
                   rounded-lg
