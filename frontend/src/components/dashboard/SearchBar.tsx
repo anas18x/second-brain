@@ -1,18 +1,15 @@
 import { Search, X } from "lucide-react"
-import { Input } from "@/components/ui/input"
 
+import { Input } from "@/components/ui/input"
 
 type SearchBarProps = {
   value: string
   setSearch: (value: string) => void
 }
 
-
-
 function SearchBar({ value, setSearch }: SearchBarProps) {
   return (
     <div className="relative w-full max-w-3xl">
-
       {/* Search icon */}
       <Search
         className="
@@ -26,10 +23,9 @@ function SearchBar({ value, setSearch }: SearchBarProps) {
           text-muted-foreground
         "
       />
-    
-     
+
       <Input
-        type="search"
+        type="text"
         value={value}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search your brain..."
@@ -39,6 +35,7 @@ function SearchBar({ value, setSearch }: SearchBarProps) {
           border-white/10
           bg-white/[0.04]
           pl-11
+          pr-11
           text-sm
           font-medium
           text-foreground
@@ -59,27 +56,28 @@ function SearchBar({ value, setSearch }: SearchBarProps) {
       />
 
       {/* Clear button */}
-       {value && (
+      {value && (
         <button
-        type="button"
-        onClick={() => setSearch("")}
-        className="
-        absolute
-        right-3
-        top-1/2
-        -translate-y-1/2
-        cursor-pointer
-        rounded-md
-        p-1
-        text-muted-foreground
-        transition-colors
-        hover:bg-white/[0.06]
-        hover:text-foreground
-        "aria-label="Clear search">
-        <X className="size-4" />
-    </button>
-      
- )}
+          type="button"
+          onClick={() => setSearch("")}
+          className="
+            absolute
+            right-3
+            top-1/2
+            -translate-y-1/2
+            cursor-pointer
+            rounded-md
+            p-1
+            text-muted-foreground
+            transition-colors
+            hover:bg-white/[0.06]
+            hover:text-foreground
+          "
+          aria-label="Clear search"
+        >
+          <X className="size-4" />
+        </button>
+      )}
     </div>
   )
 }
