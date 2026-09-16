@@ -1,6 +1,6 @@
 import { ExternalLink } from "lucide-react"
-
 import { useNavigate } from "react-router-dom"
+
 
 type BrainCardProps = {
   id: string
@@ -17,11 +17,12 @@ function BrainCard({
   url,
   tags,
 }: BrainCardProps) {
+
   const navigate = useNavigate()
 
+
   const isYouTube =
-    url?.includes("youtube.com") ||
-    url?.includes("youtu.be")
+    url?.includes("youtube.com")
 
   const isTwitter =
     url?.includes("twitter.com") ||
@@ -50,31 +51,17 @@ function BrainCard({
     }
   }
 
-  const handleCardClick = () => {
-    navigate(`/brain/${id}`)
-  }
-
-  const handleCardKeyDown = (
-    event: React.KeyboardEvent<HTMLElement>,
-  ) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault()
-      navigate(`/brain/${id}`)
-    }
-  }
-
+ // Handle click on the bookmark link to prevent navigation to the brain detail page
   const handleBookmarkClick = (
     event: React.MouseEvent<HTMLAnchorElement>,
   ) => {
     event.stopPropagation()
   }
 
+
   return (
     <article
-      role="link"
-      tabIndex={0}
-      onClick={handleCardClick}
-      onKeyDown={handleCardKeyDown}
+    onClick={() => navigate(`/brain/${id}`)}
       className="
         group
         relative

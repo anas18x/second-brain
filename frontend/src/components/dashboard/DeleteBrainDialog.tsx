@@ -1,5 +1,4 @@
 import { Trash2 } from "lucide-react"
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,8 +10,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { useDeleteBrain } from "@/hooks/brain/useDeleteBrain"
+import { useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 
-function DeleteBrainDialog() {
+
+function DeleteBrainDialog({ id }: { id: string }) {
+   const deleteMutation = useDeleteBrain()
+   const navigate = useNavigate()
+
   return (
     <AlertDialog>
       {/* Trigger */}
@@ -106,6 +112,16 @@ function DeleteBrainDialog() {
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
+            onClick={() =>deleteMutation.mutate(id,{
+              onSuccess: () => {
+                navigate("/dashboard")
+              },
+              onError: () => {
+                toast.error("Failed to delete brain. Please try again.")
+              }
+            })}
+            disabled={deleteMutation.isPending}
+
             className="
               cursor-pointer
               rounded-lg
@@ -123,7 +139,8 @@ function DeleteBrainDialog() {
               hover:shadow-[0_6px_16px_rgba(239,51,64,0.22)]
             "
           >
-            Delete
+            {deleteMutation.isPending ? "Deleting..." : "Delete"}
+
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

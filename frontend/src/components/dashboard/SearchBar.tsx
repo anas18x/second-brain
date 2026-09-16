@@ -3,11 +3,11 @@ import { Search, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 
 type SearchBarProps = {
-  value: string
-  setSearch: (value: string) => void
+    value: string,
+    setSearch: (value: string) => void
 }
 
-function SearchBar({ value, setSearch }: SearchBarProps) {
+function SearchBar({value, setSearch}: SearchBarProps) {
   return (
     <div className="relative w-full max-w-3xl">
       {/* Search icon */}

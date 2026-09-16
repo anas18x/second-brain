@@ -1,18 +1,15 @@
-import { useRef } from "react";
+import { useState, useEffect } from "react"
 
-export const useDebounce = <T extends (...args: any[]) => void> (
-    fn : T,
-    delay : number,
-) => {
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+export function useDebounce<T>(value: T, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value)
 
-  return (...args: Parameters<T>) => {
-    if(timerRef.current){
-        clearTimeout(timerRef.current)
-    }
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
 
-    timerRef.current = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-};
+    return () => clearTimeout(timer)
+  }, [value, delay])
+
+  return debouncedValue
+}

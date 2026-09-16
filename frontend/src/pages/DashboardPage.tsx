@@ -12,12 +12,12 @@ import { useDebounce } from "@/hooks/brain/useDebounce"
 
 function DashboardPage() {
   const [search, setSearch] = useState("")
-  const debouncedSetSearch = useDebounce(setSearch, 500)
+  const debouncedSearch = useDebounce(search, 500)
 
   const [tag, setTag] = useState("")
 
   const { data, isLoading, isError } = useBrains({
-    search,
+    search : debouncedSearch,
     tags: tag,
     page: 1,
     limit: 10,
@@ -49,7 +49,9 @@ function DashboardPage() {
             </div>
 
             <div className="mt-7">
-              <SearchBar value={search} setSearch={debouncedSetSearch} />
+              <SearchBar
+               value ={search}
+               setSearch ={setSearch} />
             </div>
 
             <TagFilter value={tag} setTag={setTag} />
