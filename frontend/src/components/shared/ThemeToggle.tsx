@@ -1,14 +1,19 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Moon, Sun } from "lucide"
 import { MorphIcon } from "morphicons/react"
 
 import { Button } from "@/components/ui/button"
 
 function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState(() =>
+    document.documentElement.classList.contains("dark")
+  )
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark)
+  }, [isDark])
 
   const toggleTheme = () => {
-    document.documentElement.classList.toggle("dark")
     setIsDark((prev) => !prev)
   }
 

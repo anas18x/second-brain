@@ -1,56 +1,44 @@
-import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react"
 
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 function Hero() {
   return (
     <section className="px-6">
-      <div className="mx-auto flex max-w-4xl flex-col items-center justify-start pb-24 pt-20 text-center">
+      <div className="mx-auto max-w-6xl pb-28 pt-16 sm:pt-20">
+
         {/* Eyebrow */}
-        <div className="relative mb-6 inline-block">
+        <div className="relative mb-10 inline-block">
           <style>
             {`
-              @keyframes eyebrow-travel {
+              @keyframes eyebrow-orbit {
                 from {
-                  stroke-dashoffset: 0;
+                  transform: translate(-50%, -50%) rotate(0deg);
                 }
-
                 to {
-                  stroke-dashoffset: -1000;
+                  transform: translate(-50%, -50%) rotate(360deg);
                 }
               }
             `}
           </style>
 
-          <div className="relative rounded-full">
-            {/* Static dark border */}
-            <div className="absolute inset-0 rounded-full border border-white/10" />
-
-            {/* Moving red line */}
-            <svg
-              className="pointer-events-none absolute inset-0 z-20 h-full w-full"
-              viewBox="0 0 420 40"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <rect
-                x="1.5"
-                y="1.5"
-                width="417"
-                height="37"
-                rx="18.5"
-                fill="none"
-                stroke="#ef3340"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeDasharray="80 920"
-                strokeDashoffset="0"
-                pathLength="1000"
-                style={{
-                  animation: "eyebrow-travel 4s linear infinite",
-                }}
-              />
-            </svg>
+          <div className="relative overflow-hidden rounded-full p-[1px]">
+            {/* Moving gradient */}
+            <div
+              className="
+                pointer-events-none
+                absolute
+                left-1/2
+                top-1/2
+                z-0
+                h-[300%]
+                w-[300%]
+                bg-[conic-gradient(from_0deg,transparent_0deg,transparent_250deg,var(--landing-accent)_285deg,#8b5e4a_320deg,transparent_350deg)]
+              "
+              style={{
+                animation: "eyebrow-orbit 4s linear infinite",
+              }}
+            />
 
             {/* Content */}
             <p
@@ -61,12 +49,12 @@ function Hero() {
                 items-center
                 gap-2.5
                 rounded-full
-                bg-[#0a0a0a]
+                bg-background
                 px-4
                 py-1.5
-                font-['Space_Grotesk']
+                font-mono
                 text-xs
-                font-medium
+                font-normal
                 tracking-wide
                 text-foreground/80
               "
@@ -76,73 +64,126 @@ function Hero() {
                   size-1.5
                   shrink-0
                   rounded-full
-                  bg-[#ef3340]
-                  shadow-[0_0_7px_rgba(239,51,64,0.7)]
+                  bg-[var(--landing-accent)]
                 "
               />
-
               Your personal space for everything worth keeping.
             </p>
           </div>
         </div>
 
-        {/* Hero heading */}
-        <h1
+        {/* Hero content */}
+        <div
           className="
-            font-['Kalam']
-            text-5xl
-            font-bold
-            tracking-tight
-            text-foreground
-            sm:text-6xl
+            grid
+            grid-cols-1
+            gap-12
+            lg:grid-cols-[minmax(0,1fr)_280px]
+            lg:items-center
+            lg:gap-20
           "
         >
-          Keep what matters.
-          <br />
-          <span className="bg-gradient-to-r from-[#ff6b6b] via-[#ef3340] to-[#c91f32] bg-clip-text text-transparent">
-            Find it when you need it.
-          </span>
-        </h1>
+          {/* Heading */}
+          <div>
+            <h1
+              className="
+                max-w-5xl
+                font-sans
+                text-[3.25rem]
+                font-extrabold
+                leading-[0.98]
+                tracking-[-0.045em]
+                text-foreground
+                sm:text-[4.5rem]
+                sm:leading-[1.04]
+                lg:text-[clamp(4rem,8vw,6.125rem)]
+              "
+            >
+              Keep what matters.
+              <br />
+              <span
+                className="
+                  font-serif
+                  text-[3.1rem]
+                  font-normal
+                  italic
+                  leading-[1]
+                  text-[var(--landing-serif)]
+                  sm:text-[4.5rem]
+                  lg:text-[clamp(4rem,8vw,6.125rem)]
+                "
+              >
+                Find it when you need it.
+              </span>
+            </h1>
+          </div>
 
-        {/* Description */}
-        <p className="mt-5 max-w-xl text-base font-medium leading-7 text-muted-foreground">
-          Keep your bookmarks, notes, ideas, and saved links organized in one
-          place.
-        </p>
+          {/* Description */}
+<div className="flex flex-col justify-center lg:justify-self-end">
+  {/* Main statement */}
+  <p
+    className="
+      max-w-sm
+      text-[15px]
+      font-semibold
+      leading-6.5
+      text-foreground
+      sm:text-[16px]
+    "
+  >
+    Save it once. Find it when it matters.
+  </p>
 
-        {/* CTA */}
-        <Link to="/register">
-          <Button
-            size="lg"
-            className="
-              group
-              mt-8
-              cursor-pointer
-              border
-              border-[#ef3340]
-              bg-[#ef3340]
-              px-6
-              text-white
-              shadow-[0_4px_12px_rgba(239,51,64,0.2)]
-              transition-all
-              duration-300
-              hover:-translate-y-0.5
-              hover:bg-[#ef3340]/90
-              hover:shadow-[0_12px_28px_rgba(239,51,64,0.3)]
-              active:translate-y-0
-              active:shadow-[0_4px_10px_rgba(239,51,64,0.2)]
-            "
-          >
-            Get Started
+  {/* Supporting description */}
+  <p
+    className="
+      mt-3
+      max-w-sm
+      text-[15px]
+      font-medium
+      leading-6.5
+      text-muted-foreground
+      sm:text-[16px]
+    "
+  >
+    Keep your bookmarks, notes, ideas, and saved links organized in
+    one place.
+  </p>
 
-            <span className="ml-1 transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
-          </Button>
-        </Link>
+  {/* CTA */}
+  <Link
+    to="/register"
+    className="
+      group
+      mt-7
+      inline-flex
+      w-fit
+      items-center
+      gap-2
+      text-sm
+      font-semibold
+      text-foreground
+      transition-colors
+      hover:text-[var(--landing-accent)]
+    "
+  >
+    Start building your Second Brain
+
+    <ArrowUpRight
+      className="
+        size-4
+        transition-transform
+        duration-200
+        group-hover:-translate-y-0.5
+        group-hover:translate-x-0.5
+      "
+    />
+  </Link>
+</div>
+        </div>
       </div>
     </section>
-  );
+  )
 }
 
-export default Hero;
+export default Hero

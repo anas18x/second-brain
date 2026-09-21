@@ -1,10 +1,8 @@
-import { Sun } from "lucide-react";
+import { Link } from "react-router-dom"
 
-import { Button } from "@/components/ui/button";
-
-import Brand from "@/components/shared/Brand";
-
-import { Link } from "react-router-dom";
+import ThemeToggle from "@/components/shared/ThemeToggle"
+import { Button } from "@/components/ui/button"
+import Brand from "@/components/shared/Brand"
 
 function Navbar() {
   return (
@@ -15,7 +13,7 @@ function Navbar() {
       {/* Actions */}
       <div className="flex items-center gap-1 sm:gap-2">
         {/* Theme */}
-        <Sun className="hidden size-3.5 text-foreground/75 sm:block sm:size-4" />
+        <ThemeToggle />
 
         {/* Sign In */}
         <Link to="/login">
@@ -26,15 +24,11 @@ function Navbar() {
               cursor-pointer
               px-2
               text-[11px]
-              text-foreground/75
-              transition-all
-              duration-300
-              hover:-translate-y-0.5
-              hover:bg-accent
+              font-semibold
+              text-foreground/70
+              transition-colors
+              hover:bg-transparent
               hover:text-foreground
-              hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)]
-              active:translate-y-0
-              active:shadow-none
               sm:h-9
               sm:px-3
               sm:text-sm
@@ -50,20 +44,17 @@ function Navbar() {
             className="
               h-8
               cursor-pointer
-              border
-              border-[#ef3340]
-              bg-[#ef3340]
+              border-0
+              bg-primary
               px-2.5
               text-[11px]
-              text-white
-              shadow-[0_4px_12px_rgba(239,51,64,0.2)]
-              transition-all
-              duration-300
-              hover:-translate-y-0.5
-              hover:bg-[#ef3340]/90
-              hover:shadow-[0_10px_25px_rgba(239,51,64,0.3)]
-              active:translate-y-0
-              active:shadow-[0_4px_10px_rgba(239,51,64,0.2)]
+              font-semibold
+              text-primary-foreground
+              shadow-none
+              transition-colors
+              duration-200
+              hover:bg-accent
+              hover:text-accent-foreground
               sm:h-9
               sm:px-4
               sm:text-sm
@@ -74,7 +65,7 @@ function Navbar() {
         </Link>
       </div>
     </nav>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

@@ -8,13 +8,11 @@ import DashBoardPage from "./pages/DashboardPage"
 import BrainDetailPage from "./pages/BrainDetailPage"
 import PublicBrainPage from "./pages/PublicBrain"
 import {ProtectedRoute} from "@/components/auth/ProtectedRoutes"
-import PageBackground from "@/components/shared/PageBackground"
 
 function App() {
 
   return (
     <BrowserRouter>
-    <PageBackground>
      <Toaster position="top-center" />
       <Routes>
         
@@ -36,7 +34,6 @@ function App() {
         }/>
 
       </Routes>
-    </PageBackground>
     </BrowserRouter>
   )
 }

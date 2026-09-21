@@ -6,27 +6,23 @@ function Brand() {
   return (
     <Link
       to="/"
-      className="
-        flex
-        w-full
-        items-center
-        gap-2.5
-        overflow-hidden
-      "
+      className="flex items-center gap-2.5 overflow-hidden"
     >
       <img
         src={logo}
         alt="Second Brain"
-        className="size-5 shrink-0 object-contain"
+        className="size-5 shrink-0 object-contain dark:invert"
       />
 
       <span
         className="
           whitespace-nowrap
-          text-base
+          font-brand
+          text-xl
           font-semibold
+          leading-none
           tracking-tight
-          text-white
+          text-foreground
           group-data-[collapsible=icon]:hidden
         "
       >

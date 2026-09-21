@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react"
 
 const previewBrains = [
   {
@@ -8,7 +8,7 @@ const previewBrains = [
     source: "youtube.com",
     url: "youtube.com/watch?v=example",
     logo: "https://www.google.com/s2/favicons?domain=youtube.com&sz=64",
-    accent: "bg-[#ff4d5a]",
+    accent: "bg-[#e04430]",
     tags: ["travel", "fun"],
   },
   {
@@ -19,7 +19,7 @@ const previewBrains = [
     source: "x.com",
     url: "x.com/example/status/456",
     logo: "https://www.google.com/s2/favicons?domain=x.com&sz=64",
-    accent: "bg-[#343744]",
+    accent: "bg-[#6f6b63]",
     tags: ["inspiration", "ideas"],
   },
   {
@@ -29,7 +29,7 @@ const previewBrains = [
     source: "example.com",
     url: "example.com/travel",
     logo: "https://www.google.com/s2/favicons?domain=example.com&sz=64",
-    accent: "bg-[#4d91ff]",
+    accent: "bg-[#8b6f5c]",
     tags: ["travel", "ideas"],
   },
   {
@@ -39,7 +39,7 @@ const previewBrains = [
     source: "x.com",
     url: "x.com/example/status/789",
     logo: "https://www.google.com/s2/favicons?domain=x.com&sz=64",
-    accent: "bg-[#343744]",
+    accent: "bg-[#6f6b63]",
     tags: ["quotes", "ideas"],
   },
   {
@@ -49,7 +49,7 @@ const previewBrains = [
     source: "",
     url: "",
     logo: "",
-    accent: "bg-[#ffbf24]",
+    accent: "bg-[#c49a68]",
     tags: ["ideas"],
   },
   {
@@ -59,7 +59,7 @@ const previewBrains = [
     source: "",
     url: "",
     logo: "",
-    accent: "bg-[#ffbf24]",
+    accent: "bg-[#c49a68]",
     tags: ["life", "random"],
   },
   {
@@ -69,7 +69,7 @@ const previewBrains = [
     source: "medium.com",
     url: "medium.com/system-design",
     logo: "https://www.google.com/s2/favicons?domain=medium.com&sz=64",
-    accent: "bg-[#4d91ff]",
+    accent: "bg-[#8b6f5c]",
     tags: ["tech", "ideas"],
   },
   {
@@ -79,7 +79,7 @@ const previewBrains = [
     source: "youtube.com",
     url: "youtube.com/watch?v=learning",
     logo: "https://www.google.com/s2/favicons?domain=youtube.com&sz=64",
-    accent: "bg-[#ff4d5a]",
+    accent: "bg-[#e04430]",
     tags: ["inspiration", "tech"],
   },
   {
@@ -89,38 +89,38 @@ const previewBrains = [
     source: "",
     url: "",
     logo: "",
-    accent: "bg-[#ffbf24]",
+    accent: "bg-[#c49a68]",
     tags: ["ideas"],
   },
-];
+]
 
 function useRevealOnScroll() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    const element = ref.current;
+    const element = ref.current
 
-    if (!element) return;
+    if (!element) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(element);
+          setIsVisible(true)
+          observer.unobserve(element)
         }
       },
       {
         threshold: 0.1,
       },
-    );
+    )
 
-    observer.observe(element);
+    observer.observe(element)
 
-    return () => observer.disconnect();
-  }, []);
+    return () => observer.disconnect()
+  }, [])
 
-  return { ref, isVisible };
+  return { ref, isVisible }
 }
 
 function BrainPreview() {
@@ -136,15 +136,15 @@ function BrainPreview() {
 
         {/* Product preview */}
         <div className="relative">
-          {/* Soft glow */}
+          {/* Neutral ambient glow */}
           <div
             className="
               pointer-events-none
               absolute
-              -inset-12
+              -inset-16
               -z-10
-              rounded-[50px]
-              bg-white/[0.03]
+              rounded-[60px]
+              bg-foreground/[0.025]
               blur-3xl
             "
           />
@@ -156,10 +156,12 @@ function BrainPreview() {
               overflow-hidden
               rounded-[28px]
               border
-              border-white/10
-              bg-[#0b0b0b]
+              border-border/70
+              bg-transparent
               p-3
-              shadow-[0_30px_80px_rgba(0,0,0,0.5)]
+              shadow-[0_30px_80px_rgba(0,0,0,0.06)]
+              backdrop-blur-[2px]
+              dark:shadow-[0_30px_80px_rgba(0,0,0,0.30)]
               sm:p-4
             "
           >
@@ -171,14 +173,14 @@ function BrainPreview() {
                 items-center
                 justify-between
                 border-b
-                border-white/10
+                border-border/60
                 pb-3
               "
             >
               <div className="flex items-center gap-1.5">
-                <span className="size-1.5 rounded-full bg-white/20" />
-                <span className="size-1.5 rounded-full bg-white/20" />
-                <span className="size-1.5 rounded-full bg-white/20" />
+                <span className="size-1.5 rounded-full bg-muted-foreground/30" />
+                <span className="size-1.5 rounded-full bg-muted-foreground/30" />
+                <span className="size-1.5 rounded-full bg-muted-foreground/30" />
               </div>
 
               <div
@@ -186,13 +188,14 @@ function BrainPreview() {
                   hidden
                   rounded-full
                   border
-                  border-white/10
-                  bg-white/[0.04]
+                  border-border/70
+                  bg-muted/30
                   px-3
                   py-1
                   text-[9px]
                   font-medium
                   text-muted-foreground
+                  shadow-sm
                   sm:block
                 "
               >
@@ -205,7 +208,7 @@ function BrainPreview() {
             {/* Brain cards */}
             <div className="columns-2 gap-2.5 sm:columns-2 sm:gap-3 lg:columns-3">
               {previewBrains.map((brain) => {
-                const { ref, isVisible } = useRevealOnScroll();
+                const { ref, isVisible } = useRevealOnScroll()
 
                 return (
                   <div
@@ -218,9 +221,10 @@ function BrainPreview() {
                       duration-700
                       ease-out
                       sm:mb-3
-                      ${isVisible
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-6 opacity-0"
+                      ${
+                        isVisible
+                          ? "translate-y-0 opacity-100"
+                          : "translate-y-6 opacity-0"
                       }
                     `}
                   >
@@ -233,23 +237,26 @@ function BrainPreview() {
                         overflow-hidden
                         rounded-2xl
                         border
-                        border-white/10
-                        bg-[#111111]
+                        border-border/70
+                        bg-background/35
                         p-2.5
                         pl-3.5
-                        shadow-[0_2px_8px_rgba(0,0,0,0.3)]
-                        backdrop-blur-md
+                        shadow-[0_8px_24px_rgba(0,0,0,0.035)]
+                        backdrop-blur-sm
                         transition-all
                         duration-300
-                        hover:-translate-y-0.5
-                        hover:border-[#ef3340]/20
-                        hover:bg-[#141414]
-                        hover:shadow-[0_10px_28px_rgba(239,51,64,0.08),0_10px_24px_rgba(0,0,0,0.4)]
+                        hover:-translate-y-1
+                        hover:border-[var(--landing-accent)]/30
+                        hover:bg-background/55
+                        hover:shadow-[0_16px_40px_rgba(0,0,0,0.07)]
+                        dark:bg-white/[0.025]
+                        dark:hover:bg-white/[0.045]
+                        dark:hover:shadow-[0_16px_40px_rgba(0,0,0,0.28)]
                         sm:p-3
                         sm:pl-4
                       "
                     >
-                      {/* Individual red hover gradient */}
+                      {/* Subtle neutral hover atmosphere */}
                       <div
                         className="
                           pointer-events-none
@@ -257,23 +264,30 @@ function BrainPreview() {
                           inset-0
                           z-0
                           rounded-2xl
-                          bg-[radial-gradient(ellipse_at_top_left,rgba(239,51,64,0.10),transparent_65%)]
+                          bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.045),transparent_65%)]
                           opacity-0
                           transition-opacity
                           duration-500
                           group-hover:opacity-100
+                          dark:bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.035),transparent_65%)]
                         "
                       />
 
-                      {/* Card side accent */}
+                      {/* Card accent */}
                       <div
                         className={`
                           absolute
                           left-0
-                          top-0
+                          top-5
                           z-20
-                          h-full
-                          w-1
+                          h-8
+                          w-[2px]
+                          rounded-r-full
+                          opacity-60
+                          transition-all
+                          duration-300
+                          group-hover:h-12
+                          group-hover:opacity-100
                           ${brain.accent}
                         `}
                       />
@@ -290,10 +304,13 @@ function BrainPreview() {
                             gap-2
                             rounded-xl
                             border
-                            border-white/10
-                            bg-white/[0.03]
+                            border-border/60
+                            bg-muted/25
                             px-2
                             py-1.5
+                            transition-colors
+                            duration-300
+                            group-hover:bg-muted/40
                           "
                         >
                           <img
@@ -356,23 +373,23 @@ function BrainPreview() {
                           <span
                             key={tag}
                             className="
-    rounded-full
-    border
-    border-white/10
-    bg-white/[0.08]
-    px-2
-    py-0.5
-    text-[8px]
-    font-semibold
-    text-foreground/70
-    transition-colors
-    duration-200
-    group-hover:border-[#ef3340]/20
-    group-hover:bg-[#ef3340]/10
-    group-hover:text-foreground
-    sm:px-2.5
-    sm:text-[9px]
-  "
+                              rounded-full
+                              border
+                              border-border/70
+                              bg-muted/40
+                              px-2
+                              py-0.5
+                              text-[8px]
+                              font-semibold
+                              text-foreground/65
+                              transition-all
+                              duration-200
+                              group-hover:border-[var(--landing-accent)]/20
+                              group-hover:bg-[var(--landing-accent)]/5
+                              group-hover:text-foreground
+                              sm:px-2.5
+                              sm:text-[9px]
+                            "
                           >
                             #{tag}
                           </span>
@@ -380,7 +397,7 @@ function BrainPreview() {
                       </div>
                     </article>
                   </div>
-                );
+                )
               })}
             </div>
 
@@ -394,8 +411,8 @@ function BrainPreview() {
                 right-0
                 h-24
                 bg-gradient-to-t
-                from-[#0b0b0b]
-                via-[#0b0b0b]/50
+                from-background
+                via-background/60
                 to-transparent
               "
             />
@@ -403,7 +420,7 @@ function BrainPreview() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
-export default BrainPreview;
+export default BrainPreview
