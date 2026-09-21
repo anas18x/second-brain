@@ -97,8 +97,8 @@
   --ring: #a8a59d;
 
   /* Second Brain */
-  --landing-accent: #E04430;
-  --landing-serif: #E04430;
+  --landing-accent: #e04430;
+  --landing-serif: #e04430;
   --landing-subtle: #ebe9e2;
 
   /* Charts */
@@ -156,9 +156,12 @@
   --ring: #777269;
 
   /* Second Brain */
-    --landing-accent: #F0BC9A;
-  --landing-serif: #F0BC9A;
+  /* Keep hero accent orange in dark mode too */
+  .dark {
+  --landing-accent: #B8A7FF;
+  --landing-serif: #B8A7FF;
   --landing-subtle: #302e2a;
+}
 
   /* Charts */
   --chart-1: #e04430;
