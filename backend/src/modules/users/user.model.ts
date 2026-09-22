@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema(
 
     username: {
       type: String,
-      required: true,
       trim: true,
     },
 
@@ -23,10 +22,11 @@ const userSchema = new mongoose.Schema(
     refreshToken: {
       type: String,
     },
+
     shareSlug: {
       type: String,
       unique: true,
-      sparse: true, // Allows multiple null values for shareSlug
+      sparse: true,
     },
 
     isBrainPublic: {

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const verificationTokenSchema = new mongoose.Schema({
-    userID : {
+    userId : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'User',
         required : true
@@ -10,12 +10,23 @@ const verificationTokenSchema = new mongoose.Schema({
     type:{
         type: String,
         required: true,
-        enum: ['EMAIL_VERIFICATION', 'PASSWORD_RESET'],
+        enum: ['EMAIL_CHANGE', 'PASSWORD_RESET'],
+    },
+
+    newEmail : {
+        type : String,
+        trim : true,
+        lowercase : true,
     },
 
     tokenHash :{
         type : String,
         required : true
+    },
+
+    attempts:{
+        type : Number,
+        default:0,
     },
 
     expiresAt : {
@@ -30,5 +41,5 @@ verificationTokenSchema.index(
   { expireAfterSeconds: 0 },
 );
 
-const verificationToken = mongoose.model("VerificationToken", verificationTokenSchema);
-export default verificationToken;
+const VerificationToken = mongoose.model("VerificationToken", verificationTokenSchema);
+export default VerificationToken;

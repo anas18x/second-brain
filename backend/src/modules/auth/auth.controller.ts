@@ -10,12 +10,8 @@ export const getMeController = async (
     res : Response,
     next : NextFunction
 ) => {
-    try {
         const user = await authService.getCurrentUser(req.user!.userId)
         SuccessResponse(res, user, "User details fetched successfully", StatusCodes.OK)
-    } catch (error) {
-        next(error)
-    }
 }
 
 
@@ -24,12 +20,8 @@ export const registerController = async (
     res : Response,
     next : NextFunction
 ) => {
-    try {
         const user = await authService.register(req.body)
         SuccessResponse(res, user, "User registered successfully", StatusCodes.CREATED)
-    } catch (error) {
-        next(error)
-    }
 }
 
 
@@ -38,8 +30,6 @@ export const loginController = async (
     res : Response,
     next : NextFunction
 ) => {
-
-    try{
         const result = await authService.login(req.body)
 
         res.cookie(
@@ -63,11 +53,6 @@ export const loginController = async (
             })
     
         SuccessResponse(res, {user: result.user}, "Login successful", StatusCodes.OK)
-
-    } catch (error){
-        next(error)
-    }
-
 }
 
 
@@ -76,16 +61,10 @@ export const logoutController = async (
     res : Response, 
     next : NextFunction
 ) => {
-    try{
         await authService.logout(req.user!.userId)
         res.clearCookie("accessToken")
         res.clearCookie("refreshToken")
         SuccessResponse(res, null, "Logout successful", StatusCodes.OK)
-
-    } catch(error){
-        next(error)
-    }
-
 }
 
 
@@ -94,19 +73,81 @@ export const changePasswordController = async (
     res : Response, 
     next : NextFunction
 ) => {
-
-    try{
         await authService.changePassword(req.user!.userId, req.body)
         res.clearCookie("accessToken")
         res.clearCookie("refreshToken")
         SuccessResponse(res, null, "Password changed successfully. Please log in again.", StatusCodes.OK)
-
-    } catch(error){
-        next(error)
-    }
-
 }
 
+
+export const forgotPasswordController = async (
+    req: Request,
+    res: Response
+) => {
+    await authService.forgotPassword(req.body)
+
+    SuccessResponse(
+        res,
+        null,
+        "If the account exists, a password reset OTP has been sent",
+        StatusCodes.OK
+    )
+}
+
+
+export const resetPasswordController = async (
+    req: Request,
+    res: Response
+) => {
+    await authService.resetPassword(req.body)
+    SuccessResponse(
+        res,
+        null,
+        "Password reset successfully",
+        StatusCodes.OK
+    )
+}
+
+
+export const updateUsernameController = async (
+    req: Request,
+    res: Response
+) => {
+    const updatedUser = await authService.updateUsername(req.user!.userId, req.body)
+    SuccessResponse(
+        res,
+        updatedUser,
+        "Username updated successfully",
+        StatusCodes.OK
+    )
+}
+
+
+export const changeEmailController = async (
+    req: Request,
+    res: Response
+) => {
+    await authService.changeEmail(req.user!.userId, req.body)
+    SuccessResponse(
+        res,
+        null,
+        "OTP sent to the new email address.",
+        StatusCodes.OK
+    )
+}
+
+export const verifyEmailChangeController = async (
+    req: Request,
+    res: Response
+) => {
+    await authService.verifyEmailChange(req.user!.userId, req.body)
+    SuccessResponse(
+        res,
+        null,
+        "Email updated successfully.",
+        StatusCodes.OK
+    )
+}
 
 export const refreshTokenController = async (
     req : Request,
@@ -114,7 +155,6 @@ export const refreshTokenController = async (
     next : NextFunction
 ) => {
 
-    try{
         const result = await authService.refreshToken(req.cookies.refreshToken)
 
         res.cookie(
@@ -128,9 +168,5 @@ export const refreshTokenController = async (
             })
         
         SuccessResponse(res, null, "Token refreshed successfully", StatusCodes.OK)    
-
-    } catch(error){
-        next(error)
-    }
     
 }
