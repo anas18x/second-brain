@@ -3,6 +3,8 @@ import type {
   RegisterInput,
   LoginInput,
   ChangePasswordInput,
+  ForgotPasswordInput,
+  ResetPasswordInput,
 } from "@/schema/auth.schema"
 
 
@@ -35,14 +37,23 @@ export const getCurrentUser = async (): Promise<User> => {
 export const changePassword = async (
   data: ChangePasswordInput,
 ) => {
-  const response = await apiClient.post(
-    "/auth/change-password",
-    data,
-  )
-
+  const response = await apiClient.post("/auth/change-password",data)
   return response.data
 }
 
+export const forgotPassword = async (
+  data : ForgotPasswordInput
+) => {
+  const response = await apiClient.post("/auth/forgot-password", data)
+  return response.data
+}
+
+export const resetPassword = async (
+  data : ResetPasswordInput
+) => {
+  const response = await apiClient.post("/auth/reset-password", data)
+  return response.data
+}
 
 export const logout = async () => {
   const response = await apiClient.post("/auth/logout")

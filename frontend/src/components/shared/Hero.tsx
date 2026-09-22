@@ -190,11 +190,11 @@ function Hero() {
               <p
                 className="
                   mt-2
-                  text-[15px]
+                  text-[13px]
                   font-medium
                   leading-6
                   text-muted-foreground
-                  sm:text-[16px]
+                  sm:text-[14px]
                 "
               >
                 Keep your bookmarks, notes, ideas, and saved links organized
