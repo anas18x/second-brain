@@ -1,19 +1,14 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
-
 import Brand from "@/components/shared/Brand"
-
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
 import { useForm } from "react-hook-form"
 import {
   resetPasswordSchema,
   type ResetPasswordInput,
 } from "@/schema/auth.schema"
-
 import { resetPassword } from "@/services/auth/auth.api"
-
 import axios from "axios"
 import { toast } from "sonner"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -39,16 +34,22 @@ function ResetPasswordPage() {
   async function onSubmit(data: ResetPasswordInput) {
     try {
       await resetPassword(data)
-
       toast.success("Password reset successfully. Please sign in.")
-
       navigate("/login", { replace: true })
+
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(
+        const message =
           error.response?.data?.message ??
-            "Something went wrong. Please try again",
-        )
+          "Something went wrong. Please try again"
+
+        if (message === "Maximum OTP attempts exceeded. Please request a new one.") {
+          toast.error(message)
+          navigate("/forgot-password", { replace: true })
+          return
+        }
+
+        toast.error(message)
       } else {
         toast.error("Something went wrong. Please try again")
       }
@@ -111,8 +112,8 @@ function ResetPasswordPage() {
               sm:max-w-[320px] sm:text-sm sm:leading-5
             "
           >
-            Enter the 6-digit code sent to your email and create a new
-            password.
+            Enter the 6-digit verification code sent to your email and set a
+            new password.
           </p>
         </div>
 
@@ -134,11 +135,13 @@ function ResetPasswordPage() {
               id="email"
               type="email"
               readOnly
+              aria-readonly="true"
               className="
-                h-9 rounded-lg
+                h-9 cursor-not-allowed rounded-lg
                 border-border bg-muted/30
                 text-xs text-muted-foreground
                 shadow-none
+                select-none
                 sm:h-11 sm:text-base
               "
             />
