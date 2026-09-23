@@ -7,5 +7,6 @@ export const ENV = {
   PORT: process.env.PORT as string,
   JWT_SECRET: process.env.JWT_SECRET as string,
   FRONTEND_URL: process.env.FRONTEND_URL as string,
-  RESEND_API_KEY: process.env.RESEND_API_KEY as string,
+  SMTP_USER: process.env.SMTP_USER!,
+  SMTP_PASS: process.env.SMTP_PASS!,
 }

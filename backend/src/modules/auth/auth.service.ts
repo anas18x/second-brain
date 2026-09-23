@@ -27,7 +27,6 @@ export const getCurrentUser = async (
 }
 
 
-
 export const register = async (
     payload : RegisterInput
 ) => {
@@ -49,7 +48,6 @@ export const register = async (
         email: user.email,
     }
 }   
-
 
 
 export const login = async (
@@ -88,7 +86,6 @@ export const login = async (
 }
 
 
-
 export const logout = async (
     userId : string
 ) => {
@@ -98,7 +95,6 @@ export const logout = async (
     user.refreshToken = null
     await user.save()    
 }
-
 
 
 export const changePassword = async (
@@ -119,6 +115,7 @@ export const changePassword = async (
     await user.save()
 
 }
+
 
 export const forgotPassword = async (
     payload : ForgotPasswordInput
@@ -199,6 +196,7 @@ export const resetPassword = async (
             await VerificationToken.deleteOne({
                 _id: verificationToken._id
             })
+            throw new AppError("Maximum OTP attempts exceeded. Please request a new one.", StatusCodes.BAD_REQUEST)
         } else {
             await verificationToken.save()
         }
@@ -233,6 +231,7 @@ export const updateUsername = async (
     }
 }
 
+
 export const changeEmail = async (
     userId : string,
     payload : ChangeEmailInput
@@ -245,6 +244,7 @@ export const changeEmail = async (
     const existingUser = await User.findOne({email: payload.email})
     if(existingUser) throw new AppError("Email already in use", StatusCodes.BAD_REQUEST)
 
+   // invalidate any prev email-change otp
     await VerificationToken.deleteOne({
         userId : user._id,
         type : "EMAIL_CHANGE"
@@ -273,6 +273,7 @@ export const changeEmail = async (
         throw new AppError("Failed to send OTP", StatusCodes.INTERNAL_SERVER_ERROR)
     }
 }
+
 
 export const verifyEmailChange = async (
     userId : string,
@@ -312,6 +313,7 @@ export const verifyEmailChange = async (
             await VerificationToken.deleteOne({
                 _id: verificationToken._id
             })
+            throw new AppError("Maximum OTP attempts exceeded. Please request a new one.", StatusCodes.BAD_REQUEST)
         } else {
             await verificationToken.save()
         }
@@ -325,6 +327,7 @@ export const verifyEmailChange = async (
         _id: verificationToken._id
     })
 }
+
 
 export const refreshToken = async (
     refreshToken : string
