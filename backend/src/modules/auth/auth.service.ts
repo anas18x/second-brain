@@ -9,7 +9,15 @@ import {ENV} from "../../config/ENV.config.js"
 import VerificationToken from "../users/verificationToken.model.js";
 import crypto from "crypto";
 import { sendOtp } from "../../utils/email/email.service.js";
+import { OAuth2Client } from "google-auth-library";
+import Identity from "../users/identity.model.js";
 
+
+const googleClient = new OAuth2Client(
+    ENV.GOOGLE_CLIENT_ID,
+    ENV.GOOGLE_CLIENT_SECRET,
+    ENV.GOOGLE_REDIRECT_URI
+);
 
 export const getCurrentUser = async (
     userId : string
@@ -351,3 +359,122 @@ export const refreshToken = async (
     return {accessToken, refreshToken: newRefreshToken}
 
 }
+
+
+export const generateGoogleOAuthParams = () => {
+    const state = crypto.randomBytes(32).toString("hex");
+
+    const codeVerifier = crypto.randomBytes(32).toString("base64url");
+
+    const codeChallenge = crypto
+        .createHash("sha256")
+        .update(codeVerifier)
+        .digest("base64url");
+
+    return {
+        state,
+        codeVerifier,
+        codeChallenge,
+    };
+};
+
+
+export const buildGoogleAuthorizationUrl = (
+    state: string,
+    codeChallenge: string
+) => {
+    const params = new URLSearchParams({
+        client_id: ENV.GOOGLE_CLIENT_ID,
+        redirect_uri: ENV.GOOGLE_REDIRECT_URI,
+        response_type: "code",
+        scope: "openid email profile",
+        state,
+        code_challenge: codeChallenge,
+        code_challenge_method: "S256",
+    });
+
+    return `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+};
+
+
+export const exchangeGoogleCode = async (
+    code: string,
+    codeVerifier: string
+) => {
+    const { tokens } = await googleClient.getToken({
+        code,
+        codeVerifier,
+    });
+
+    if (!tokens.id_token) {
+        throw new AppError("Failed to obtain identity token from Google", StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+
+    return tokens;
+};
+
+
+export const verifyGoogleIdToken = async (idToken: string) => {
+    const ticket = await googleClient.verifyIdToken({
+        idToken,
+        audience: ENV.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload) {
+        throw new Error("Invalid Google ID token");
+    }
+
+    return payload;
+};
+
+
+export const findUserByGoogleIdentity = async (
+    providerAccountId: string
+) => {
+    const identity = await Identity.findOne({
+        provider: "google",
+        providerAccountId,
+    });
+
+    if (!identity) return null;
+
+    const user = await User.findById(identity.userId);
+
+    if (!user) {
+        throw new AppError(
+            "User associated with Google account not found",
+            StatusCodes.NOT_FOUND
+        );
+    }
+
+    return user;
+};
+
+
+export const findUserByEmail = async (email: string) => {
+    return User.findOne({ email });
+};
+
+
+export const createGoogleUser = async (
+    email: string,
+) => {
+    const user = await User.create({
+        email
+    });
+
+    return user;
+};
+
+export const createGoogleIdentity = async (
+    userId: string,
+    providerAccountId: string
+) => {
+    return Identity.create({
+        userId,
+        provider: "google",
+        providerAccountId,
+    });
+};

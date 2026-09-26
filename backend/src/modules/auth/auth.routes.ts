@@ -1,7 +1,7 @@
 import { Router } from "express";
 import  { validate}  from "../../middleware/validate.middleware.js";
 import { registerSchema, loginSchema, changePasswordSchema ,forgotPasswordSchema, updateUsernameSchema, changeEmailSchema, verifyEmailChangeSchema, resetPasswordSchema} from "./auth.schema.js";
-import { loginController, logoutController, registerController, changePasswordController, refreshTokenController, getMeController,forgotPasswordController,resetPasswordController, updateUsernameController, changeEmailController, verifyEmailChangeController } from "./auth.controller.js";
+import { loginController, logoutController, registerController, changePasswordController, refreshTokenController, getMeController,forgotPasswordController,resetPasswordController, updateUsernameController, changeEmailController, verifyEmailChangeController, googleAuthController,googleAuthCallbackController } from "./auth.controller.js";
 import {authMiddleware} from "../../middleware/auth.middleware.js";
 import { catchAsyncError } from "../../middleware/catchAsyncError.js";
 
@@ -53,5 +53,13 @@ router.post("/profile/email/verify",
 
 router.post("/refresh-token",
            catchAsyncError(refreshTokenController))
+
+
+router.get("/google",
+              catchAsyncError(googleAuthController))
+
+router.get("/google/callback", 
+           catchAsyncError(googleAuthCallbackController));              
+
 
 export default router;

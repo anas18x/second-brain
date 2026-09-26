@@ -2,7 +2,10 @@ import type { NextFunction, Request, Response } from "express";
 import  StatusCodes from "http-status-codes";
 import { SuccessResponse } from "../../utils/common/responseHandler.js";
 import * as authService from "./auth.service.js";
-
+import AppError from "../../utils/error/AppError.js";
+import { generateAccessToken, generateRefreshToken } from "../../utils/common/tokens.js";
+import bcrypt from "bcrypt";
+import {ENV} from "../../config/ENV.config.js";
 
 
 export const getMeController = async (
@@ -170,3 +173,120 @@ export const refreshTokenController = async (
         SuccessResponse(res, null, "Token refreshed successfully", StatusCodes.OK)    
     
 }
+
+
+export const googleAuthController = async (
+    req: Request,
+    res: Response
+) => {
+    const { state, codeVerifier, codeChallenge } =
+        authService.generateGoogleOAuthParams();
+
+    res.cookie("oauth_state", state, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        maxAge: 10 * 60 * 1000,
+    });
+
+    res.cookie("oauth_code_verifier", codeVerifier, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        maxAge: 10 * 60 * 1000,
+    });
+
+    const googleUrl = authService.buildGoogleAuthorizationUrl(state, codeChallenge);
+    res.redirect(googleUrl);
+
+};
+
+
+export const googleAuthCallbackController = async (
+    req: Request,
+    res: Response
+) => {
+    const { code, state } = req.query;
+
+    const oauthState = req.cookies.oauth_state;
+    const codeVerifier = req.cookies.oauth_code_verifier;
+
+    // validation comes next
+    if (
+    typeof code !== "string" ||
+    typeof state !== "string" ||
+    typeof oauthState !== "string" ||
+    typeof codeVerifier !== "string"
+   ) {
+    throw new AppError("Invalid OAuth callback", StatusCodes.BAD_REQUEST);
+   }
+
+    if (state !== oauthState) {
+        throw new AppError("Invalid OAuth state", StatusCodes.BAD_REQUEST);
+    }
+    res.clearCookie("oauth_state");
+    res.clearCookie("oauth_code_verifier");
+
+    const tokens = await authService.exchangeGoogleCode(code, codeVerifier);
+
+    const payload = await authService.verifyGoogleIdToken(tokens.id_token as string);
+
+    if(!payload.sub || !payload.email || !payload.email_verified) {
+        throw new AppError("Invalid Google user data", StatusCodes.UNAUTHORIZED);
+    }
+
+    const user = await authService.findUserByGoogleIdentity(payload.sub);
+    if(user){
+    const accessToken = generateAccessToken(user._id.toString());
+    const refreshToken = generateRefreshToken(user._id.toString()); 
+    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+    user.refreshToken = hashedRefreshToken;
+    await user.save();
+
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 15 * 60 * 1000, 
+    });
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 7 * 24 * 60 * 60 * 1000, 
+    });
+
+    res.redirect(`${ENV.FRONTEND_URL}/dashboard`);
+  } 
+
+    // If the user does not exist
+    else {
+        const existingUser = await authService.findUserByEmail(payload.email);
+        if(existingUser) {
+            throw new AppError("An account with this email already exists. Please log in with your existing account.", StatusCodes.CONFLICT);
+        } else {
+            const user = await authService.createGoogleUser(payload.email);
+            const identity = await authService.createGoogleIdentity(user._id.toString(), payload.sub);
+
+            const accessToken = generateAccessToken(user._id.toString());
+            const refreshToken = generateRefreshToken(user._id.toString());
+            const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+            user.refreshToken = hashedRefreshToken;
+            await user.save();
+
+            res.cookie("accessToken", accessToken, {
+                httpOnly: true,
+                secure: true,
+                sameSite: "none",
+                maxAge: 15 * 60 * 1000, 
+            });
+            res.cookie("refreshToken", refreshToken, {
+                httpOnly: true,
+                secure: true,
+                sameSite: "none",
+                maxAge: 7 * 24 * 60 * 60 * 1000, 
+            });
+          res.redirect(`${ENV.FRONTEND_URL}/dashboard`);
+        }
+  }
+};
