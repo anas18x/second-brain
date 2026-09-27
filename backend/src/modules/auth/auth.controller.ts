@@ -169,6 +169,16 @@ export const refreshTokenController = async (
                 sameSite: "none",         // sent in cross-site requests
                 maxAge: 15 * 60 * 1000  
             })
+
+        res.cookie(
+            "refreshToken",
+            result.refreshToken,
+            {
+                httpOnly: true, 
+                secure: true,        
+                sameSite: "none",         // sent in cross-site requests
+                maxAge: 7 * 24 * 60 * 60 * 1000  
+            })    
         
         SuccessResponse(res, null, "Token refreshed successfully", StatusCodes.OK)    
     
@@ -206,7 +216,13 @@ export const googleAuthCallbackController = async (
     req: Request,
     res: Response
 ) => {
-    const { code, state } = req.query;
+    const { code, state , error} = req.query;
+    if(typeof error === "string") {
+        res.clearCookie("oauth_state");
+        res.clearCookie("oauth_code_verifier");
+
+        throw new AppError(`Google OAuth error: ${error}`, StatusCodes.BAD_REQUEST);
+    }
 
     const oauthState = req.cookies.oauth_state;
     const codeVerifier = req.cookies.oauth_code_verifier;
@@ -265,8 +281,7 @@ export const googleAuthCallbackController = async (
         if(existingUser) {
             throw new AppError("An account with this email already exists. Please log in with your existing account.", StatusCodes.CONFLICT);
         } else {
-            const user = await authService.createGoogleUser(payload.email);
-            const identity = await authService.createGoogleIdentity(user._id.toString(), payload.sub);
+            const user = await authService.createGoogleUserWithIdentity(payload.email, payload.sub);
 
             const accessToken = generateAccessToken(user._id.toString());
             const refreshToken = generateRefreshToken(user._id.toString());

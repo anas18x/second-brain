@@ -11,6 +11,7 @@ import crypto from "crypto";
 import { sendOtp } from "../../utils/email/email.service.js";
 import { OAuth2Client } from "google-auth-library";
 import Identity from "../users/identity.model.js";
+import mongoose from "mongoose";
 
 
 const googleClient = new OAuth2Client(
@@ -22,7 +23,7 @@ const googleClient = new OAuth2Client(
 export const getCurrentUser = async (
     userId : string
 ) => {
-    const user = await User.findById(userId).select("email username shareSlug isBrainPublic")
+    const user = await User.findById(userId).select("email username shareSlug isBrainPublic password")
     if(!user) throw new AppError("User not found", StatusCodes.NOT_FOUND)
 
     return {
@@ -30,7 +31,8 @@ export const getCurrentUser = async (
         email: user.email,
         username: user.username,
         shareSlug: user.shareSlug,
-        isBrainPublic: user.isBrainPublic
+        isBrainPublic: user.isBrainPublic,
+        canChangeEmail: !!user.password // if user has password, it means they can change email. If they signed up with Google, they cannot change email
     }
 }
 
@@ -112,7 +114,7 @@ export const changePassword = async (
 
     const user = await User.findById(userId)
     if(!user) throw new AppError("User not found", StatusCodes.NOT_FOUND)
-    if(!user.password) throw new AppError("Password is not set for this account", StatusCodes.BAD_REQUEST)    
+    if(!user.password) throw new AppError("This account is managed by Google. please sign in with Google.", StatusCodes.BAD_REQUEST)    
 
     if(!await bcrypt.compare(payload.oldPassword, user.password)) {
         throw new AppError("Old password is incorrect", StatusCodes.UNAUTHORIZED)
@@ -132,6 +134,8 @@ export const forgotPassword = async (
         email : payload.email
     });
     if(!user) return;
+
+    if(!user.password) return; // If the user signed up with Google, we don't send a password reset email
 
     // invalidate any prev password-reset otp
     await VerificationToken.deleteOne({
@@ -247,6 +251,8 @@ export const changeEmail = async (
     const user = await User.findById(userId)
     if(!user) throw new AppError("User not found", StatusCodes.NOT_FOUND)
 
+    if(!user.password) throw new AppError("Email is managed through your account provider", StatusCodes.BAD_REQUEST)
+
     if(user.email === payload.email) throw new AppError("New email cannot be the same as the current email", StatusCodes.BAD_REQUEST)
 
     const existingUser = await User.findOne({email: payload.email})
@@ -295,7 +301,7 @@ export const verifyEmailChange = async (
         type : "EMAIL_CHANGE"
     })
     
-    if(!verificationToken){
+    if(!verificationToken || !verificationToken.newEmail) {
         throw new AppError("Invalid or expired OTP", StatusCodes.BAD_REQUEST)
     }
 
@@ -326,6 +332,14 @@ export const verifyEmailChange = async (
             await verificationToken.save()
         }
         throw new AppError("Invalid OTP. Please try again.", StatusCodes.BAD_REQUEST)
+    }
+
+    const existingUser = await User.findOne({email: verificationToken.newEmail})
+    if(existingUser){
+        await VerificationToken.deleteOne({
+            _id: verificationToken._id
+        })
+        throw new AppError("Email already in use", StatusCodes.BAD_REQUEST)
     }
 
     user.email = verificationToken.newEmail!
@@ -423,7 +437,7 @@ export const verifyGoogleIdToken = async (idToken: string) => {
     const payload = ticket.getPayload();
 
     if (!payload) {
-        throw new Error("Invalid Google ID token");
+        throw new AppError("Invalid Google ID token", StatusCodes.UNAUTHORIZED);
     }
 
     return payload;
@@ -458,23 +472,38 @@ export const findUserByEmail = async (email: string) => {
 };
 
 
-export const createGoogleUser = async (
+export const createGoogleUserWithIdentity = async (
     email: string,
-) => {
-    const user = await User.create({
-        email
-    });
-
-    return user;
-};
-
-export const createGoogleIdentity = async (
-    userId: string,
     providerAccountId: string
 ) => {
-    return Identity.create({
-        userId,
-        provider: "google",
-        providerAccountId,
-    });
+    const session = await mongoose.startSession();
+
+    try {
+        session.startTransaction();
+
+        const user = new User({
+            email,
+        });
+
+        await user.save({ session });
+
+        const identity = new Identity({
+            userId: user._id,
+            provider: "google",
+            providerAccountId,
+        });
+
+        await identity.save({ session });
+
+        await session.commitTransaction();
+
+        return user;
+
+    } catch (error) {
+        await session.abortTransaction();
+        throw error;
+
+    } finally {
+        await session.endSession();
+    }
 };
