@@ -192,6 +192,14 @@ export const googleAuthController = async (
     const { state, codeVerifier, codeChallenge } =
         authService.generateGoogleOAuthParams();
 
+    const from = req.query.from === "register" ? "register" : "login";
+    res.cookie("oauth_origin", from, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        maxAge: 10 * 60 * 1000,
+    });    
+
     res.cookie("oauth_state", state, {
         httpOnly: true,
         secure: true,
@@ -216,76 +224,110 @@ export const googleAuthCallbackController = async (
     req: Request,
     res: Response
 ) => {
-    const { code, state , error} = req.query;
-    if(typeof error === "string") {
+    const { code, state, error } = req.query;
+
+    const oauthOrigin = req.cookies.oauth_origin;
+
+    const redirectPath =
+        oauthOrigin === "register"
+            ? "/register"
+            : "/login";
+
+    // Google returned an OAuth error
+    if (typeof error === "string") {
         res.clearCookie("oauth_state");
         res.clearCookie("oauth_code_verifier");
+        res.clearCookie("oauth_origin");
 
-        throw new AppError(`Google OAuth error: ${error}`, StatusCodes.BAD_REQUEST);
+        const errorCode =
+            error === "access_denied"
+                ? "oauth_cancelled"
+                : "oauth_failed";
+
+        return res.redirect(
+            `${ENV.FRONTEND_URL}${redirectPath}?error=${errorCode}`
+        );
     }
 
     const oauthState = req.cookies.oauth_state;
     const codeVerifier = req.cookies.oauth_code_verifier;
 
-    // validation comes next
+    // Validate callback data
     if (
-    typeof code !== "string" ||
-    typeof state !== "string" ||
-    typeof oauthState !== "string" ||
-    typeof codeVerifier !== "string"
-   ) {
-    throw new AppError("Invalid OAuth callback", StatusCodes.BAD_REQUEST);
-   }
+        typeof code !== "string" ||
+        typeof state !== "string" ||
+        typeof oauthState !== "string" ||
+        typeof codeVerifier !== "string" ||
+        typeof oauthOrigin !== "string"
+    ) {
+        res.clearCookie("oauth_state");
+        res.clearCookie("oauth_code_verifier");
+        res.clearCookie("oauth_origin");
 
-    if (state !== oauthState) {
-        throw new AppError("Invalid OAuth state", StatusCodes.BAD_REQUEST);
+        return res.redirect(
+            `${ENV.FRONTEND_URL}${redirectPath}?error=oauth_failed`
+        );
     }
+
+    // Validate state
+    if (state !== oauthState) {
+        res.clearCookie("oauth_state");
+        res.clearCookie("oauth_code_verifier");
+        res.clearCookie("oauth_origin");
+
+        return res.redirect(
+            `${ENV.FRONTEND_URL}${redirectPath}?error=oauth_failed`
+        );
+    }
+
+    // OAuth transaction is validated.
+    // Temporary OAuth cookies are no longer needed.
     res.clearCookie("oauth_state");
     res.clearCookie("oauth_code_verifier");
+    res.clearCookie("oauth_origin");
 
-    const tokens = await authService.exchangeGoogleCode(code, codeVerifier);
+    try {
+        // Exchange authorization code for Google tokens
+        const tokens = await authService.exchangeGoogleCode(
+            code,
+            codeVerifier
+        );
 
-    const payload = await authService.verifyGoogleIdToken(tokens.id_token as string);
+        // Verify Google's ID token
+        const payload = await authService.verifyGoogleIdToken(
+            tokens.id_token as string
+        );
 
-    if(!payload.sub || !payload.email || !payload.email_verified) {
-        throw new AppError("Invalid Google user data", StatusCodes.UNAUTHORIZED);
-    }
+        if (
+            !payload.sub ||
+            !payload.email ||
+            !payload.email_verified
+        ) {
+            return res.redirect(
+                `${ENV.FRONTEND_URL}${redirectPath}?error=oauth_failed`
+            );
+        }
 
-    const user = await authService.findUserByGoogleIdentity(payload.sub);
-    if(user){
-    const accessToken = generateAccessToken(user._id.toString());
-    const refreshToken = generateRefreshToken(user._id.toString()); 
-    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
-    user.refreshToken = hashedRefreshToken;
-    await user.save();
+        // Check whether this Google identity is already connected
+        const user = await authService.findUserByGoogleIdentity(
+            payload.sub
+        );
 
-    res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        maxAge: 15 * 60 * 1000, 
-    });
-    res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        maxAge: 7 * 24 * 60 * 60 * 1000, 
-    });
+        // Existing Google user
+        if (user) {
+            const accessToken = generateAccessToken(
+                user._id.toString()
+            );
 
-    res.redirect(`${ENV.FRONTEND_URL}/dashboard`);
-  } 
+            const refreshToken = generateRefreshToken(
+                user._id.toString()
+            );
 
-    // If the user does not exist
-    else {
-        const existingUser = await authService.findUserByEmail(payload.email);
-        if(existingUser) {
-            throw new AppError("An account with this email already exists. Please log in with your existing account.", StatusCodes.CONFLICT);
-        } else {
-            const user = await authService.createGoogleUserWithIdentity(payload.email, payload.sub);
+            const hashedRefreshToken = await bcrypt.hash(
+                refreshToken,
+                10
+            );
 
-            const accessToken = generateAccessToken(user._id.toString());
-            const refreshToken = generateRefreshToken(user._id.toString());
-            const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
             user.refreshToken = hashedRefreshToken;
             await user.save();
 
@@ -293,15 +335,84 @@ export const googleAuthCallbackController = async (
                 httpOnly: true,
                 secure: true,
                 sameSite: "none",
-                maxAge: 15 * 60 * 1000, 
+                maxAge: 15 * 60 * 1000,
             });
+
             res.cookie("refreshToken", refreshToken, {
                 httpOnly: true,
                 secure: true,
                 sameSite: "none",
-                maxAge: 7 * 24 * 60 * 60 * 1000, 
+                maxAge: 7 * 24 * 60 * 60 * 1000,
             });
-          res.redirect(`${ENV.FRONTEND_URL}/dashboard`);
+
+            return res.redirect(
+                `${ENV.FRONTEND_URL}/dashboard`
+            );
         }
-  }
+
+        // Google identity doesn't exist.
+        // Check whether a normal Brainly account already
+        // exists with this email.
+        const existingUser = await authService.findUserByEmail(
+            payload.email
+        );
+
+        if (existingUser) {
+            return res.redirect(
+                `${ENV.FRONTEND_URL}/login?error=oauth_account_exists`
+            );
+        }
+
+        // Create new Brainly user + Google identity
+        const newUser =
+            await authService.createGoogleUserWithIdentity(
+                payload.email,
+                payload.sub
+            );
+
+        const accessToken = generateAccessToken(
+            newUser._id.toString()
+        );
+
+        const refreshToken = generateRefreshToken(
+            newUser._id.toString()
+        );
+
+        const hashedRefreshToken = await bcrypt.hash(
+            refreshToken,
+            10
+        );
+
+        newUser.refreshToken = hashedRefreshToken;
+
+        await newUser.save();
+
+        res.cookie("accessToken", accessToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 15 * 60 * 1000,
+        });
+
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        return res.redirect(
+            `${ENV.FRONTEND_URL}/dashboard`
+        );
+
+    } catch (error) {
+        console.error(
+            "Google OAuth callback failed:",
+            error
+        );
+
+        return res.redirect(
+            `${ENV.FRONTEND_URL}${redirectPath}?error=oauth_failed`
+        );
+    }
 };

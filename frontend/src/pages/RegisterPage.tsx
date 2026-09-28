@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import Brand from "@/components/shared/Brand"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,6 +15,17 @@ import { toast } from "sonner"
 function RegisterPage() {
   const navigate = useNavigate()
   const [serverError, setServerError] = useState("")
+
+  const [searchParams] = useSearchParams()
+  const oauthError = searchParams.get("error")
+  const oauthErrorMessage = 
+         oauthError === "oauth_cancelled" ? "Google signin was cancelled." : 
+         oauthError === "oauth_failed" ? "Google signin failed. Please try again." :
+         ""
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google?from=register`
+  }
 
   const {
     register,
@@ -50,20 +61,20 @@ function RegisterPage() {
           w-full max-w-[320px]
           rounded-2xl border border-border/70 bg-card/30
           px-3.5 py-4
-          sm:max-w-[410px] sm:px-8 sm:py-9
+          sm:max-w-[390px] sm:px-7 sm:py-8
         "
       >
         {/* Brand */}
-        <div className="mx-auto mb-4 w-fit sm:mb-9">
+        <div className="mx-auto mb-4 w-fit sm:mb-8">
           <Brand />
         </div>
 
         {/* Heading */}
-        <div className="mb-4 text-center sm:mb-7">
+        <div className="mb-4 text-center sm:mb-6">
           <h1
             className="
               text-[18px] font-semibold tracking-[-0.025em] text-foreground
-              sm:text-[26px]
+              sm:text-[24px]
             "
           >
             Welcome 👋 Let&apos;s get started
@@ -72,10 +83,10 @@ function RegisterPage() {
           <p
             className="
               mt-1 text-[11px] leading-4 text-muted-foreground
-              sm:mt-2 sm:text-sm
+              sm:mt-2 sm:text-[13px]
             "
           >
-            Create your account and start building your Second Brain.
+            Your Second Brain starts here.
           </p>
         </div>
 
@@ -83,13 +94,14 @@ function RegisterPage() {
         <Button
           type="button"
           variant="outline"
+          onClick={handleGoogleLogin}
           className="
             h-9 w-full cursor-pointer rounded-lg
             border-border bg-transparent
             text-xs text-foreground
             transition-colors duration-200
             hover:bg-muted/50
-            sm:h-11 sm:text-base
+            sm:h-10 sm:text-base
           "
         >
           <svg
@@ -122,7 +134,7 @@ function RegisterPage() {
         </Button>
 
         {/* Divider */}
-        <div className="my-4 flex items-center gap-2.5 sm:my-7 sm:gap-4">
+        <div className="my-4 flex items-center gap-2.5 sm:my-6 sm:gap-4">
           <div className="h-px flex-1 bg-border" />
 
           <span className="text-[11px] text-muted-foreground sm:text-xs">
@@ -135,7 +147,7 @@ function RegisterPage() {
         {/* Register Form */}
         <div>
           {/* Server Error */}
-          {serverError && (
+          {(serverError || oauthErrorMessage) && (
             <p
               role="alert"
               className="
@@ -147,19 +159,19 @@ function RegisterPage() {
                 text-[var(--landing-accent)]
               "
             >
-              {serverError}
+              {oauthErrorMessage || serverError}
             </p>
           )}
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="space-y-3 sm:space-y-6"
+            className="space-y-3 sm:space-y-5"
           >
             {/* Email */}
             <div className="space-y-1 sm:space-y-2.5">
               <Label
                 htmlFor="email"
-                className="text-[11px] font-medium text-foreground sm:text-sm"
+                className="text-[11px] font-medium text-foreground sm:text-[13px]"
               >
                 Email address
               </Label>
@@ -179,7 +191,7 @@ function RegisterPage() {
                   transition-all duration-200
                   focus-visible:border-[var(--landing-accent)]
                   focus-visible:ring-[var(--landing-accent)]/15
-                  sm:h-11 sm:text-base
+                  sm:h-10 sm:text-base
                 "
               />
 
@@ -216,7 +228,7 @@ function RegisterPage() {
                   transition-all duration-200
                   focus-visible:border-[var(--landing-accent)]
                   focus-visible:ring-[var(--landing-accent)]/15
-                  sm:h-11 sm:text-base
+                  sm:h-10 sm:text-base
                 "
               />
 
@@ -254,7 +266,7 @@ function RegisterPage() {
         </div>
 
         {/* Login */}
-        <div className="mt-4 flex items-center justify-center sm:mt-8">
+        <div className="mt-4 flex items-center justify-center sm:mt-6">
           <p className="text-center text-[11px] text-muted-foreground sm:text-sm">
             Already have an account?{" "}
             <Link
