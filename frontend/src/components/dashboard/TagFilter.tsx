@@ -1,19 +1,26 @@
-import { useTags } from "@/hooks/brain/useTags";
+import { useTags } from "@/hooks/brain/useTags"
 
 type TagFilterProps = {
-  value: string;
-  setTag: (tag: string) => void;
-};
+  value: string
+  setTag: (tag: string) => void
+}
 
-function TagFilter({ value, setTag }: TagFilterProps) {
-  const { data: tags, isLoading, isError } = useTags();
+function TagFilter({
+  value,
+  setTag,
+}: TagFilterProps) {
+  const {
+    data: tags,
+    isLoading,
+    isError,
+  } = useTags()
 
   if (isLoading || isError) {
-    return null;
+    return null
   }
 
   return (
-    <div className="mt-4 flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center gap-2">
       <button
         type="button"
         onClick={() => setTag("")}
@@ -21,15 +28,28 @@ function TagFilter({ value, setTag }: TagFilterProps) {
           cursor-pointer
           rounded-full
           border
-          px-3.5
+          px-3
           py-1.5
           text-xs
           font-medium
           transition-all
+          duration-200
           ${
             value === ""
-              ? "border-[#ef3340] bg-[#ef3340] text-white shadow-[0_3px_10px_rgba(239,51,64,0.14)]"
-              : "border-white/10 bg-white/[0.04] text-muted-foreground hover:border-white/15 hover:bg-white/[0.08] hover:text-foreground"
+              ? `
+                border-[#e04430]/40
+                bg-[#e04430]/10
+                text-[#e04430]
+                shadow-[0_0_12px_rgba(224,68,48,0.08)]
+              `
+              : `
+                border-border/70
+                bg-muted/30
+                text-muted-foreground
+                hover:border-[#e04430]/30
+                hover:bg-[#e04430]/5
+                hover:text-[#e04430]
+              `
           }
         `}
       >
@@ -42,25 +62,39 @@ function TagFilter({ value, setTag }: TagFilterProps) {
           type="button"
           onClick={() => setTag(tag)}
           className={`
-         cursor-pointer
-         rounded-full
-         border
-         px-3.5
-         py-1.5
-         text-xs
-         font-medium
-         transition-all
-         ${ value === tag
-          ? "border-[#ef3340] bg-[#ef3340] text-white shadow-[0_3px_10px_rgba(239,51,64,0.14)]"
-          : "border-white/10 bg-white/[0.04] text-muted-foreground hover:border-white/15 hover:bg-white/[0.08] hover:text-foreground"
-      }
-    `}
+            cursor-pointer
+            rounded-full
+            border
+            px-3
+            py-1.5
+            text-xs
+            font-medium
+            transition-all
+            duration-200
+            ${
+              value === tag
+                ? `
+                  border-[#e04430]/40
+                  bg-[#e04430]/10
+                  text-[#e04430]
+                  shadow-[0_0_12px_rgba(224,68,48,0.08)]
+                `
+                : `
+                  border-border/70
+                  bg-muted/30
+                  text-muted-foreground
+                  hover:border-[#e04430]/30
+                  hover:bg-[#e04430]/5
+                  hover:text-[#e04430]
+                `
+            }
+          `}
         >
           #{tag}
         </button>
       ))}
     </div>
-  );
+  )
 }
 
-export default TagFilter;
+export default TagFilter

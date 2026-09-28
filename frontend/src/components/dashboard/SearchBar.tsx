@@ -3,79 +3,81 @@ import { Search, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 
 type SearchBarProps = {
-    value: string,
-    setSearch: (value: string) => void
+  value: string
+  setSearch: (value: string) => void
 }
 
-function SearchBar({value, setSearch}: SearchBarProps) {
+function SearchBar({
+  value,
+  setSearch,
+}: SearchBarProps) {
   return (
-    <div className="relative w-full max-w-3xl">
-      {/* Search icon */}
+    <div className="relative w-full max-w-2xl">
       <Search
         className="
           pointer-events-none
           absolute
-          left-4
+          left-3.5
           top-1/2
           z-10
-          size-[18px]
+          size-4
           -translate-y-1/2
-          text-muted-foreground
+          text-muted-foreground/60
         "
       />
 
       <Input
-        type="text"
         value={value}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(event) =>
+          setSearch(event.target.value)
+        }
         placeholder="Search your brain..."
+        aria-label="Search your brain"
         className="
-          h-12
-          rounded-xl
-          border-white/10
-          bg-white/[0.04]
-          pl-11
-          pr-11
+          h-10
+          w-full
+          rounded-lg
+          border-border/70
+          bg-background
+          pl-10
+          pr-10
           text-sm
-          font-medium
-          text-foreground
-          shadow-[0_4px_16px_rgba(0,0,0,0.25)]
-          backdrop-blur-md
-          transition-all
-          duration-300
-          placeholder:text-muted-foreground/60
-          hover:border-white/15
-          hover:bg-white/[0.06]
-          hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)]
-          focus:border-[#ef3340]/40
-          focus:bg-white/[0.06]
-          focus:ring-2
-          focus:ring-[#ef3340]/15
-          focus:shadow-[0_10px_30px_rgba(239,51,64,0.08)]
+          shadow-[0_2px_10px_rgba(0,0,0,0.06)]
+          transition-shadow
+          duration-200
+          placeholder:text-muted-foreground/45
+          hover:border-border
+          hover:shadow-[0_3px_12px_rgba(0,0,0,0.08)]
+          focus-visible:border-border
+          focus-visible:ring-2
+          focus-visible:ring-ring/15
+          dark:shadow-[0_2px_10px_rgba(0,0,0,0.18)]
+          dark:hover:shadow-[0_3px_14px_rgba(0,0,0,0.24)]
         "
       />
 
-      {/* Clear button */}
       {value && (
         <button
           type="button"
+          aria-label="Clear search"
           onClick={() => setSearch("")}
           className="
             absolute
             right-3
             top-1/2
+            flex
+            size-5
             -translate-y-1/2
-            cursor-pointer
+            items-center
+            justify-center
             rounded-md
-            p-1
-            text-muted-foreground
+            text-muted-foreground/50
             transition-colors
-            hover:bg-white/[0.06]
+            hover:bg-muted
             hover:text-foreground
           "
-          aria-label="Clear search"
         >
-          <X className="size-4" />
+          <X className="size-3.5" />
         </button>
       )}
     </div>

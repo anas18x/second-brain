@@ -9,6 +9,9 @@ import BrainDetailPage from "./pages/BrainDetailPage"
 import PublicBrainPage from "./pages/PublicBrain"
 import {ProtectedRoute} from "@/components/auth/ProtectedRoutes"
 import ResetPasswordPage from "./pages/ResetPasswordPage"
+import DashboardLayout from "./components/dashboard/DashboardLayout"
+import ShareBrainPage from "./pages/ShareBrainPage"
+import AccountSettingPage from "./pages/AccountSettingPage"
 
 function App() {
 
@@ -31,8 +34,13 @@ function App() {
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute/>}>
-        <Route path="/dashboard" element={<DashBoardPage />} />
-        <Route path="/brain/:id" element={<BrainDetailPage />} />
+          <Route path="/dashboard" element={<DashboardLayout/>} >
+            <Route index element={<DashBoardPage />} />
+            <Route path="share" element={<ShareBrainPage />} />
+            <Route path="account" element={<AccountSettingPage />} />
+          </Route>
+
+          <Route path="/brain/:id" element={<BrainDetailPage />} />
         </Route>
          
 

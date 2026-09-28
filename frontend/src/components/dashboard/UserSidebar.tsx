@@ -1,10 +1,16 @@
-import { LogOut } from "lucide-react"
+import {
+  Settings2,
+  LayoutDashboard,
+  Share2,
+  LogOut,
+  UserRound,
+  Pencil,
+} from "lucide-react"
+
+import { Moon, Sun } from "lucide"
+import { MorphIcon } from "morphicons/react"
 
 import Brand from "@/components/shared/Brand"
-
-import ShareBrainDialog from "@/components/dashboard/ShareBrainDialog"
-
-import ChangePasswordDialog from "@/components/dashboard/ChangePasswordDialog"
 
 import {
   Sidebar,
@@ -12,177 +18,425 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar"
 
 import { logout } from "@/services/auth/auth.api"
 
-import { useNavigate } from "react-router-dom"
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom"
 
 import { useAuthStore } from "@/store/auth.store"
-
 import { toast } from "sonner"
+import { useTheme } from "next-themes"
 
 function UserSidebar() {
   const navigate = useNavigate()
-  const clearUser = useAuthStore((state) => state.clearUser)
+  const location = useLocation()
+
+  const {
+    isMobile,
+    setOpenMobile,
+  } = useSidebar()
+
+  const user = useAuthStore(
+    (state) => state.user
+  )
+
+  const clearUser = useAuthStore(
+    (state) => state.clearUser
+  )
+
+  const {
+    resolvedTheme,
+    setTheme,
+  } = useTheme()
+
+  const username =
+    user?.username?.trim() || ""
+
+  const hasUsername =
+    Boolean(username)
+
+  const isDark =
+    resolvedTheme === "dark"
+
+  const isOverview =
+    location.pathname === "/dashboard" ||
+    location.pathname === "/dashboard/"
+
+  const isShareBrain =
+    location.pathname ===
+    "/dashboard/share"
+
+  const isAccount =
+    location.pathname ===
+    "/dashboard/account"
+
+  function navigateFromSidebar(
+    path: string
+  ) {
+    navigate(path)
+
+    if (isMobile) {
+      setOpenMobile(false)
+    }
+  }
 
   async function handleLogout() {
     try {
       await logout()
       clearUser()
       navigate("/login")
-    } catch (error) {
-      toast.error("Unable to log out. Please try again.")
+    } catch {
+      toast.error(
+        "Unable to log out. Please try again."
+      )
     }
+  }
+
+  function handleAppearance() {
+    setTheme(
+      isDark ? "light" : "dark"
+    )
   }
 
   return (
     <Sidebar
-      collapsible="icon"
       className="
-        border-r
-        border-white/10
-        bg-[#0a0a0a]
-        [&_[data-sidebar=sidebar-inner]]:bg-[#0a0a0a]
+        shadow-[2px_0_12px_rgba(0,0,0,0.05)]
       "
     >
-      {/* Brand */}
-      <SidebarHeader className="relative px-3 py-5">
-        <Brand />
+      {/* Header */}
+      <SidebarHeader className="px-3 py-4">
+        <div
+          className="
+            flex
+            h-8
+            min-w-0
+            items-center
+            overflow-hidden
+            px-1
+            group-data-[collapsible=icon]:w-8
+            group-data-[collapsible=icon]:justify-center
+            group-data-[collapsible=icon]:px-0
+            [&>a]:min-w-0
+            [&>a]:shrink-0
+            [&>a>span]:whitespace-nowrap
+            group-data-[collapsible=icon]:[&>a>span]:hidden
+          "
+        >
+          <Brand />
+        </div>
       </SidebarHeader>
 
-      <SidebarContent className="relative">
-        {/* User Info */}
-        <SidebarGroup>
+      {/* Content */}
+      <SidebarContent className="px-2">
+        {/* User */}
+        <SidebarGroup className="px-1 pb-4">
           <SidebarGroupContent>
-            <div
-              className="
-                px-2
-                py-7
-                group-data-[collapsible=icon]:px-0
-                group-data-[collapsible=icon]:py-5
-              "
-            >
-              {/* Avatar */}
-              <div
-                className="
-                  mx-auto
-                  flex
-                  size-12
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-white/10
-                  bg-white/[0.08]
-                  text-base
-                  font-semibold
-                  text-foreground
-                  shadow-[0_6px_18px_rgba(0,0,0,0.3)]
-                  transition-all
-                  duration-200
-                  group-data-[collapsible=icon]:size-8
-                  group-data-[collapsible=icon]:shadow-[0_3px_10px_rgba(0,0,0,0.25)]
-                "
-              >
-                A
-              </div>
-
-              {/* Username */}
-              <p
-                className="
-                  mt-3
-                  text-center
-                  text-sm
-                  font-semibold
-                  tracking-tight
-                  text-foreground
-                  group-data-[collapsible=icon]:hidden
-                "
-              >
-                @anas
-              </p>
-
-              {/* Public Status */}
-              <div
-                className="
-                  mt-2
-                  flex
-                  items-center
-                  justify-center
-                  gap-1.5
-                  group-data-[collapsible=icon]:hidden
-                "
-              >
-                <span
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={() =>
+                    navigateFromSidebar(
+                      "/dashboard/account"
+                    )
+                  }
+                  tooltip="Account"
                   className="
-                    size-1.5
-                    rounded-full
-                    bg-emerald-500
-                    shadow-[0_0_0_3px_rgba(16,185,129,0.10)]
+                    h-11
+                    rounded-lg
+                    px-2
+                    text-sm
+                    text-muted-foreground
+                    transition-colors
+                    hover:bg-transparent
+                    hover:text-[#e04430]
                   "
-                />
-                <span className="text-xs font-medium text-muted-foreground">
-                  Brain is public
-                </span>
-              </div>
-            </div>
+                >
+                  <div
+                    className={`
+                      flex
+                      size-8
+                      shrink-0
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      bg-sidebar
+                      text-xs
+                      font-semibold
+                      shadow-sm
+                      transition-colors
+                      ${
+                        hasUsername
+                          ? "border-sidebar-border"
+                          : "border-dashed border-sidebar-foreground/25"
+                      }
+                    `}
+                  >
+                    {hasUsername ? (
+                      username
+                        .charAt(0)
+                        .toUpperCase()
+                    ) : (
+                      <UserRound
+                        className="
+                          size-4
+                          text-muted-foreground
+                        "
+                      />
+                    )}
+                  </div>
+
+                  <div
+                    className="
+                      min-w-0
+                      flex-1
+                      group-data-[collapsible=icon]:hidden
+                    "
+                  >
+                    {hasUsername ? (
+                      <>
+                        <p className="truncate text-sm font-medium text-foreground">
+                          @{username}
+                        </p>
+
+                        <p className="truncate text-xs text-muted-foreground">
+                          Account
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <div className="flex items-center gap-1.5">
+                          <p className="truncate text-sm font-medium text-foreground">
+                            Set username
+                          </p>
+
+                          <Pencil className="size-3 text-muted-foreground" />
+                        </div>
+
+                        <p className="truncate text-xs text-muted-foreground">
+                          Personalize your profile
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Share Brain */}
-        <SidebarGroup className="pt-0">
+        {/* Workspace */}
+        <SidebarGroup className="px-1">
+          <SidebarGroupLabel>
+            Workspace
+          </SidebarGroupLabel>
+
           <SidebarGroupContent>
-            <ShareBrainDialog />
+            <SidebarMenu className="gap-1">
+              {/* Overview */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={isOverview}
+                  onClick={() =>
+                    navigateFromSidebar(
+                      "/dashboard"
+                    )
+                  }
+                  tooltip="Overview"
+                  className="
+                    rounded-md
+                    px-2
+                    text-sm
+                    text-muted-foreground
+                    transition-colors
+                    hover:bg-transparent
+                    hover:text-[#e04430]
+                    data-[active=true]:bg-transparent
+                    data-[active=true]:text-[#e04430]
+                  "
+                >
+                  <LayoutDashboard className="size-4" />
+
+                  <span>
+                    Overview
+                  </span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Share Brain */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={isShareBrain}
+                  onClick={() =>
+                    navigateFromSidebar(
+                      "/dashboard/share"
+                    )
+                  }
+                  tooltip="Share Brain"
+                  className="
+                    rounded-md
+                    px-2
+                    text-sm
+                    text-muted-foreground
+                    transition-colors
+                    hover:bg-transparent
+                    hover:text-[#e04430]
+                    data-[active=true]:bg-transparent
+                    data-[active=true]:text-[#e04430]
+                  "
+                >
+                  <Share2 className="size-4" />
+
+                  <span>
+                    Share Brain
+                  </span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Account */}
+        <SidebarGroup className="px-1 pt-6">
+          <SidebarGroupLabel>
+            Account
+          </SidebarGroupLabel>
+
+          <SidebarGroupContent>
+            <SidebarMenu className="gap-1">
+              {/* Account Settings */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={isAccount}
+                  onClick={() =>
+                    navigateFromSidebar(
+                      "/dashboard/account"
+                    )
+                  }
+                  tooltip="Account Settings"
+                  className="
+                    rounded-md
+                    px-2
+                    text-sm
+                    text-muted-foreground
+                    transition-colors
+                    hover:bg-transparent
+                    hover:text-[#e04430]
+                    data-[active=true]:bg-transparent
+                    data-[active=true]:text-[#e04430]
+                  "
+                >
+                  <Settings2 className="size-4" />
+
+                  <span>
+                    Account Settings
+                  </span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Theme */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={handleAppearance}
+                  tooltip={
+                    isDark
+                      ? "Switch to light mode"
+                      : "Switch to dark mode"
+                  }
+                  className="
+                    rounded-md
+                    px-2
+                    text-sm
+                    text-muted-foreground
+                    transition-colors
+                    hover:bg-transparent
+                    hover:text-[#e04430]
+                  "
+                >
+                  <MorphIcon
+                    icon={
+                      isDark
+                        ? Moon
+                        : Sun
+                    }
+                    spring="smooth"
+                  />
+
+                  <span className="group-data-[collapsible=icon]:hidden">
+                    Theme
+                  </span>
+
+                  <div
+                    className="
+                      ml-auto
+                      flex
+                      h-6
+                      w-10
+                      shrink-0
+                      items-center
+                      rounded-full
+                      border
+                      border-sidebar-border
+                      bg-sidebar-accent
+                      p-0.5
+                      shadow-sm
+                      group-data-[collapsible=icon]:hidden
+                    "
+                  >
+                    <div
+                      className={`
+                        size-5
+                        rounded-full
+                        bg-background
+                        shadow-sm
+                        transition-transform
+                        duration-200
+                        ${
+                          isDark
+                            ? "translate-x-4"
+                            : "translate-x-0"
+                        }
+                      `}
+                    />
+                  </div>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
       {/* Footer */}
-      <SidebarFooter className="relative px-2 pb-4">
-        <SidebarMenu className="gap-1">
-          {/* Change Password */}
-          <SidebarMenuItem>
-            <div
-              className="
-                rounded-lg
-                transition-all
-                duration-200
-                hover:bg-white/[0.06]
-                hover:shadow-[0_3px_10px_rgba(0,0,0,0.2)]
-                group-data-[collapsible=icon]:hover:bg-white/[0.08]
-              "
-            >
-              <ChangePasswordDialog />
-            </div>
-          </SidebarMenuItem>
-
-          {/* Logout */}
+      <SidebarFooter className="px-2 pb-3">
+        <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               onClick={handleLogout}
               tooltip="Log out"
               className="
-                h-9
-                rounded-lg
-                px-2.5
+                rounded-md
+                px-2
+                text-sm
                 text-muted-foreground
-                transition-all
-                duration-200
-                hover:bg-white/[0.06]
-                hover:text-foreground
-                hover:shadow-[0_2px_8px_rgba(0,0,0,0.2)]
-                active:bg-white/[0.08]
-                group-data-[collapsible=icon]:hover:bg-white/[0.08]
-                group-data-[collapsible=icon]:hover:text-foreground
+                transition-colors
+                hover:bg-transparent
+                hover:text-[#e04430]
               "
             >
               <LogOut className="size-4" />
-              <span className="text-xs font-medium">
+
+              <span>
                 Log out
               </span>
             </SidebarMenuButton>

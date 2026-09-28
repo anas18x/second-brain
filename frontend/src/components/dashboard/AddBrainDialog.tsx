@@ -1,42 +1,69 @@
 import { useState } from "react"
+
 import { Plus } from "lucide-react"
-import {Dialog,DialogContent,DialogHeader,DialogTitle,DialogTrigger} from "@/components/ui/dialog"
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { createBrainSchema, type CreateBrainInput,} from "@/schema/brain.schema"
-import { useCreateBrain } from "@/hooks/brain/usecreateBrain"
-import axios from "axios"
 
+import {
+  createBrainSchema,
+  type CreateBrainInput,
+} from "@/schema/brain.schema"
+
+import { useCreateBrain } from "@/hooks/brain/usecreateBrain"
+
+import axios from "axios"
 
 function AddBrainDialog() {
   const [open, setOpen] = useState(false)
   const [serverError, setServerError] = useState("")
+
   const createBrainMutation = useCreateBrain()
 
-  const {register ,
-         handleSubmit,
-         reset,
-         formState:{errors, isSubmitting} } = useForm<CreateBrainInput>({
-           resolver:zodResolver(createBrainSchema)
-         })
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: {
+      errors,
+      isSubmitting,
+    },
+  } = useForm<CreateBrainInput>({
+    resolver: zodResolver(createBrainSchema),
+  })
 
-  async function onSubmit(data : CreateBrainInput) {
-    try{
+  async function onSubmit(data: CreateBrainInput) {
+    try {
       setServerError("")
+
       await createBrainMutation.mutateAsync(data)
+
       reset()
       setOpen(false)
-    } catch(error){
-      if(axios.isAxiosError(error)){
-        setServerError(error.response?.data?.message ?? "Failed to add brain. Please try again.")
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setServerError(
+          error.response?.data?.message ??
+            "Failed to add brain. Please try again."
+        )
       } else {
-           setServerError("Failed to add brain. Please try again.")
+        setServerError(
+          "Failed to add brain. Please try again."
+        )
       }
     }
-}
-
+  }
 
   return (
     <Dialog
@@ -50,90 +77,109 @@ function AddBrainDialog() {
         }
       }}
     >
-
+      {/* Trigger */}
       <DialogTrigger
         className="
           inline-flex
-          h-10
+          h-9
           shrink-0
           cursor-pointer
           items-center
           gap-2
-          rounded-lg
-          border
-          border-[#ef3340]
-          bg-[#ef3340]
-          px-4
-          font-['Space_Grotesk']
-          text-xs
-          font-semibold
-          tracking-tight
-          text-white
-          shadow-[0_4px_14px_rgba(239,51,64,0.18)]
+          rounded-md
+          bg-primary
+          px-3.5
+          text-sm
+          font-medium
+          text-primary-foreground
+          shadow-sm
           transition-all
           duration-200
-          hover:-translate-y-0.5
-          hover:bg-[#ef3340]/90
-          hover:shadow-[0_8px_22px_rgba(239,51,64,0.28)]
-          active:translate-y-0
-          active:shadow-[0_3px_8px_rgba(239,51,64,0.16)]
+          hover:bg-primary/90
+          active:scale-[0.98]
+          focus-visible:outline-none
+          focus-visible:ring-2
+          focus-visible:ring-[#e04430]/25
+          focus-visible:ring-offset-2
         "
       >
-        <Plus
-          className="size-3.5"
-          strokeWidth={2.2}
-        />
+        <Plus className="size-4" />
         Add to Brain
       </DialogTrigger>
 
       <DialogContent
         className="
+          w-[calc(100%-1.5rem)]
           gap-0
+          overflow-hidden
           rounded-2xl
           border
-          border-white/10
-          bg-[#0d0d0d]
+          border-border/60
+          bg-background
           p-0
-          text-foreground
-          shadow-[0_20px_60px_rgba(0,0,0,0.5)]
-          sm:max-w-[460px]
+          shadow-[0_24px_80px_rgba(0,0,0,0.18)]
+          dark:shadow-[0_24px_80px_rgba(0,0,0,0.45)]
+
+          max-h-[calc(100dvh-1.5rem)]
+          overflow-y-auto
+
+          sm:w-[calc(100%-2rem)]
+          sm:max-w-[600px]
+          sm:max-h-none
         "
       >
+        {/* Header */}
+        <DialogHeader
+          className="
+            border-b
+            border-border/60
+            px-5
+            py-4
 
-        <DialogHeader className="px-[18px] pt-[18px]">
-
+            sm:px-6
+            sm:py-5
+          "
+        >
           <DialogTitle
             className="
-              font-sans
-              text-lg
-              font-medium
+              flex
+              items-center
+              gap-2
+              text-base
+              font-semibold
               tracking-tight
               text-foreground
             "
           >
+            <span className="size-1.5 rounded-full bg-[#e04430]" />
             Add to Brain
           </DialogTitle>
 
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">
+            Save a useful link, note, or idea for later.
+          </p>
         </DialogHeader>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
           onChange={() => setServerError("")}
         >
+          <div
+            className="
+              space-y-4
+              px-5
+              py-4
 
-          <div className="space-y-3.5 px-[18px] pb-[18px] pt-4">
-
+              sm:space-y-5
+              sm:px-6
+              sm:py-5
+            "
+          >
             {/* Title */}
-            <div className="space-y-1.5">
-
+            <div className="space-y-1.5 sm:space-y-2">
               <Label
                 htmlFor="brain-title"
-                className="
-                  font-['Geist_Mono']
-                  text-xs
-                  font-medium
-                  text-foreground
-                "
+                className="text-xs font-medium"
               >
                 Title
               </Label>
@@ -144,49 +190,44 @@ function AddBrainDialog() {
                 placeholder="Give it a title"
                 {...register("title")}
                 className="
-                  h-[42px]
+                  h-9
                   rounded-lg
-                  border-white/10
-                  bg-white/[0.04]
+                  border-border/70
+                  bg-muted/30
                   px-3
-                  font-['Geist_Mono']
-                  text-xs
-                  text-foreground
+                  text-sm
                   shadow-none
+                  transition-colors
                   placeholder:text-muted-foreground/50
-                  focus:border-[#ef3340]/50
-                  focus:ring-2
-                  focus:ring-[#ef3340]/20
+                  focus-visible:border-[#e04430]/45
+                  focus-visible:ring-2
+                  focus-visible:ring-[#e04430]/12
+
+                  sm:h-10
                 "
               />
 
               {errors.title && (
-                <p className="font-['Geist_Mono'] text-[10px] text-red-400">
+                <p className="text-[11px] text-destructive">
                   {errors.title.message}
                 </p>
               )}
-
             </div>
 
             {/* URL */}
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 sm:space-y-2">
+              <div className="flex items-center gap-2">
+                <Label
+                  htmlFor="brain-url"
+                  className="text-xs font-medium"
+                >
+                  URL
+                </Label>
 
-              <Label
-                htmlFor="brain-url"
-                className="
-                  font-['Geist_Mono']
-                  text-xs
-                  font-medium
-                  text-foreground
-                "
-              >
-                URL
-
-                <span className="ml-2 font-normal text-muted-foreground/60">
+                <span className="text-[10px] text-muted-foreground/70">
                   optional
                 </span>
-
-              </Label>
+              </div>
 
               <Input
                 id="brain-url"
@@ -194,204 +235,219 @@ function AddBrainDialog() {
                 placeholder="https://example.com"
                 {...register("url", {
                   setValueAs: (value) =>
-                    value.trim() === "" ? undefined : value,
+                    value.trim() === ""
+                      ? undefined
+                      : value,
                 })}
                 className="
-                  h-[42px]
+                  h-9
                   rounded-lg
-                  border-white/10
-                  bg-white/[0.04]
+                  border-border/70
+                  bg-muted/30
                   px-3
-                  font-['Geist_Mono']
-                  text-xs
-                  text-foreground
+                  text-sm
                   shadow-none
+                  transition-colors
                   placeholder:text-muted-foreground/50
-                  focus:border-[#ef3340]/50
-                  focus:ring-2
-                  focus:ring-[#ef3340]/20
+                  focus-visible:border-[#e04430]/45
+                  focus-visible:ring-2
+                  focus-visible:ring-[#e04430]/12
+
+                  sm:h-10
                 "
               />
 
               {errors.url && (
-                <p className="font-['Geist_Mono'] text-[10px] text-red-400">
+                <p className="text-[11px] text-destructive">
                   {errors.url.message}
                 </p>
               )}
-
             </div>
 
             {/* Note */}
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 sm:space-y-2">
+              <div className="flex items-center gap-2">
+                <Label
+                  htmlFor="brain-body"
+                  className="text-xs font-medium"
+                >
+                  Note
+                </Label>
 
-              <Label
-                htmlFor="brain-body"
-                className="
-                  font-['Geist_Mono']
-                  text-xs
-                  font-medium
-                  text-foreground
-                "
-              >
-                Note
-
-                <span className="ml-2 font-normal text-muted-foreground/60">
+                <span className="text-[10px] text-muted-foreground/70">
                   optional
                 </span>
-
-              </Label>
+              </div>
 
               <textarea
                 id="brain-body"
-                placeholder="Add a note..."
                 rows={3}
+                placeholder="Add a note..."
                 {...register("body")}
                 className="
                   flex
-                  min-h-[82px]
+                  min-h-[72px]
                   w-full
                   resize-none
                   rounded-lg
                   border
-                  border-white/10
-                  bg-white/[0.04]
+                  border-border/70
+                  bg-muted/30
                   px-3
-                  py-2.5
-                  font-['Geist_Mono']
-                  text-xs
-                  text-foreground
+                  py-2
+                  text-sm
+                  leading-5
                   outline-none
-                  placeholder:text-muted-foreground/50
                   transition-colors
-                  focus:border-[#ef3340]/50
+                  placeholder:text-muted-foreground/50
+                  focus:border-[#e04430]/45
                   focus:ring-2
-                  focus:ring-[#ef3340]/20
+                  focus:ring-[#e04430]/12
+
+                  sm:min-h-[88px]
+                  sm:py-2.5
                 "
               />
 
               {errors.body && (
-                <p className="font-['Geist_Mono'] text-[10px] text-red-400">
+                <p className="text-[11px] text-destructive">
                   {errors.body.message}
                 </p>
               )}
-
             </div>
 
             {/* Tags */}
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 sm:space-y-2">
+              <div className="flex items-center gap-2">
+                <Label
+                  htmlFor="brain-tags"
+                  className="text-xs font-medium"
+                >
+                  Tags
+                </Label>
 
-              <Label
-                htmlFor="brain-tags"
-                className="
-                  font-['Geist_Mono']
-                  text-xs
-                  font-medium
-                  text-foreground
-                "
-              >
-                Tags
-
-                <span className="ml-2 font-normal text-muted-foreground/60">
+                <span className="text-[10px] text-muted-foreground/70">
                   optional
                 </span>
-
-              </Label>
+              </div>
 
               <Input
                 id="brain-tags"
                 type="text"
                 placeholder="tech, ideas, travel"
                 {...register("tags", {
-                    setValueAs: (value) =>
-                     typeof value === "string"
+                  setValueAs: (value) =>
+                    typeof value === "string"
                       ? value
-                      .split(",")
-                     .map((tag: string) => tag.trim())
-                      .filter(Boolean)
+                          .split(",")
+                          .map((tag: string) =>
+                            tag.trim()
+                          )
+                          .filter(Boolean)
                       : value ?? [],
-                        })}
+                })}
                 className="
-                  h-[42px]
+                  h-9
                   rounded-lg
-                  border-white/10
-                  bg-white/[0.04]
+                  border-border/70
+                  bg-muted/30
                   px-3
-                  font-['Geist_Mono']
-                  text-xs
-                  text-foreground
+                  text-sm
                   shadow-none
+                  transition-colors
                   placeholder:text-muted-foreground/50
-                  focus:border-[#ef3340]/50
-                  focus:ring-2
-                  focus:ring-[#ef3340]/20
+                  focus-visible:border-[#e04430]/45
+                  focus-visible:ring-2
+                  focus-visible:ring-[#e04430]/12
+
+                  sm:h-10
                 "
               />
 
-              <p className="font-['Geist_Mono'] text-[10px] text-muted-foreground/60">
+              <p className="text-[10px] text-muted-foreground/70">
                 Separate tags with commas.
               </p>
 
               {errors.tags && (
-                <p className="font-['Geist_Mono'] text-[10px] text-red-400">
+                <p className="text-[11px] text-destructive">
                   {errors.tags.message}
                 </p>
               )}
-
             </div>
 
-            {serverError && (<p className="font-['Geist_Mono'] text-[10px] text-red-400">{serverError}</p>)}
+            {/* Server error */}
+            {serverError && (
+              <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-2">
+                <p className="text-[11px] leading-4 text-destructive">
+                  {serverError}
+                </p>
+              </div>
+            )}
+          </div>
 
-            {/* Save */}
-            <div className="flex justify-end pt-1">
+          {/* Footer */}
+          <div
+            className="
+              flex
+              items-center
+              justify-between
+              border-t
+              border-border/60
+              bg-muted/20
+              px-5
+              py-3
 
+              sm:px-6
+              sm:py-3.5
+            "
+          >
+            <p className="hidden text-[10px] text-muted-foreground/60 sm:block">
+              Press Enter to save
+            </p>
+
+            <div className="ml-auto">
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="
                   inline-flex
-                  h-9
+                  h-8
                   cursor-pointer
                   items-center
-                  gap-2
-                  rounded-lg
+                  gap-1.5
+                  rounded-md
                   border
-                  border-[#ef3340]
-                  bg-[#ef3340]
-                  px-4
-                  font-['Space_Grotesk']
+                  border-[#e04430]/25
+                  bg-[#e04430]/10
+                  px-3
                   text-xs
-                  font-semibold
-                  text-white
-                  shadow-[0_4px_12px_rgba(239,51,64,0.16)]
+                  font-medium
+                  text-foreground
+                  shadow-[0_0_12px_rgba(224,68,48,0.06)]
                   transition-all
                   duration-200
-                  hover:-translate-y-0.5
-                  hover:bg-[#ef3340]/90
-                  hover:shadow-[0_8px_20px_rgba(239,51,64,0.24)]
-                  active:translate-y-0
-                  active:shadow-[0_3px_8px_rgba(239,51,64,0.14)]
+                  hover:border-[#e04430]/35
+                  hover:bg-[#e04430]/15
+                  hover:shadow-[0_0_16px_rgba(224,68,48,0.10)]
+                  active:scale-[0.98]
                   disabled:cursor-not-allowed
                   disabled:opacity-50
+
+                  sm:h-9
+                  sm:px-3.5
+                  sm:text-sm
                 "
               >
+                <Plus className="size-3.5 text-[#e04430]" />
 
-                <Plus
-                  className="size-3.5"
-                  strokeWidth={2.2}
-                />
-
-                {isSubmitting ? "Saving..." : "Save to Brain"}
-
+                {isSubmitting
+                  ? "Saving..."
+                  : "Save to Brain"}
               </button>
-
             </div>
-
           </div>
-
         </form>
-
       </DialogContent>
-
     </Dialog>
   )
 }

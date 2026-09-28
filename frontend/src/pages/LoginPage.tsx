@@ -8,12 +8,10 @@ import { loginSchema, type LoginInput } from "@/schema/auth.schema"
 import { login } from "@/services/auth/auth.api"
 import axios from "axios"
 import { useState } from "react"
-import { useAuthStore } from "@/store/auth.store"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 
 function LoginPage() {
-  const initializeAuth = useAuthStore((state) => state.initializeAuth)
   const navigate = useNavigate()
   const [serverError, setServerError] = useState("")
 
@@ -43,10 +41,6 @@ function LoginPage() {
     try {
       setServerError("")
       await login(data)
-
-      // Re-fetch the authenticated user and update Zustand
-      // before navigating to protected routes.
-      await initializeAuth()
       navigate("/dashboard")
       
     } catch (error) {

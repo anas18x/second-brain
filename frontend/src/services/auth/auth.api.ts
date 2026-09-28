@@ -30,7 +30,7 @@ export const login = async (data: LoginInput) => {
 
 export const getCurrentUser = async (): Promise<User> => {
   const response = await apiClient.get("/auth/me")
-  return response.data
+  return response.data.data
 }
 
 

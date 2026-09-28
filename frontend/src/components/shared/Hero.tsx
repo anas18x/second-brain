@@ -184,7 +184,7 @@ function Hero() {
                   sm:text-[16px]
                 "
               >
-                Save it once. Find it when it matters.
+                Save everything you read, watch, or want to remember.
               </p>
 
               <p

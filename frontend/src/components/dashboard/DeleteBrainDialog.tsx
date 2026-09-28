@@ -1,4 +1,5 @@
 import { Trash2 } from "lucide-react"
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,14 +11,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+
 import { useDeleteBrain } from "@/hooks/brain/useDeleteBrain"
+
 import { useNavigate } from "react-router-dom"
+
 import { toast } from "sonner"
 
-
 function DeleteBrainDialog({ id }: { id: string }) {
-   const deleteMutation = useDeleteBrain()
-   const navigate = useNavigate()
+  const deleteMutation = useDeleteBrain()
+  const navigate = useNavigate()
 
   return (
     <AlertDialog>
@@ -33,21 +36,28 @@ function DeleteBrainDialog({ id }: { id: string }) {
           text-muted-foreground/60
           transition-colors
           duration-200
-          hover:bg-white/[0.06]
+          hover:bg-muted
           hover:text-foreground
         "
       >
-        <Trash2 className="size-4" strokeWidth={1.8} />
+        <Trash2
+          className="size-4"
+          strokeWidth={1.8}
+        />
       </AlertDialogTrigger>
+
       {/* Confirmation */}
       <AlertDialogContent
         className="
+          w-[calc(100%-3rem)]
           rounded-2xl
           border
-          border-white/10
-          bg-[#0d0d0d]
+          border-border/60
+          bg-background
           text-foreground
-          shadow-[0_20px_60px_rgba(0,0,0,0.5)]
+          shadow-[0_20px_60px_rgba(0,0,0,0.16)]
+          dark:shadow-[0_20px_60px_rgba(0,0,0,0.45)]
+          sm:w-[calc(100%-2rem)]
           sm:max-w-[400px]
         "
       >
@@ -61,9 +71,9 @@ function DeleteBrainDialog({ id }: { id: string }) {
               justify-center
               rounded-xl
               border
-              border-[#ef3340]/20
-              bg-[#ef3340]/10
-              text-[#ff6b73]
+              border-[#e04430]/20
+              bg-[#e04430]/8
+              text-[#e04430]
             "
           >
             <Trash2
@@ -71,6 +81,7 @@ function DeleteBrainDialog({ id }: { id: string }) {
               strokeWidth={1.8}
             />
           </div>
+
           <AlertDialogTitle
             className="
               font-sans
@@ -82,6 +93,7 @@ function DeleteBrainDialog({ id }: { id: string }) {
           >
             Delete this brain?
           </AlertDialogTitle>
+
           <AlertDialogDescription
             className="
               font-['Geist_Mono']
@@ -94,53 +106,63 @@ function DeleteBrainDialog({ id }: { id: string }) {
             your second brain. This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
+
         <AlertDialogFooter className="mt-2">
           <AlertDialogCancel
             className="
               cursor-pointer
               rounded-lg
-              border-white/10
-              bg-white/[0.04]
+              border-border
+              bg-muted/30
               font-['Space_Grotesk']
               text-xs
               font-semibold
               text-muted-foreground
-              hover:bg-white/[0.08]
+              hover:bg-muted
               hover:text-foreground
             "
           >
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() =>deleteMutation.mutate(id,{
-              onSuccess: () => {
-                navigate("/dashboard")
-              },
-              onError: () => {
-                toast.error("Failed to delete brain. Please try again.")
-              }
-            })}
-            disabled={deleteMutation.isPending}
 
+          <AlertDialogAction
+            onClick={() =>
+              deleteMutation.mutate(id, {
+                onSuccess: () => {
+                  navigate("/dashboard")
+                },
+                onError: () => {
+                  toast.error(
+                    "Failed to delete brain. Please try again."
+                  )
+                },
+              })
+            }
+            disabled={deleteMutation.isPending}
             className="
               cursor-pointer
               rounded-lg
               border
-              border-[#ef3340]
-              bg-[#ef3340]
+              border-black
+              bg-black
               font-['Space_Grotesk']
               text-xs
               font-semibold
               text-white
-              shadow-[0_4px_12px_rgba(239,51,64,0.14)]
+              shadow-sm
               transition-all
               duration-200
-              hover:bg-[#ef3340]/90
-              hover:shadow-[0_6px_16px_rgba(239,51,64,0.22)]
+              hover:bg-black/90
+              hover:shadow-md
+              dark:border-white
+              dark:bg-white
+              dark:text-black
+              dark:hover:bg-white/90
             "
           >
-            {deleteMutation.isPending ? "Deleting..." : "Delete"}
-
+            {deleteMutation.isPending
+              ? "Deleting..."
+              : "Delete"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
