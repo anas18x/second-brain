@@ -64,25 +64,35 @@
   color-scheme: dark;
 
   --background: #09090b;
-  --foreground: #fafafa;
+
+  /*
+    Exact value from the reference site:
+    oklch(97% 0 0)
+  */
+  --foreground: oklch(97% 0 0);
 
   --card: #09090b;
-  --card-foreground: #fafafa;
+  --card-foreground: oklch(97% 0 0);
 
   --popover: #09090b;
-  --popover-foreground: #fafafa;
+  --popover-foreground: oklch(97% 0 0);
 
-  --primary: #fafafa;
+  --primary: oklch(97% 0 0);
   --primary-foreground: #18181b;
 
   --secondary: #27272a;
-  --secondary-foreground: #fafafa;
+  --secondary-foreground: oklch(97% 0 0);
 
   --muted: #27272a;
-  --muted-foreground: #a1a1aa;
+
+  /*
+    Exact tertiary/subtext value from the screenshot:
+    oklch(55.6% 0 0)
+  */
+  --muted-foreground: oklch(55.6% 0 0);
 
   --accent: #27272a;
-  --accent-foreground: #fafafa;
+  --accent-foreground: oklch(97% 0 0);
 
   --destructive: #ef4444;
 
@@ -94,14 +104,11 @@
 
   /* Sidebar */
   --sidebar: #09090b;
-  --sidebar-foreground: #fafafa;
-
-  --sidebar-primary: #fafafa;
+  --sidebar-foreground: oklch(97% 0 0);
+  --sidebar-primary: oklch(97% 0 0);
   --sidebar-primary-foreground: #18181b;
-
   --sidebar-accent: #27272a;
-  --sidebar-accent-foreground: #fafafa;
-
+  --sidebar-accent-foreground: oklch(97% 0 0);
   --sidebar-border: #27272a;
   --sidebar-ring: #71717a;
 }
@@ -202,6 +209,7 @@
    ========================================================= */
 
 /* 3D eyebrow reflection */
+
 @keyframes eyebrow-shine {
   0%,
   20% {
@@ -226,6 +234,7 @@
 }
 
 /* Hero entrance */
+
 @keyframes hero-in {
   from {
     opacity: 0;

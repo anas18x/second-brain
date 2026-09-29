@@ -22,7 +22,7 @@ function SearchBar({
           z-10
           size-4
           -translate-y-1/2
-          text-foreground/60
+          text-foreground/65
         "
       />
 
@@ -38,29 +38,25 @@ function SearchBar({
           w-full
           rounded-xl
           border
-          border-foreground/15
-          bg-card
+          border-foreground/[0.16]
+          bg-foreground/[0.025]
           pl-10
           pr-10
           text-sm
           font-medium
           text-foreground
-          shadow-[0_2px_4px_rgba(0,0,0,0.04),0_8px_20px_rgba(0,0,0,0.06)]
+          shadow-[0_2px_5px_rgba(0,0,0,0.18),0_8px_22px_rgba(0,0,0,0.12)]
           transition-all
           duration-200
-          placeholder:text-muted-foreground/55
-          hover:border-foreground/20
-          hover:shadow-[0_3px_6px_rgba(0,0,0,0.05),0_10px_24px_rgba(0,0,0,0.08)]
-          focus-visible:border-foreground/25
+          placeholder:text-foreground/45
+          hover:border-foreground/[0.22]
+          hover:bg-foreground/[0.035]
+          hover:shadow-[0_3px_7px_rgba(0,0,0,0.22),0_10px_26px_rgba(0,0,0,0.15)]
+          focus-visible:border-foreground/[0.28]
+          focus-visible:bg-foreground/[0.04]
           focus-visible:ring-2
           focus-visible:ring-foreground/10
           focus-visible:ring-offset-0
-          dark:border-white/15
-          dark:bg-card
-          dark:shadow-[0_2px_5px_rgba(0,0,0,0.3),0_10px_28px_rgba(0,0,0,0.2)]
-          dark:hover:border-white/20
-          dark:hover:shadow-[0_3px_7px_rgba(0,0,0,0.35),0_12px_30px_rgba(0,0,0,0.24)]
-          dark:focus-visible:border-white/25
         "
       />
 
@@ -80,10 +76,10 @@ function SearchBar({
             items-center
             justify-center
             rounded-md
-            text-muted-foreground/60
+            text-foreground/55
             transition-all
             duration-200
-            hover:bg-muted
+            hover:bg-foreground/[0.08]
             hover:text-foreground
           "
         >

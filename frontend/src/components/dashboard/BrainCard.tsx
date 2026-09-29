@@ -35,33 +35,33 @@ function BrainCard({
   }
 
   function handleBookmarkClick(
-    event: React.MouseEvent<HTMLAnchorElement>
+    event: React.MouseEvent<HTMLAnchorElement>,
   ) {
     event.stopPropagation()
   }
 
   return (
-    <div className="group relative pb-1.5">
+    <div className="group relative pb-2">
       {/* Back layer */}
       <div
         className="
           absolute
           inset-x-2
-          bottom-[-3px]
+          bottom-[-6px]
           top-2
           rounded-xl
           border
-          border-foreground/10
+          border-foreground/[0.08]
           bg-card
-          shadow-[0_3px_8px_rgba(0,0,0,0.08)]
+          shadow-[0_4px_10px_rgba(0,0,0,0.10)]
           transition-all
           duration-300
           ease-out
           group-hover:translate-y-1
-          group-hover:shadow-[0_5px_12px_rgba(0,0,0,0.10)]
-          dark:border-white/10
-          dark:shadow-[0_4px_10px_rgba(0,0,0,0.35)]
-          dark:group-hover:shadow-[0_6px_14px_rgba(0,0,0,0.42)]
+          group-hover:shadow-[0_7px_16px_rgba(0,0,0,0.13)]
+          dark:border-white/[0.08]
+          dark:shadow-[0_5px_12px_rgba(0,0,0,0.38)]
+          dark:group-hover:shadow-[0_8px_18px_rgba(0,0,0,0.46)]
         "
       />
 
@@ -70,21 +70,21 @@ function BrainCard({
         className="
           absolute
           inset-x-1
-          bottom-[-1px]
+          bottom-[-3px]
           top-1
           rounded-xl
           border
-          border-foreground/10
+          border-foreground/[0.10]
           bg-card
-          shadow-[0_4px_12px_rgba(0,0,0,0.07)]
+          shadow-[0_3px_8px_rgba(0,0,0,0.08)]
           transition-all
           duration-300
           ease-out
           group-hover:translate-y-0.5
-          group-hover:shadow-[0_5px_14px_rgba(0,0,0,0.09)]
-          dark:border-white/10
-          dark:shadow-[0_4px_12px_rgba(0,0,0,0.3)]
-          dark:group-hover:shadow-[0_6px_16px_rgba(0,0,0,0.38)]
+          group-hover:shadow-[0_5px_12px_rgba(0,0,0,0.11)]
+          dark:border-white/[0.10]
+          dark:shadow-[0_4px_10px_rgba(0,0,0,0.32)]
+          dark:group-hover:shadow-[0_6px_14px_rgba(0,0,0,0.40)]
         "
       />
 
@@ -101,7 +101,7 @@ function BrainCard({
           overflow-hidden
           rounded-xl
           border
-          border-foreground/12
+          border-foreground/[0.12]
           bg-card
           shadow-[0_2px_5px_rgba(0,0,0,0.06),0_8px_20px_rgba(0,0,0,0.07)]
           outline-none
@@ -109,17 +109,34 @@ function BrainCard({
           duration-300
           ease-out
           hover:-translate-y-1
-          hover:border-foreground/15
-          hover:shadow-[0_4px_8px_rgba(0,0,0,0.07),0_14px_28px_rgba(0,0,0,0.10)]
+          hover:border-foreground/[0.16]
+          hover:shadow-[0_4px_8px_rgba(0,0,0,0.07),0_16px_30px_rgba(0,0,0,0.11)]
           focus-visible:ring-2
           focus-visible:ring-ring
           focus-visible:ring-offset-2
-          dark:border-white/12
+          dark:border-white/[0.12]
           dark:shadow-[0_3px_7px_rgba(0,0,0,0.28),0_10px_24px_rgba(0,0,0,0.22)]
-          dark:hover:border-white/15
-          dark:hover:shadow-[0_5px_10px_rgba(0,0,0,0.32),0_16px_32px_rgba(0,0,0,0.30)]
+          dark:hover:border-white/[0.16]
+          dark:hover:shadow-[0_5px_10px_rgba(0,0,0,0.34),0_18px_34px_rgba(0,0,0,0.32)]
         "
       >
+        {/* Subtle top highlight */}
+        <div
+          className="
+            pointer-events-none
+            absolute
+            inset-x-4
+            top-0
+            z-20
+            h-px
+            bg-gradient-to-r
+            from-transparent
+            via-foreground/[0.10]
+            to-transparent
+            opacity-70
+          "
+        />
+
         {/* Accent rail */}
         <div
           className="
@@ -155,14 +172,14 @@ function BrainCard({
                 gap-3
                 rounded-lg
                 border
-                border-foreground/10
+                border-foreground/[0.10]
                 bg-muted/50
                 px-3
                 py-2.5
                 shadow-[0_1px_3px_rgba(0,0,0,0.04)]
                 transition-all
                 duration-200
-                hover:border-foreground/15
+                hover:border-foreground/[0.15]
                 hover:bg-muted
                 hover:shadow-sm
               "
@@ -293,7 +310,7 @@ function BrainCard({
                   className="
                     rounded-full
                     border
-                    border-foreground/10
+                    border-foreground/[0.10]
                     bg-muted/55
                     px-2.5
                     py-1
@@ -303,7 +320,7 @@ function BrainCard({
                     shadow-[0_1px_2px_rgba(0,0,0,0.03)]
                     transition-all
                     duration-200
-                    group-hover:border-foreground/15
+                    group-hover:border-foreground/[0.15]
                     group-hover:bg-muted
                     group-hover:text-foreground
                     sm:text-[9px]

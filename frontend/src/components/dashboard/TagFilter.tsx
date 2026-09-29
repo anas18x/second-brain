@@ -32,6 +32,7 @@ function TagFilter({
           py-1.5
           text-xs
           font-semibold
+          tracking-[-0.01em]
           transition-all
           duration-200
           ${
@@ -40,17 +41,17 @@ function TagFilter({
                 border-foreground
                 bg-foreground
                 text-background
-                shadow-sm
+                shadow-[0_2px_6px_rgba(0,0,0,0.22)]
               `
               : `
-                border-foreground/10
-                bg-card
-                text-muted-foreground
-                shadow-[0_1px_3px_rgba(0,0,0,0.04)]
-                hover:border-foreground/20
-                hover:bg-muted
+                border-foreground/[0.16]
+                bg-foreground/[0.035]
+                text-foreground/75
+                shadow-[0_1px_3px_rgba(0,0,0,0.16)]
+                hover:border-foreground/[0.24]
+                hover:bg-foreground/[0.07]
                 hover:text-foreground
-                hover:shadow-sm
+                hover:shadow-[0_2px_6px_rgba(0,0,0,0.20)]
               `
           }
         `}
@@ -71,6 +72,7 @@ function TagFilter({
             py-1.5
             text-xs
             font-semibold
+            tracking-[-0.01em]
             transition-all
             duration-200
             ${
@@ -79,17 +81,17 @@ function TagFilter({
                   border-foreground
                   bg-foreground
                   text-background
-                  shadow-sm
+                  shadow-[0_2px_6px_rgba(0,0,0,0.22)]
                 `
                 : `
-                  border-foreground/10
-                  bg-card
-                  text-muted-foreground
-                  shadow-[0_1px_3px_rgba(0,0,0,0.04)]
-                  hover:border-foreground/20
-                  hover:bg-muted
+                  border-foreground/[0.16]
+                  bg-foreground/[0.035]
+                  text-foreground/75
+                  shadow-[0_1px_3px_rgba(0,0,0,0.16)]
+                  hover:border-foreground/[0.24]
+                  hover:bg-foreground/[0.07]
                   hover:text-foreground
-                  hover:shadow-sm
+                  hover:shadow-[0_2px_6px_rgba(0,0,0,0.20)]
                 `
             }
           `}

@@ -275,8 +275,8 @@ function BrainPreview() {
                   `}
                 >
                   {/* Card stack */}
-                  <div className="group relative">
-                    {/* Back layer */}
+                  <div className="group relative pb-1.5">
+                    {/* Deep back layer */}
                     <div
                       className="
                         absolute
@@ -285,13 +285,19 @@ function BrainPreview() {
                         top-2
                         rounded-xl
                         border
-                        border-border/50
+                        border-border/40
                         bg-background
-                        shadow-sm
-                        transition-transform
+                        shadow-[0_4px_10px_rgba(0,0,0,0.025)]
+                        transition-all
                         duration-500
                         ease-out
                         group-hover:translate-y-1
+                        group-hover:border-border/60
+                        group-hover:shadow-[0_8px_18px_rgba(0,0,0,0.06)]
+                        dark:border-white/[0.07]
+                        dark:shadow-[0_5px_12px_rgba(0,0,0,0.16)]
+                        dark:group-hover:border-white/[0.10]
+                        dark:group-hover:shadow-[0_9px_20px_rgba(0,0,0,0.24)]
                       "
                     />
 
@@ -304,13 +310,19 @@ function BrainPreview() {
                         top-1
                         rounded-xl
                         border
-                        border-border/60
+                        border-border/55
                         bg-background
-                        shadow-sm
-                        transition-transform
+                        shadow-[0_5px_14px_rgba(0,0,0,0.035)]
+                        transition-all
                         duration-500
                         ease-out
                         group-hover:translate-y-0.5
+                        group-hover:border-border/70
+                        group-hover:shadow-[0_7px_18px_rgba(0,0,0,0.07)]
+                        dark:border-white/[0.09]
+                        dark:shadow-[0_6px_15px_rgba(0,0,0,0.20)]
+                        dark:group-hover:border-white/[0.12]
+                        dark:group-hover:shadow-[0_8px_20px_rgba(0,0,0,0.28)]
                       "
                     />
 
@@ -339,12 +351,52 @@ function BrainPreview() {
                         sm:p-3
                         sm:pl-4
                         dark:bg-background
-                        dark:hover:shadow-[0_16px_36px_rgba(0,0,0,0.20)]
+                        dark:border-white/[0.10]
+                        dark:shadow-[0_8px_24px_rgba(0,0,0,0.22)]
+                        dark:hover:border-white/[0.14]
+                        dark:hover:shadow-[0_16px_36px_rgba(0,0,0,0.30)]
                       "
                     >
+                      {/* Subtle top surface highlight */}
+                      <div
+                        className="
+                          pointer-events-none
+                          absolute
+                          inset-x-3
+                          top-0
+                          z-20
+                          h-px
+                          bg-gradient-to-r
+                          from-transparent
+                          via-foreground/10
+                          to-transparent
+                          opacity-60
+                          transition-opacity
+                          duration-500
+                          group-hover/card:opacity-100
+                          dark:via-white/10
+                        "
+                      />
+
+                      {/* Soft card glow */}
+                      <div
+                        className="
+                          pointer-events-none
+                          absolute
+                          inset-0
+                          z-0
+                          bg-[radial-gradient(circle_at_top,rgba(0,0,0,0.025),transparent_55%)]
+                          opacity-0
+                          transition-opacity
+                          duration-500
+                          group-hover/card:opacity-100
+                          dark:bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.035),transparent_55%)]
+                        "
+                      />
+
                       {/* Accent */}
                       <div
-                        className={`
+                        className="
                           absolute
                           left-0
                           top-5
@@ -358,7 +410,7 @@ function BrainPreview() {
                           duration-500
                           group-hover/card:h-12
                           group-hover/card:opacity-70
-                        `}
+                        "
                       />
 
                       {/* Source */}
@@ -377,8 +429,9 @@ function BrainPreview() {
                             bg-muted/25
                             px-2
                             py-1.5
-                            transition-colors
+                            transition-all
                             duration-300
+                            group-hover/card:border-border/80
                             group-hover/card:bg-muted/40
                           "
                         >
@@ -398,7 +451,7 @@ function BrainPreview() {
                             </p>
                           </div>
 
-                          <span className="shrink-0 text-[10px] text-muted-foreground/50">
+                          <span className="shrink-0 text-[10px] text-muted-foreground/50 transition-transform duration-300 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5">
                             ↗
                           </span>
                         </div>

@@ -5,8 +5,10 @@ import {
   X,
   Loader2,
 } from "lucide-react"
+
 import { useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -97,7 +99,7 @@ function BrainDetailPage() {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
-        <Loader2 className="size-5 animate-spin text-muted-foreground" />
+        <Loader2 className="size-5 animate-spin text-foreground/65" />
       </div>
     )
   }
@@ -124,8 +126,9 @@ function BrainDetailPage() {
               py-1.5
               text-xs
               font-medium
-              text-muted-foreground
-              transition-colors
+              text-foreground/65
+              transition-all
+              duration-200
               hover:bg-muted
               hover:text-foreground
             "
@@ -142,10 +145,9 @@ function BrainDetailPage() {
     if (!brain.url) return ""
 
     try {
-      return new URL(brain.url).hostname.replace(
-        "www.",
-        ""
-      )
+      return new URL(brain.url)
+        .hostname
+        .replace("www.", "")
     } catch {
       return brain.url
     }
@@ -163,6 +165,7 @@ function BrainDetailPage() {
         "
       >
         <div className="mx-auto w-full max-w-4xl">
+
           {/* Top navigation */}
           <div className="flex items-center justify-between">
             <button
@@ -174,12 +177,13 @@ function BrainDetailPage() {
                 items-center
                 gap-2
                 rounded-md
-                px-1
-                py-1
+                px-1.5
+                py-1.5
                 text-xs
                 font-medium
-                text-muted-foreground
-                transition-colors
+                text-foreground/65
+                transition-all
+                duration-200
                 hover:bg-muted
                 hover:text-foreground
               "
@@ -189,7 +193,8 @@ function BrainDetailPage() {
             </button>
 
             {!isEditing && (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
+                {/* Edit */}
                 <button
                   type="button"
                   onClick={startEditing}
@@ -201,17 +206,50 @@ function BrainDetailPage() {
                     items-center
                     justify-center
                     rounded-md
-                    text-muted-foreground/60
-                    transition-colors
+                    border
+                    border-foreground/[0.12]
+                    bg-foreground/[0.025]
+                    text-foreground/65
+                    shadow-[0_1px_3px_rgba(0,0,0,0.18)]
+                    transition-all
                     duration-200
-                    hover:bg-muted
+                    hover:border-foreground/[0.20]
+                    hover:bg-foreground/[0.07]
                     hover:text-foreground
+                    hover:shadow-[0_2px_6px_rgba(0,0,0,0.22)]
                   "
                 >
                   <Pencil className="size-4" />
                 </button>
 
-                <DeleteBrainDialog id={brain._id} />
+                {/* Delete */}
+                <div
+                  className="
+                    flex
+                    size-8
+                    items-center
+                    justify-center
+                    rounded-md
+                    border
+                    border-foreground/[0.12]
+                    bg-foreground/[0.025]
+                    text-foreground/65
+                    shadow-[0_1px_3px_rgba(0,0,0,0.18)]
+                    transition-all
+                    duration-200
+                    hover:border-destructive/30
+                    hover:bg-destructive/[0.08]
+                    hover:text-destructive
+
+                    [&>button]:size-8
+                    [&>button]:rounded-md
+                    [&>button]:text-foreground/65
+                    [&>button]:transition-colors
+                    [&>button:hover]:text-destructive
+                  "
+                >
+                  <DeleteBrainDialog id={brain._id} />
+                </div>
               </div>
             )}
           </div>
@@ -220,6 +258,7 @@ function BrainDetailPage() {
           <div className="mt-12">
             {isEditing ? (
               <form onSubmit={handleSubmit(onSubmit)}>
+
                 {/* Editable title */}
                 <input
                   {...register("title")}
@@ -234,46 +273,76 @@ function BrainDetailPage() {
                     tracking-[-0.03em]
                     text-foreground
                     outline-none
-                    placeholder:text-muted-foreground/40
+                    placeholder:text-foreground/35
                     sm:text-4xl
                   "
                   placeholder="Give it a title"
                 />
 
                 {/* Editable tags */}
-                <div className="mt-5">
-                  <input
-                    {...register("tags", {
-                      setValueAs: (value) =>
-                        typeof value === "string"
-                          ? value
-                              .split(",")
-                              .map((tag: string) =>
-                                tag.trim()
-                              )
-                              .filter(Boolean)
-                          : value ?? [],
-                    })}
+                <div className="mt-6">
+                  <p
                     className="
-                      w-full
-                      border-none
-                      bg-transparent
-                      p-0
-                      text-xs
-                      font-medium
-                      text-muted-foreground
-                      outline-none
-                      placeholder:text-muted-foreground/40
+                      mb-2
+                      text-[10px]
+                      font-semibold
+                      uppercase
+                      tracking-[0.14em]
+                      text-foreground/60
                     "
-                    placeholder="ideas, productivity, habits"
-                  />
+                  >
+                    Tags
+                  </p>
+
+                  <div
+                    className="
+                      rounded-lg
+                      border
+                      border-foreground/[0.12]
+                      bg-foreground/[0.02]
+                      px-3
+                      py-2.5
+                      transition-all
+                      duration-200
+                      focus-within:border-foreground/[0.22]
+                      focus-within:bg-foreground/[0.035]
+                      focus-within:shadow-[0_0_0_3px_rgba(255,255,255,0.025)]
+                    "
+                  >
+                    <input
+                      {...register("tags", {
+                        setValueAs: (value) =>
+                          typeof value === "string"
+                            ? value
+                                .split(",")
+                                .map((tag: string) =>
+                                  tag.trim()
+                                )
+                                .filter(Boolean)
+                            : value ?? [],
+                      })}
+                      className="
+                        w-full
+                        border-none
+                        bg-transparent
+                        p-0
+                        text-xs
+                        font-medium
+                        leading-6
+                        text-foreground/80
+                        outline-none
+                        placeholder:text-foreground/35
+                      "
+                      placeholder="ideas, productivity, habits"
+                    />
+                  </div>
 
                   <p
                     className="
-                      mt-1.5
+                      mt-2
                       text-[10px]
                       font-medium
-                      text-muted-foreground/50
+                      text-foreground/45
                     "
                   >
                     Separate tags with commas.
@@ -289,7 +358,7 @@ function BrainDetailPage() {
                       font-semibold
                       uppercase
                       tracking-[0.14em]
-                      text-muted-foreground
+                      text-foreground/60
                     "
                   >
                     URL
@@ -310,7 +379,7 @@ function BrainDetailPage() {
                       text-foreground
                       outline-none
                       transition-colors
-                      placeholder:text-muted-foreground/40
+                      placeholder:text-foreground/35
                       focus:border-foreground/50
                     "
                     placeholder="https://example.com"
@@ -326,7 +395,7 @@ function BrainDetailPage() {
                       font-semibold
                       uppercase
                       tracking-[0.14em]
-                      text-muted-foreground
+                      text-foreground/60
                     "
                   >
                     Note
@@ -347,14 +416,14 @@ function BrainDetailPage() {
                       leading-8
                       text-foreground
                       outline-none
-                      placeholder:text-muted-foreground/40
+                      placeholder:text-foreground/35
                       sm:text-[15px]
                     "
                     placeholder="Add a note..."
                   />
                 </div>
 
-                {/* Actions directly below content */}
+                {/* Actions */}
                 <div
                   className="
                     mt-5
@@ -409,15 +478,17 @@ function BrainDetailPage() {
                       gap-1.5
                       rounded-lg
                       border
-                      border-border
-                      bg-muted/30
+                      border-foreground/[0.12]
+                      bg-foreground/[0.025]
                       px-3.5
                       py-2
                       text-xs
                       font-semibold
-                      text-muted-foreground
-                      transition-colors
-                      hover:bg-muted
+                      text-foreground/70
+                      transition-all
+                      duration-200
+                      hover:border-foreground/[0.20]
+                      hover:bg-foreground/[0.07]
                       hover:text-foreground
                     "
                   >
@@ -459,20 +530,21 @@ function BrainDetailPage() {
                         className="
                           rounded-full
                           border
-                          border-border
-                          bg-muted
+                          border-foreground/[0.14]
+                          bg-foreground/[0.045]
                           px-2.5
                           py-1
                           text-[10px]
                           font-medium
-                          text-muted-foreground
+                          text-foreground/75
+                          shadow-[0_1px_2px_rgba(0,0,0,0.15)]
                         "
                       >
                         #{tag}
                       </span>
                     ))}
 
-                    <span className="mx-1 text-sm text-muted-foreground/30">
+                    <span className="mx-1 text-sm text-foreground/25">
                       /
                     </span>
 
@@ -480,7 +552,7 @@ function BrainDetailPage() {
                       className="
                         text-[10px]
                         font-medium
-                        text-muted-foreground/60
+                        text-foreground/60
                       "
                     >
                       Saved{" "}
@@ -506,16 +578,16 @@ function BrainDetailPage() {
                       gap-3
                       rounded-xl
                       border
-                      border-border
-                      bg-muted/30
+                      border-foreground/[0.12]
+                      bg-foreground/[0.025]
                       px-4
                       py-3
-                      shadow-sm
+                      shadow-[0_2px_8px_rgba(0,0,0,0.18)]
                       transition-all
                       duration-200
-                      hover:border-foreground/15
-                      hover:bg-muted
-                      hover:shadow-md
+                      hover:border-foreground/[0.20]
+                      hover:bg-foreground/[0.045]
+                      hover:shadow-[0_4px_14px_rgba(0,0,0,0.24)]
                     "
                   >
                     <div
@@ -528,7 +600,7 @@ function BrainDetailPage() {
                         overflow-hidden
                         rounded-md
                         border
-                        border-border
+                        border-foreground/[0.12]
                         bg-background
                       "
                     >
@@ -550,7 +622,7 @@ function BrainDetailPage() {
                           truncate
                           text-[10px]
                           font-medium
-                          text-muted-foreground/60
+                          text-foreground/55
                         "
                       >
                         {brain.url}
@@ -561,8 +633,11 @@ function BrainDetailPage() {
                       className="
                         size-4
                         shrink-0
-                        text-muted-foreground/40
-                        transition-colors
+                        text-foreground/50
+                        transition-all
+                        duration-200
+                        group-hover:translate-x-0.5
+                        group-hover:-translate-y-0.5
                         group-hover:text-foreground
                       "
                     />
@@ -582,7 +657,7 @@ function BrainDetailPage() {
                         text-sm
                         font-medium
                         leading-8
-                        text-muted-foreground
+                        text-foreground/68
                         sm:text-[15px]
                       "
                     >
@@ -593,7 +668,7 @@ function BrainDetailPage() {
                       className="
                         text-sm
                         font-medium
-                        text-muted-foreground/60
+                        text-foreground/45
                       "
                     >
                       No note added.
@@ -615,12 +690,13 @@ function BrainDetailPage() {
                     items-center
                     gap-2
                     rounded-md
-                    px-1
-                    py-1
+                    px-1.5
+                    py-1.5
                     text-xs
                     font-medium
-                    text-muted-foreground
-                    transition-colors
+                    text-foreground/65
+                    transition-all
+                    duration-200
                     hover:bg-muted
                     hover:text-foreground
                   "

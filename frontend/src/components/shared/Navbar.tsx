@@ -24,6 +24,9 @@ function Navbar() {
               text-muted-foreground
               hover:bg-transparent
               hover:text-foreground
+              max-sm:h-8
+              max-sm:px-2.5
+              max-sm:text-xs
             "
           >
             Sign In
@@ -40,6 +43,9 @@ function Navbar() {
               text-sm
               font-medium
               shadow-none
+              max-sm:h-8
+              max-sm:px-3
+              max-sm:text-xs
             "
           >
             Get Started

@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react"
+
 import { Link } from "react-router-dom"
 
 function Hero() {
@@ -30,24 +31,24 @@ function Hero() {
             [perspective:800px]
           "
         >
-          {/* Floating shadow */}
+          {/* Soft shadow */}
           <div
             className="
               pointer-events-none
               absolute
-              -bottom-2
+              -bottom-1
               left-1/2
-              h-3
-              w-[85%]
+              h-2
+              w-3/4
               -translate-x-1/2
               rounded-full
-              bg-black/80
-              blur-md
-              opacity-80
+              bg-black/50
+              blur-lg
+              opacity-70
             "
           />
 
-          {/* 3D body */}
+          {/* Body */}
           <div
             className="
               relative
@@ -57,51 +58,57 @@ function Hero() {
               overflow-hidden
               rounded-full
               border
-              border-white/[0.14]
-              bg-[#111113]
-              px-4
-              py-2
-              text-xs
+              border-white/[0.12]
+              bg-white/[0.045]
+              px-3
+              py-1.5
+              text-[11px]
               font-medium
               leading-none
               tracking-[-0.01em]
-              text-white/90
-              shadow-[inset_0_1px_0_rgba(255,255,255,0.18),inset_0_-2px_0_rgba(0,0,0,0.8),0_1px_0_rgba(255,255,255,0.06),0_3px_0_#050505,0_5px_0_#030303,0_10px_20px_rgba(0,0,0,0.65)]
+              text-white/[0.88]
+              shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_16px_rgba(0,0,0,0.25)]
+              backdrop-blur-sm
               transition-all
               duration-300
-              [transform:rotateX(8deg)]
+              [transform:rotateX(5deg)]
               hover:-translate-y-0.5
-              hover:[transform:rotateX(4deg)_translateY(-2px)]
-              hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_-2px_0_rgba(0,0,0,0.8),0_2px_0_rgba(255,255,255,0.06),0_5px_0_#050505,0_9px_0_#030303,0_16px_28px_rgba(0,0,0,0.75)]
+              hover:[transform:rotateX(2deg)_translateY(-2px)]
+              hover:border-white/[0.18]
+              hover:bg-white/[0.06]
+              hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_6px_20px_rgba(0,0,0,0.35)]
+              sm:px-3.5
+              sm:py-2
+              sm:text-xs
             "
           >
-            {/* Top bevel */}
+            {/* Top highlight */}
             <span
               className="
                 pointer-events-none
                 absolute
-                inset-x-2
+                inset-x-3
                 top-0
                 h-px
                 rounded-full
                 bg-gradient-to-r
                 from-transparent
-                via-white/25
+                via-white/20
                 to-transparent
               "
             />
 
-            {/* Inner light */}
+            {/* Inner glow */}
             <span
               className="
                 pointer-events-none
                 absolute
                 inset-x-1
-                top-1
-                h-4
+                top-0
+                h-5
                 rounded-full
                 bg-gradient-to-b
-                from-white/[0.06]
+                from-white/[0.045]
                 to-transparent
               "
             />
@@ -128,9 +135,9 @@ function Hero() {
               <span
                 className="
                   absolute
-                  size-4
+                  size-3.5
                   rounded-full
-                  bg-white/[0.08]
+                  bg-white/[0.06]
                   blur-[2px]
                 "
               />
@@ -140,12 +147,13 @@ function Hero() {
                   relative
                   size-1.5
                   rounded-full
-                  bg-white
-                  shadow-[0_0_8px_rgba(255,255,255,0.8),0_1px_2px_rgba(0,0,0,0.8)]
+                  bg-white/90
+                  shadow-[0_0_7px_rgba(255,255,255,0.65)]
                 "
               />
             </span>
 
+            {/* Text */}
             <span className="relative z-10">
               Your personal space for everything worth keeping.
             </span>
@@ -208,25 +216,28 @@ function Hero() {
             inline-flex
             animate-[hero-in_700ms_ease-out_200ms_both]
             items-center
-            gap-2
+            gap-1.5
             rounded-md
             bg-primary
-            px-5
-            py-2.5
-            text-sm
+            px-3.5
+            py-1.5
+            text-[13px]
             font-medium
             text-primary-foreground
             shadow-sm
             transition-opacity
             hover:opacity-90
             sm:mt-9
+            sm:px-4
+            sm:py-2
+            sm:text-sm
           "
         >
           Start building your Second Brain
 
           <ArrowUpRight
             className="
-              size-4
+              size-3.5
               transition-transform
               duration-200
               group-hover:-translate-y-0.5
