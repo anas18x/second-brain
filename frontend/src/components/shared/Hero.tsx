@@ -1,236 +1,239 @@
 import { ArrowUpRight } from "lucide-react"
-
 import { Link } from "react-router-dom"
 
 function Hero() {
   return (
-    <section className="px-6">
-      <div className="mx-auto max-w-6xl pb-28 pt-16 sm:pt-20">
-        {/* Eyebrow */}
-        <div className="relative mb-10 inline-block group max-sm:mb-9">
-  <style>
-    {`
-      @keyframes eyebrow-orbit {
-        from {
-          transform: translate(-50%, -50%) rotate(0deg);
-        }
-        to {
-          transform: translate(-50%, -50%) rotate(360deg);
-        }
-      }
-    `}
-  </style>
-
-  <div
-    className="
-      relative
-      -translate-y-0.5
-      overflow-hidden
-      rounded-full
-      p-px
-      shadow-[0_4px_20px_rgba(224,68,48,0.10)]
-      transition-all
-      duration-300
-    "
-  >
-    {/* Moving gradient */}
-    <div
-      className="
-        pointer-events-none
-        absolute
-        left-1/2
-        top-1/2
-        z-0
-        h-[300%]
-        w-[300%]
-        bg-[conic-gradient(from_0deg,transparent_0deg,transparent_250deg,var(--landing-accent)_285deg,var(--landing-accent)_315deg,transparent_350deg)]
-      "
-      style={{
-        animation: "eyebrow-orbit 4s linear infinite",
-      }}
-    />
-
-    {/* Inner background */}
-    <div
-      className="
-        relative
-        z-10
-        rounded-full
-        bg-background/95
-        px-4
-        py-1.5
-        backdrop-blur-sm
-        max-sm:px-3
-        max-sm:py-1.5
-      "
-    >
-      <p
+    <section className="px-4 sm:px-6">
+      <div
         className="
+          mx-auto
           flex
+          max-w-6xl
+          flex-col
           items-center
-          gap-2.5
-          whitespace-nowrap
-          font-mono
-          text-xs
-          font-normal
-          tracking-wide
-          text-foreground
-          max-sm:gap-2
-          max-sm:text-[10px]
-          max-sm:tracking-[0.04em]
+          pb-20
+          pt-16
+          text-center
+          sm:pb-24
+          sm:pt-20
+          lg:pb-28
+          lg:pt-24
         "
       >
-        <span
+        {/* Eyebrow */}
+        <div
           className="
-            size-1.5
-            shrink-0
-            scale-125
-            rounded-full
-            bg-[var(--landing-accent)]
-            shadow-[0_0_8px_var(--landing-accent)]
+            eyebrow
+            group
+            relative
+            mb-7
+            [perspective:800px]
           "
-        />
-
-        Your personal space for everything worth keeping.
-      </p>
-    </div>
-  </div>
-</div>
-
-        {/* Hero content */}
-        <div>
-          {/* Heading */}
-          <div className="min-w-0">
-            <h1
-              className="
-                whitespace-nowrap
-                font-sans
-                text-[3.25rem]
-                font-extrabold
-                leading-[0.98]
-                tracking-[-0.045em]
-                text-foreground
-                sm:text-[4.5rem]
-                sm:leading-[1]
-                lg:text-[clamp(4rem,6vw,5.5rem)]
-
-                max-sm:whitespace-normal
-                max-sm:text-[3rem]
-                max-sm:leading-[0.96]
-                max-sm:tracking-[-0.05em]
-              "
-            >
-              Keep what matters.
-              <br />
-
-              <span
-                className="
-                  font-serif
-                  text-[3.1rem]
-                  font-normal
-                  italic
-                  leading-[1]
-                  text-[var(--landing-accent)]
-                  sm:text-[4.5rem]
-                  lg:text-[clamp(4rem,6vw,5.5rem)]
-
-                  max-sm:text-[2.9rem]
-                "
-              >
-                Find it
-              </span>{" "}
-
-              <span className="font-sans not-italic text-foreground">
-                when you need it
-              </span>
-
-              <span
-                className="
-                  font-sans
-                  not-italic
-                  text-[var(--landing-accent)]
-                  opacity-90
-                "
-              >
-                .
-              </span>
-            </h1>
-          </div>
-
-          {/* Description + CTA */}
+        >
+          {/* Floating shadow */}
           <div
             className="
-              mt-10
-              flex
-              flex-col
-              items-start
-              gap-6
-              sm:mt-12
-              lg:ml-[52%]
-              lg:max-w-md
+              pointer-events-none
+              absolute
+              -bottom-2
+              left-1/2
+              h-3
+              w-[85%]
+              -translate-x-1/2
+              rounded-full
+              bg-black/80
+              blur-md
+              opacity-80
+            "
+          />
 
-              max-sm:mt-10
-              max-sm:gap-6
+          {/* 3D body */}
+          <div
+            className="
+              relative
+              flex
+              items-center
+              gap-2.5
+              overflow-hidden
+              rounded-full
+              border
+              border-white/[0.14]
+              bg-[#111113]
+              px-4
+              py-2
+              text-xs
+              font-medium
+              leading-none
+              tracking-[-0.01em]
+              text-white/90
+              shadow-[inset_0_1px_0_rgba(255,255,255,0.18),inset_0_-2px_0_rgba(0,0,0,0.8),0_1px_0_rgba(255,255,255,0.06),0_3px_0_#050505,0_5px_0_#030303,0_10px_20px_rgba(0,0,0,0.65)]
+              transition-all
+              duration-300
+              [transform:rotateX(8deg)]
+              hover:-translate-y-0.5
+              hover:[transform:rotateX(4deg)_translateY(-2px)]
+              hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_-2px_0_rgba(0,0,0,0.8),0_2px_0_rgba(255,255,255,0.06),0_5px_0_#050505,0_9px_0_#030303,0_16px_28px_rgba(0,0,0,0.75)]
             "
           >
-            {/* Main statement + supporting description */}
-            <div>
-              <p
-                className="
-                  text-[15px]
-                  font-semibold
-                  leading-6
-                  text-foreground
-                  sm:text-[16px]
-                "
-              >
-                Save everything you read, watch, or want to remember.
-              </p>
-
-              <p
-                className="
-                  mt-2
-                  text-[13px]
-                  font-medium
-                  leading-6
-                  text-muted-foreground
-                  sm:text-[14px]
-                "
-              >
-                Keep your bookmarks, notes, ideas, and saved links organized
-                in one place.
-              </p>
-            </div>
-
-            {/* CTA */}
-            <Link
-              to="/register"
+            {/* Top bevel */}
+            <span
               className="
-                group
-                inline-flex
-                items-center
-                gap-2
-                text-sm
-                font-semibold
-                text-foreground
-                transition-colors
-                hover:text-[var(--landing-accent)]
+                pointer-events-none
+                absolute
+                inset-x-2
+                top-0
+                h-px
+                rounded-full
+                bg-gradient-to-r
+                from-transparent
+                via-white/25
+                to-transparent
               "
-            >
-              Start building your Second Brain
+            />
 
-              <ArrowUpRight
+            {/* Inner light */}
+            <span
+              className="
+                pointer-events-none
+                absolute
+                inset-x-1
+                top-1
+                h-4
+                rounded-full
+                bg-gradient-to-b
+                from-white/[0.06]
+                to-transparent
+              "
+            />
+
+            {/* Moving reflection */}
+            <span
+              className="
+                pointer-events-none
+                absolute
+                inset-y-0
+                -left-1/2
+                w-1/3
+                skew-x-[-20deg]
+                bg-gradient-to-r
+                from-transparent
+                via-white/[0.12]
+                to-transparent
+                animate-[eyebrow-shine_4s_ease-in-out_infinite]
+              "
+            />
+
+            {/* Indicator */}
+            <span className="relative z-10 flex size-2 shrink-0 items-center justify-center">
+              <span
                 className="
+                  absolute
                   size-4
-                  transition-transform
-                  duration-200
-                  group-hover:-translate-y-0.5
-                  group-hover:translate-x-0.5
+                  rounded-full
+                  bg-white/[0.08]
+                  blur-[2px]
                 "
               />
-            </Link>
+
+              <span
+                className="
+                  relative
+                  size-1.5
+                  rounded-full
+                  bg-white
+                  shadow-[0_0_8px_rgba(255,255,255,0.8),0_1px_2px_rgba(0,0,0,0.8)]
+                "
+              />
+            </span>
+
+            <span className="relative z-10">
+              Your personal space for everything worth keeping.
+            </span>
           </div>
         </div>
+
+        {/* Heading */}
+        <h1
+          className="
+            max-w-5xl
+            animate-[hero-in_700ms_ease-out_both]
+            text-balance
+            text-[3.25rem]
+            font-semibold
+            leading-[0.98]
+            tracking-[-0.055em]
+            text-foreground
+            sm:text-6xl
+            md:text-7xl
+            lg:text-[5.25rem]
+            lg:leading-[0.94]
+          "
+        >
+          <span className="lg:whitespace-nowrap">
+            Save, Organize, and Rediscover
+          </span>
+
+          <br />
+
+          <span className="text-muted-foreground">
+            all in one place.
+          </span>
+        </h1>
+
+        {/* Description */}
+        <div
+          className="
+            mt-7
+            max-w-2xl
+            animate-[hero-in_700ms_ease-out_100ms_both]
+            sm:mt-8
+          "
+        >
+          <p className="text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+            Save everything you read, watch, or want to remember.
+          </p>
+
+          <p className="mt-1.5 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+            Bring your bookmarks, notes, ideas, and links from scattered
+            places into one organized space.
+          </p>
+        </div>
+
+        {/* CTA */}
+        <Link
+          to="/register"
+          className="
+            group
+            mt-8
+            inline-flex
+            animate-[hero-in_700ms_ease-out_200ms_both]
+            items-center
+            gap-2
+            rounded-md
+            bg-primary
+            px-5
+            py-2.5
+            text-sm
+            font-medium
+            text-primary-foreground
+            shadow-sm
+            transition-opacity
+            hover:opacity-90
+            sm:mt-9
+          "
+        >
+          Start building your Second Brain
+
+          <ArrowUpRight
+            className="
+              size-4
+              transition-transform
+              duration-200
+              group-hover:-translate-y-0.5
+              group-hover:translate-x-0.5
+            "
+          />
+        </Link>
       </div>
     </section>
   )

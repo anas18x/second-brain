@@ -14,13 +14,11 @@ function BrainSkeleton() {
               overflow-hidden
               rounded-2xl
               border
-              border-border/70
-              bg-background/35
+              border-border
+              bg-card
               p-2.5
               pl-3.5
-              shadow-[0_8px_24px_rgba(0,0,0,0.035)]
-              backdrop-blur-sm
-              dark:bg-white/[0.025]
+              shadow-sm
               sm:p-3
               sm:pl-4
             "
@@ -34,7 +32,7 @@ function BrainSkeleton() {
                 h-8
                 w-[2px]
                 rounded-r-full
-                bg-[#e04430]/50
+                bg-primary/40
               "
             />
 
@@ -47,8 +45,8 @@ function BrainSkeleton() {
                 gap-2
                 rounded-xl
                 border
-                border-border/60
-                bg-muted/25
+                border-border
+                bg-muted/40
                 px-2
                 py-1.5
               "

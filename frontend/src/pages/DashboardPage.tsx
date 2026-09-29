@@ -11,9 +11,9 @@ import { useDebounce } from "@/hooks/brain/useDebounce"
 
 function DashboardPage() {
   const [search, setSearch] = useState("")
-  const debouncedSearch = useDebounce(search, 500)
-
   const [tag, setTag] = useState("")
+
+  const debouncedSearch = useDebounce(search, 500)
 
   const {
     data,
@@ -27,8 +27,8 @@ function DashboardPage() {
   })
 
   const brains = data?.data ?? []
-  const isEmpty = brains.length === 0
 
+  const isEmpty = brains.length === 0
   const hasSearch = search.trim().length > 0
   const hasTag = tag.trim().length > 0
   const hasFilters = hasSearch || hasTag
@@ -42,10 +42,10 @@ function DashboardPage() {
           max-w-7xl
           min-w-0
           px-4
-          pb-10
+          pb-12
           pt-16
           sm:px-6
-          sm:pb-12
+          sm:pb-16
           sm:pt-8
           md:px-8
           lg:px-10
@@ -56,15 +56,19 @@ function DashboardPage() {
           className="
             flex
             flex-col
-            gap-6
+            gap-7
+            border-b
+            border-border/60
+            pb-7
             lg:flex-row
             lg:items-end
             lg:justify-between
           "
         >
           <div className="min-w-0">
+            {/* Section label */}
             <div className="flex items-center gap-2">
-              <span className="size-1.5 rounded-full bg-[#e04430]" />
+              <span className="size-1.5 rounded-full bg-foreground/60" />
 
               <span
                 className="
@@ -72,26 +76,28 @@ function DashboardPage() {
                   font-medium
                   uppercase
                   tracking-[0.16em]
-                  text-muted-foreground/70
+                  text-muted-foreground
                 "
               >
-                Your workspace
+                Your collection
               </span>
             </div>
 
+            {/* Heading */}
             <h1
               className="
                 mt-3
                 text-2xl
                 font-semibold
-                tracking-tight
+                tracking-[-0.03em]
                 text-foreground
                 sm:text-3xl
               "
             >
-              Build your second brain.
+              Everything worth remembering.
             </h1>
 
+            {/* Description */}
             <p
               className="
                 mt-2
@@ -101,7 +107,8 @@ function DashboardPage() {
                 text-muted-foreground
               "
             >
-              Capture the things you want to remember.
+              Keep your notes, links, ideas, and discoveries organized
+              in one place.
             </p>
           </div>
 
@@ -110,38 +117,65 @@ function DashboardPage() {
           </div>
         </header>
 
-        {/* Search + filters */}
-        <div className="mt-9">
+        {/* Search & Filters */}
+        <section className="mt-7">
           <SearchBar
             value={search}
             setSearch={setSearch}
           />
 
-          <div className="mt-3 min-w-0">
+          <div className="mt-2 min-w-0">
             <TagFilter
               value={tag}
               setTag={setTag}
             />
           </div>
-        </div>
+        </section>
 
         {/* Content */}
         <section className="mt-8">
           {isLoading ? (
             <BrainSkeleton />
           ) : isError ? (
-            <div className="py-20 text-center">
-              <p className="text-sm font-medium text-foreground">
-                Failed to load your brains.
-              </p>
+            <div
+              className="
+                flex
+                min-h-64
+                items-center
+                justify-center
+                rounded-xl
+                border
+                border-dashed
+                border-border
+              "
+            >
+              <div className="text-center">
+                <p className="text-sm font-medium text-foreground">
+                  Couldn't load your collection.
+                </p>
 
-              <p className="mt-1 text-xs text-muted-foreground">
-                Please try again in a moment.
-              </p>
+                <p className="mt-1.5 text-xs text-muted-foreground">
+                  Something went wrong while fetching your saved items.
+                </p>
+              </div>
             </div>
           ) : isEmpty ? (
-            <div className="py-20 text-center">
-              <div className="mx-auto max-w-sm">
+            <div
+              className="
+                flex
+                min-h-72
+                items-center
+                justify-center
+                rounded-xl
+                border
+                border-dashed
+                border-border
+                bg-card/20
+                px-6
+              "
+            >
+              <div className="max-w-sm text-center">
+                {/* Empty state icon */}
                 <div
                   className="
                     mx-auto
@@ -151,25 +185,25 @@ function DashboardPage() {
                     justify-center
                     rounded-full
                     border
-                    border-[#e04430]/20
-                    bg-[#e04430]/5
+                    border-border
+                    bg-muted/40
                   "
                 >
-                  <span className="size-1.5 rounded-full bg-[#e04430]" />
+                  <span className="size-1.5 rounded-full bg-muted-foreground/60" />
                 </div>
 
                 <h2
                   className="
                     mt-4
-                    text-lg
+                    text-base
                     font-semibold
                     tracking-tight
                     text-foreground
                   "
                 >
                   {hasFilters
-                    ? "No brains found"
-                    : "Nothing here yet"}
+                    ? "Nothing matches your search"
+                    : "Your collection is empty"}
                 </h2>
 
                 <p
@@ -181,11 +215,17 @@ function DashboardPage() {
                   "
                 >
                   {hasSearch
-                    ? "Nothing matches your current search."
+                    ? "Try a different keyword or clear your search."
                     : hasTag
-                      ? "Nothing matches the selected tag."
-                      : "Your second brain is empty. Start saving something useful."}
+                      ? "Try another tag or clear the filter."
+                      : "Save a link, note, idea, or anything you want to find again later."}
                 </p>
+
+                {!hasFilters && (
+                  <div className="mt-5">
+                    <AddBrainDialog />
+                  </div>
+                )}
               </div>
             </div>
           ) : (

@@ -93,13 +93,11 @@ function AddBrainDialog() {
           font-medium
           text-primary-foreground
           shadow-sm
-          transition-all
-          duration-200
+          transition-colors
           hover:bg-primary/90
-          active:scale-[0.98]
           focus-visible:outline-none
           focus-visible:ring-2
-          focus-visible:ring-[#e04430]/25
+          focus-visible:ring-[var(--landing-accent)]/25
           focus-visible:ring-offset-2
         "
       >
@@ -119,10 +117,8 @@ function AddBrainDialog() {
           p-0
           shadow-[0_24px_80px_rgba(0,0,0,0.18)]
           dark:shadow-[0_24px_80px_rgba(0,0,0,0.45)]
-
           max-h-[calc(100dvh-1.5rem)]
           overflow-y-auto
-
           sm:w-[calc(100%-2rem)]
           sm:max-w-[600px]
           sm:max-h-none
@@ -135,7 +131,6 @@ function AddBrainDialog() {
             border-border/60
             px-5
             py-4
-
             sm:px-6
             sm:py-5
           "
@@ -151,7 +146,14 @@ function AddBrainDialog() {
               text-foreground
             "
           >
-            <span className="size-1.5 rounded-full bg-[#e04430]" />
+            <span
+              className="
+                size-1.5
+                rounded-full
+                bg-[var(--landing-accent)]
+              "
+            />
+
             Add to Brain
           </DialogTitle>
 
@@ -169,7 +171,6 @@ function AddBrainDialog() {
               space-y-4
               px-5
               py-4
-
               sm:space-y-5
               sm:px-6
               sm:py-5
@@ -199,10 +200,9 @@ function AddBrainDialog() {
                   shadow-none
                   transition-colors
                   placeholder:text-muted-foreground/50
-                  focus-visible:border-[#e04430]/45
+                  focus-visible:border-[var(--landing-accent)]/45
                   focus-visible:ring-2
-                  focus-visible:ring-[#e04430]/12
-
+                  focus-visible:ring-[var(--landing-accent)]/12
                   sm:h-10
                 "
               />
@@ -249,10 +249,9 @@ function AddBrainDialog() {
                   shadow-none
                   transition-colors
                   placeholder:text-muted-foreground/50
-                  focus-visible:border-[#e04430]/45
+                  focus-visible:border-[var(--landing-accent)]/45
                   focus-visible:ring-2
-                  focus-visible:ring-[#e04430]/12
-
+                  focus-visible:ring-[var(--landing-accent)]/12
                   sm:h-10
                 "
               />
@@ -297,13 +296,13 @@ function AddBrainDialog() {
                   py-2
                   text-sm
                   leading-5
+                  text-foreground
                   outline-none
                   transition-colors
                   placeholder:text-muted-foreground/50
-                  focus:border-[#e04430]/45
+                  focus:border-[var(--landing-accent)]/45
                   focus:ring-2
-                  focus:ring-[#e04430]/12
-
+                  focus:ring-[var(--landing-accent)]/12
                   sm:min-h-[88px]
                   sm:py-2.5
                 "
@@ -356,10 +355,9 @@ function AddBrainDialog() {
                   shadow-none
                   transition-colors
                   placeholder:text-muted-foreground/50
-                  focus-visible:border-[#e04430]/45
+                  focus-visible:border-[var(--landing-accent)]/45
                   focus-visible:ring-2
-                  focus-visible:ring-[#e04430]/12
-
+                  focus-visible:ring-[var(--landing-accent)]/12
                   sm:h-10
                 "
               />
@@ -377,7 +375,16 @@ function AddBrainDialog() {
 
             {/* Server error */}
             {serverError && (
-              <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-2">
+              <div
+                className="
+                  rounded-lg
+                  border
+                  border-destructive/20
+                  bg-destructive/5
+                  px-3
+                  py-2
+                "
+              >
                 <p className="text-[11px] leading-4 text-destructive">
                   {serverError}
                 </p>
@@ -396,7 +403,6 @@ function AddBrainDialog() {
               bg-muted/20
               px-5
               py-3
-
               sm:px-6
               sm:py-3.5
             "
@@ -416,29 +422,23 @@ function AddBrainDialog() {
                   items-center
                   gap-1.5
                   rounded-md
-                  border
-                  border-[#e04430]/25
-                  bg-[#e04430]/10
+                  bg-primary
                   px-3
                   text-xs
                   font-medium
-                  text-foreground
-                  shadow-[0_0_12px_rgba(224,68,48,0.06)]
-                  transition-all
-                  duration-200
-                  hover:border-[#e04430]/35
-                  hover:bg-[#e04430]/15
-                  hover:shadow-[0_0_16px_rgba(224,68,48,0.10)]
+                  text-primary-foreground
+                  shadow-sm
+                  transition-colors
+                  hover:bg-primary/90
                   active:scale-[0.98]
                   disabled:cursor-not-allowed
                   disabled:opacity-50
-
                   sm:h-9
                   sm:px-3.5
                   sm:text-sm
                 "
               >
-                <Plus className="size-3.5 text-[#e04430]" />
+                <Plus className="size-3.5" />
 
                 {isSubmitting
                   ? "Saving..."

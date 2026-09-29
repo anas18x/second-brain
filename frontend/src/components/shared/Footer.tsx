@@ -2,16 +2,10 @@ function Footer() {
   return (
     <footer className="border-t border-border/60 bg-transparent">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
-        {/* Brand / Tagline */}
-        <div>
-          <p className="text-sm font-medium text-muted-foreground">
-            A better way to remember.
-          </p>
-
-          <p className="mt-1 text-sm font-semibold text-foreground">
-            Second Brain
-          </p>
-        </div>
+        {/* Tagline */}
+        <p className="text-sm font-medium text-muted-foreground">
+          A better way to remember.
+        </p>
 
         {/* Links */}
         <div className="flex items-center gap-5 text-sm font-medium text-muted-foreground">

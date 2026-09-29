@@ -13,9 +13,7 @@ import {
 } from "@/components/ui/alert-dialog"
 
 import { useDeleteBrain } from "@/hooks/brain/useDeleteBrain"
-
 import { useNavigate } from "react-router-dom"
-
 import { toast } from "sonner"
 
 function DeleteBrainDialog({ id }: { id: string }) {
@@ -51,7 +49,6 @@ function DeleteBrainDialog({ id }: { id: string }) {
         className="
           w-[calc(100%-3rem)]
           rounded-2xl
-          border
           border-border/60
           bg-background
           text-foreground
@@ -71,9 +68,9 @@ function DeleteBrainDialog({ id }: { id: string }) {
               justify-center
               rounded-xl
               border
-              border-[#e04430]/20
-              bg-[#e04430]/8
-              text-[#e04430]
+              border-destructive/20
+              bg-destructive/10
+              text-destructive
             "
           >
             <Trash2
@@ -84,9 +81,8 @@ function DeleteBrainDialog({ id }: { id: string }) {
 
           <AlertDialogTitle
             className="
-              font-sans
               text-lg
-              font-medium
+              font-semibold
               tracking-tight
               text-foreground
             "
@@ -96,7 +92,6 @@ function DeleteBrainDialog({ id }: { id: string }) {
 
           <AlertDialogDescription
             className="
-              font-['Geist_Mono']
               text-xs
               leading-5
               text-muted-foreground
@@ -114,9 +109,8 @@ function DeleteBrainDialog({ id }: { id: string }) {
               rounded-lg
               border-border
               bg-muted/30
-              font-['Space_Grotesk']
               text-xs
-              font-semibold
+              font-medium
               text-muted-foreground
               hover:bg-muted
               hover:text-foreground
@@ -145,15 +139,13 @@ function DeleteBrainDialog({ id }: { id: string }) {
               border
               border-black
               bg-black
-              font-['Space_Grotesk']
               text-xs
-              font-semibold
+              font-medium
               text-white
               shadow-sm
-              transition-all
+              transition-colors
               duration-200
               hover:bg-black/90
-              hover:shadow-md
               dark:border-white
               dark:bg-white
               dark:text-black

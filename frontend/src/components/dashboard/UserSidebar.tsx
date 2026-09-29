@@ -1,14 +1,12 @@
 import {
-  Settings2,
   LayoutDashboard,
-  Share2,
   LogOut,
+  Settings2,
+  Share2,
   UserRound,
-  Pencil,
 } from "lucide-react"
 
-import { Moon, Sun } from "lucide"
-import { MorphIcon } from "morphicons/react"
+import { useLocation, useNavigate } from "react-router-dom"
 
 import Brand from "@/components/shared/Brand"
 
@@ -27,62 +25,32 @@ import {
 } from "@/components/ui/sidebar"
 
 import { logout } from "@/services/auth/auth.api"
-
-import {
-  useLocation,
-  useNavigate,
-} from "react-router-dom"
-
 import { useAuthStore } from "@/store/auth.store"
 import { toast } from "sonner"
-import { useTheme } from "next-themes"
 
 function UserSidebar() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const {
-    isMobile,
-    setOpenMobile,
-  } = useSidebar()
+  const { isMobile, setOpenMobile } = useSidebar()
 
-  const user = useAuthStore(
-    (state) => state.user
-  )
+  const user = useAuthStore((state) => state.user)
+  const clearUser = useAuthStore((state) => state.clearUser)
 
-  const clearUser = useAuthStore(
-    (state) => state.clearUser
-  )
-
-  const {
-    resolvedTheme,
-    setTheme,
-  } = useTheme()
-
-  const username =
-    user?.username?.trim() || ""
-
-  const hasUsername =
-    Boolean(username)
-
-  const isDark =
-    resolvedTheme === "dark"
+  const username = user?.username?.trim() || ""
+  const hasUsername = Boolean(username)
 
   const isOverview =
     location.pathname === "/dashboard" ||
     location.pathname === "/dashboard/"
 
   const isShareBrain =
-    location.pathname ===
-    "/dashboard/share"
+    location.pathname === "/dashboard/share"
 
   const isAccount =
-    location.pathname ===
-    "/dashboard/account"
+    location.pathname === "/dashboard/account"
 
-  function navigateFromSidebar(
-    path: string
-  ) {
+  function navigateFromSidebar(path: string) {
     navigate(path)
 
     if (isMobile) {
@@ -93,6 +61,7 @@ function UserSidebar() {
   async function handleLogout() {
     try {
       await logout()
+
       clearUser()
       navigate("/login")
     } catch {
@@ -102,20 +71,19 @@ function UserSidebar() {
     }
   }
 
-  function handleAppearance() {
-    setTheme(
-      isDark ? "light" : "dark"
-    )
-  }
-
   return (
     <Sidebar
       className="
-        shadow-[2px_0_12px_rgba(0,0,0,0.05)]
+        border-sidebar-border
+        bg-sidebar
+        shadow-[2px_0_16px_rgba(0,0,0,0.18)]
       "
     >
-      {/* Header */}
-      <SidebarHeader className="px-3 py-4">
+      {/* =================================================
+          HEADER
+          ================================================= */}
+
+      <SidebarHeader className="px-3 pb-6 pt-4">
         <div
           className="
             flex
@@ -137,10 +105,16 @@ function UserSidebar() {
         </div>
       </SidebarHeader>
 
-      {/* Content */}
+      {/* =================================================
+          CONTENT
+          ================================================= */}
+
       <SidebarContent className="px-2">
-        {/* User */}
-        <SidebarGroup className="px-1 pb-4">
+        {/* =================================================
+            PROFILE
+            ================================================= */}
+
+        <SidebarGroup className="px-1 pb-6">
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -152,50 +126,43 @@ function UserSidebar() {
                   }
                   tooltip="Account"
                   className="
-                    h-11
-                    rounded-lg
+                    h-auto
+                    min-h-14
+                    rounded-xl
                     px-2
-                    text-sm
+                    py-2
                     text-muted-foreground
                     transition-colors
-                    hover:bg-transparent
-                    hover:text-[#e04430]
+                    hover:bg-sidebar-accent
+                    hover:text-sidebar-accent-foreground
                   "
                 >
+                  {/* Avatar */}
+
                   <div
-                    className={`
+                    className="
                       flex
-                      size-8
+                      size-9
                       shrink-0
                       items-center
                       justify-center
                       rounded-full
                       border
-                      bg-sidebar
+                      border-sidebar-border
+                      bg-sidebar-accent
                       text-xs
                       font-semibold
-                      shadow-sm
-                      transition-colors
-                      ${
-                        hasUsername
-                          ? "border-sidebar-border"
-                          : "border-dashed border-sidebar-foreground/25"
-                      }
-                    `}
+                      text-sidebar-accent-foreground
+                    "
                   >
                     {hasUsername ? (
-                      username
-                        .charAt(0)
-                        .toUpperCase()
+                      username.charAt(0).toUpperCase()
                     ) : (
-                      <UserRound
-                        className="
-                          size-4
-                          text-muted-foreground
-                        "
-                      />
+                      <UserRound className="size-4" />
                     )}
                   </div>
+
+                  {/* User info */}
 
                   <div
                     className="
@@ -205,30 +172,38 @@ function UserSidebar() {
                     "
                   >
                     {hasUsername ? (
-                      <>
-                        <p className="truncate text-sm font-medium text-foreground">
-                          @{username}
-                        </p>
-
-                        <p className="truncate text-xs text-muted-foreground">
-                          Account
-                        </p>
-                      </>
+                      <p
+                        className="
+                          truncate
+                          text-sm
+                          font-medium
+                          text-foreground
+                        "
+                      >
+                        @{username}
+                      </p>
                     ) : (
-                      <>
-                        <div className="flex items-center gap-1.5">
-                          <p className="truncate text-sm font-medium text-foreground">
-                            Set username
-                          </p>
-
-                          <Pencil className="size-3 text-muted-foreground" />
-                        </div>
-
-                        <p className="truncate text-xs text-muted-foreground">
-                          Personalize your profile
-                        </p>
-                      </>
+                      <p
+                        className="
+                          truncate
+                          text-sm
+                          font-medium
+                          text-foreground
+                        "
+                      >
+                        Set username
+                      </p>
                     )}
+
+                    <p
+                      className="
+                        mt-0.5
+                        text-[11px]
+                        text-muted-foreground
+                      "
+                    >
+                      Account
+                    </p>
                   </div>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -236,15 +211,28 @@ function UserSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Workspace */}
+        {/* =================================================
+            WORKSPACE
+            ================================================= */}
+
         <SidebarGroup className="px-1">
-          <SidebarGroupLabel>
+          <SidebarGroupLabel
+            className="
+              px-2
+              text-[10px]
+              font-semibold
+              uppercase
+              tracking-[0.12em]
+              text-muted-foreground/60
+            "
+          >
             Workspace
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
             <SidebarMenu className="gap-1">
               {/* Overview */}
+
               <SidebarMenuItem>
                 <SidebarMenuButton
                   isActive={isOverview}
@@ -255,26 +243,26 @@ function UserSidebar() {
                   }
                   tooltip="Overview"
                   className="
-                    rounded-md
+                    rounded-lg
                     px-2
                     text-sm
                     text-muted-foreground
                     transition-colors
-                    hover:bg-transparent
-                    hover:text-[#e04430]
-                    data-[active=true]:bg-transparent
-                    data-[active=true]:text-[#e04430]
+                    hover:bg-sidebar-accent
+                    hover:text-sidebar-accent-foreground
+                    data-[active=true]:bg-sidebar-accent
+                    data-[active=true]:font-medium
+                    data-[active=true]:text-sidebar-accent-foreground
                   "
                 >
                   <LayoutDashboard className="size-4" />
 
-                  <span>
-                    Overview
-                  </span>
+                  <span>Overview</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
               {/* Share Brain */}
+
               <SidebarMenuItem>
                 <SidebarMenuButton
                   isActive={isShareBrain}
@@ -285,37 +273,49 @@ function UserSidebar() {
                   }
                   tooltip="Share Brain"
                   className="
-                    rounded-md
+                    rounded-lg
                     px-2
                     text-sm
                     text-muted-foreground
                     transition-colors
-                    hover:bg-transparent
-                    hover:text-[#e04430]
-                    data-[active=true]:bg-transparent
-                    data-[active=true]:text-[#e04430]
+                    hover:bg-sidebar-accent
+                    hover:text-sidebar-accent-foreground
+                    data-[active=true]:bg-sidebar-accent
+                    data-[active=true]:font-medium
+                    data-[active=true]:text-sidebar-accent-foreground
                   "
                 >
                   <Share2 className="size-4" />
 
-                  <span>
-                    Share Brain
-                  </span>
+                  <span>Share Brain</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Account */}
-        <SidebarGroup className="px-1 pt-6">
-          <SidebarGroupLabel>
+        {/* =================================================
+            ACCOUNT
+            ================================================= */}
+
+        <SidebarGroup className="px-1 pt-7">
+          <SidebarGroupLabel
+            className="
+              px-2
+              text-[10px]
+              font-semibold
+              uppercase
+              tracking-[0.12em]
+              text-muted-foreground/60
+            "
+          >
             Account
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
             <SidebarMenu className="gap-1">
               {/* Account Settings */}
+
               <SidebarMenuItem>
                 <SidebarMenuButton
                   isActive={isAccount}
@@ -326,90 +326,21 @@ function UserSidebar() {
                   }
                   tooltip="Account Settings"
                   className="
-                    rounded-md
+                    rounded-lg
                     px-2
                     text-sm
                     text-muted-foreground
                     transition-colors
-                    hover:bg-transparent
-                    hover:text-[#e04430]
-                    data-[active=true]:bg-transparent
-                    data-[active=true]:text-[#e04430]
+                    hover:bg-sidebar-accent
+                    hover:text-sidebar-accent-foreground
+                    data-[active=true]:bg-sidebar-accent
+                    data-[active=true]:font-medium
+                    data-[active=true]:text-sidebar-accent-foreground
                   "
                 >
                   <Settings2 className="size-4" />
 
-                  <span>
-                    Account Settings
-                  </span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-
-              {/* Theme */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  onClick={handleAppearance}
-                  tooltip={
-                    isDark
-                      ? "Switch to light mode"
-                      : "Switch to dark mode"
-                  }
-                  className="
-                    rounded-md
-                    px-2
-                    text-sm
-                    text-muted-foreground
-                    transition-colors
-                    hover:bg-transparent
-                    hover:text-[#e04430]
-                  "
-                >
-                  <MorphIcon
-                    icon={
-                      isDark
-                        ? Moon
-                        : Sun
-                    }
-                    spring="smooth"
-                  />
-
-                  <span className="group-data-[collapsible=icon]:hidden">
-                    Theme
-                  </span>
-
-                  <div
-                    className="
-                      ml-auto
-                      flex
-                      h-6
-                      w-10
-                      shrink-0
-                      items-center
-                      rounded-full
-                      border
-                      border-sidebar-border
-                      bg-sidebar-accent
-                      p-0.5
-                      shadow-sm
-                      group-data-[collapsible=icon]:hidden
-                    "
-                  >
-                    <div
-                      className={`
-                        size-5
-                        rounded-full
-                        bg-background
-                        shadow-sm
-                        transition-transform
-                        duration-200
-                        ${
-                          isDark
-                            ? "translate-x-4"
-                            : "translate-x-0"
-                        }
-                      `}
-                    />
-                  </div>
+                  <span>Account Settings</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -417,7 +348,10 @@ function UserSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      {/* Footer */}
+      {/* =================================================
+          FOOTER
+          ================================================= */}
+
       <SidebarFooter className="px-2 pb-3">
         <SidebarMenu>
           <SidebarMenuItem>
@@ -425,20 +359,18 @@ function UserSidebar() {
               onClick={handleLogout}
               tooltip="Log out"
               className="
-                rounded-md
+                rounded-lg
                 px-2
                 text-sm
                 text-muted-foreground
                 transition-colors
-                hover:bg-transparent
-                hover:text-[#e04430]
+                hover:bg-sidebar-accent
+                hover:text-sidebar-accent-foreground
               "
             >
               <LogOut className="size-4" />
 
-              <span>
-                Log out
-              </span>
+              <span>Log out</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -8,7 +8,7 @@ const previewBrains = [
     source: "youtube.com",
     url: "youtube.com/watch?v=example",
     logo: "https://www.google.com/s2/favicons?domain=youtube.com&sz=64",
-    accent: "bg-[#e04430]",
+    accent: "bg-foreground",
     tags: ["travel", "fun"],
   },
   {
@@ -19,7 +19,7 @@ const previewBrains = [
     source: "x.com",
     url: "x.com/example/status/456",
     logo: "https://www.google.com/s2/favicons?domain=x.com&sz=64",
-    accent: "bg-[#6f6b63]",
+    accent: "bg-foreground",
     tags: ["inspiration", "ideas"],
   },
   {
@@ -29,7 +29,7 @@ const previewBrains = [
     source: "example.com",
     url: "example.com/travel",
     logo: "https://www.google.com/s2/favicons?domain=example.com&sz=64",
-    accent: "bg-[#8b6f5c]",
+    accent: "bg-foreground",
     tags: ["travel", "ideas"],
   },
   {
@@ -39,7 +39,7 @@ const previewBrains = [
     source: "x.com",
     url: "x.com/example/status/789",
     logo: "https://www.google.com/s2/favicons?domain=x.com&sz=64",
-    accent: "bg-[#6f6b63]",
+    accent: "bg-foreground",
     tags: ["quotes", "ideas"],
   },
   {
@@ -49,7 +49,7 @@ const previewBrains = [
     source: "",
     url: "",
     logo: "",
-    accent: "bg-[#c49a68]",
+    accent: "bg-foreground",
     tags: ["ideas"],
   },
   {
@@ -59,7 +59,7 @@ const previewBrains = [
     source: "",
     url: "",
     logo: "",
-    accent: "bg-[#c49a68]",
+    accent: "bg-foreground",
     tags: ["life", "random"],
   },
   {
@@ -69,7 +69,7 @@ const previewBrains = [
     source: "medium.com",
     url: "medium.com/system-design",
     logo: "https://www.google.com/s2/favicons?domain=medium.com&sz=64",
-    accent: "bg-[#8b6f5c]",
+    accent: "bg-foreground",
     tags: ["tech", "ideas"],
   },
   {
@@ -79,7 +79,7 @@ const previewBrains = [
     source: "youtube.com",
     url: "youtube.com/watch?v=learning",
     logo: "https://www.google.com/s2/favicons?domain=youtube.com&sz=64",
-    accent: "bg-[#e04430]",
+    accent: "bg-foreground",
     tags: ["inspiration", "tech"],
   },
   {
@@ -89,7 +89,7 @@ const previewBrains = [
     source: "",
     url: "",
     logo: "",
-    accent: "bg-[#c49a68]",
+    accent: "bg-foreground",
     tags: ["ideas"],
   },
 ]
@@ -126,154 +126,223 @@ function useRevealOnScroll() {
 function BrainPreview() {
   return (
     <section className="px-6 pb-28">
+      <style>
+        {`
+          @keyframes brain-ambient {
+            0% {
+              transform: translate3d(-2%, -1%, 0) scale(1);
+            }
+
+            50% {
+              transform: translate3d(2%, 1%, 0) scale(1.04);
+            }
+
+            100% {
+              transform: translate3d(-1%, 2%, 0) scale(1.02);
+            }
+          }
+        `}
+      </style>
+
       <div className="mx-auto w-full max-w-6xl">
         {/* Section heading */}
-        <div className="mb-7 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Your stuff, finally in one place.
+        <div className="mb-8 text-center">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+            your stuff, finally in one place.
           </p>
         </div>
 
-        {/* Product preview */}
-        <div className="relative">
-          {/* Neutral ambient glow */}
+        {/* Floating cards area */}
+        <div
+          className="
+            relative
+            overflow-hidden
+            rounded-[32px]
+            border
+            border-border/60
+            bg-background
+            px-3
+            py-4
+            shadow-[0_20px_60px_rgba(0,0,0,0.025)]
+            sm:px-4
+            sm:py-5
+            dark:bg-background
+            dark:shadow-[0_24px_70px_rgba(0,0,0,0.12)]
+          "
+        >
+          {/* Overall soft fade */}
           <div
             className="
               pointer-events-none
               absolute
-              -inset-16
-              -z-10
-              rounded-[60px]
-              bg-foreground/[0.025]
-              blur-3xl
+              inset-0
+              z-0
+              rounded-[32px]
+              bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.025),transparent_60%)]
+              dark:bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.025),transparent_60%)]
             "
           />
 
-          {/* Browser frame */}
+          {/* Overall ambient glow */}
           <div
             className="
-              relative
-              overflow-hidden
-              rounded-[28px]
-              border
-              border-border/70
-              bg-transparent
-              p-3
-              shadow-[0_30px_80px_rgba(0,0,0,0.06)]
-              backdrop-blur-[2px]
-              dark:shadow-[0_30px_80px_rgba(0,0,0,0.30)]
-              sm:p-4
+              pointer-events-none
+              absolute
+              -inset-20
+              -z-10
+              rounded-[80px]
+              bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.025),transparent_65%)]
+              blur-3xl
+              dark:bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.025),transparent_65%)]
             "
-          >
-            {/* Browser header */}
+          />
+
+          {/* Slow ambient background */}
+          <div className="pointer-events-none absolute inset-x-[-8%] inset-y-[-10%] -z-10 overflow-hidden">
             <div
               className="
-                mb-4
-                flex
-                items-center
-                justify-between
-                border-b
-                border-border/60
-                pb-3
+                absolute
+                left-[8%]
+                top-[8%]
+                h-64
+                w-64
+                rounded-full
+                bg-foreground/[0.025]
+                blur-3xl
+                dark:bg-white/[0.025]
               "
-            >
-              <div className="flex items-center gap-1.5">
-                <span className="size-1.5 rounded-full bg-muted-foreground/30" />
-                <span className="size-1.5 rounded-full bg-muted-foreground/30" />
-                <span className="size-1.5 rounded-full bg-muted-foreground/30" />
-              </div>
+              style={{
+                animation: "brain-ambient 18s ease-in-out infinite",
+              }}
+            />
 
-              <div
-                className="
-                  hidden
-                  rounded-full
-                  border
-                  border-border/70
-                  bg-muted/30
-                  px-3
-                  py-1
-                  text-[9px]
-                  font-medium
-                  text-muted-foreground
-                  shadow-sm
-                  sm:block
-                "
-              >
-                secondbrain.app
-              </div>
+            <div
+              className="
+                absolute
+                right-[10%]
+                top-[30%]
+                h-72
+                w-72
+                rounded-full
+                bg-foreground/[0.018]
+                blur-3xl
+                dark:bg-white/[0.018]
+              "
+              style={{
+                animation: "brain-ambient 22s ease-in-out infinite reverse",
+              }}
+            />
 
-              <div className="w-12" />
-            </div>
+            <div
+              className="
+                absolute
+                bottom-[4%]
+                left-[35%]
+                h-56
+                w-56
+                rounded-full
+                bg-foreground/[0.015]
+                blur-3xl
+                dark:bg-white/[0.015]
+              "
+              style={{
+                animation: "brain-ambient 20s ease-in-out infinite",
+              }}
+            />
+          </div>
 
-            {/* Brain cards */}
-            <div className="columns-2 gap-2.5 sm:columns-2 sm:gap-3 lg:columns-3">
-              {previewBrains.map((brain) => {
-                const { ref, isVisible } = useRevealOnScroll()
+          {/* Cards */}
+          <div className="relative z-10 columns-2 gap-2.5 sm:columns-2 sm:gap-3 lg:columns-3">
+            {previewBrains.map((brain) => {
+              const { ref, isVisible } = useRevealOnScroll()
 
-                return (
-                  <div
-                    key={brain.id}
-                    ref={ref}
-                    className={`
-                      mb-2.5
-                      break-inside-avoid
-                      transition-all
-                      duration-700
-                      ease-out
-                      sm:mb-3
-                      ${
-                        isVisible
-                          ? "translate-y-0 opacity-100"
-                          : "translate-y-6 opacity-0"
-                      }
-                    `}
-                  >
+              return (
+                <div
+                  key={brain.id}
+                  ref={ref}
+                  className={`
+                    mb-2.5
+                    break-inside-avoid
+                    transition-all
+                    duration-700
+                    ease-out
+                    sm:mb-3
+                    ${
+                      isVisible
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-6 opacity-0"
+                    }
+                  `}
+                >
+                  {/* Card stack */}
+                  <div className="group relative">
+                    {/* Back layer */}
+                    <div
+                      className="
+                        absolute
+                        inset-x-2
+                        bottom-[-5px]
+                        top-2
+                        rounded-xl
+                        border
+                        border-border/50
+                        bg-background
+                        shadow-sm
+                        transition-transform
+                        duration-500
+                        ease-out
+                        group-hover:translate-y-1
+                      "
+                    />
+
+                    {/* Middle layer */}
+                    <div
+                      className="
+                        absolute
+                        inset-x-1
+                        bottom-[-2px]
+                        top-1
+                        rounded-xl
+                        border
+                        border-border/60
+                        bg-background
+                        shadow-sm
+                        transition-transform
+                        duration-500
+                        ease-out
+                        group-hover:translate-y-0.5
+                      "
+                    />
+
+                    {/* Main card */}
                     <article
                       className="
-                        group
+                        group/card
                         relative
+                        z-10
                         flex
                         flex-col
                         overflow-hidden
-                        rounded-2xl
+                        rounded-xl
                         border
                         border-border/70
-                        bg-background/35
+                        bg-background
                         p-2.5
                         pl-3.5
                         shadow-[0_8px_24px_rgba(0,0,0,0.035)]
-                        backdrop-blur-sm
                         transition-all
-                        duration-300
+                        duration-500
+                        ease-out
                         hover:-translate-y-1
-                        hover:border-[var(--landing-accent)]/30
-                        hover:bg-background/55
-                        hover:shadow-[0_16px_40px_rgba(0,0,0,0.07)]
-                        dark:bg-white/[0.025]
-                        dark:hover:bg-white/[0.045]
-                        dark:hover:shadow-[0_16px_40px_rgba(0,0,0,0.28)]
+                        hover:border-border
+                        hover:shadow-[0_14px_32px_rgba(0,0,0,0.06)]
                         sm:p-3
                         sm:pl-4
+                        dark:bg-background
+                        dark:hover:shadow-[0_16px_36px_rgba(0,0,0,0.20)]
                       "
                     >
-                      {/* Subtle neutral hover atmosphere */}
-                      <div
-                        className="
-                          pointer-events-none
-                          absolute
-                          inset-0
-                          z-0
-                          rounded-2xl
-                          bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.045),transparent_65%)]
-                          opacity-0
-                          transition-opacity
-                          duration-500
-                          group-hover:opacity-100
-                          dark:bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.035),transparent_65%)]
-                        "
-                      />
-
-                      {/* Card accent */}
+                      {/* Accent */}
                       <div
                         className={`
                           absolute
@@ -283,12 +352,12 @@ function BrainPreview() {
                           h-8
                           w-[2px]
                           rounded-r-full
-                          opacity-60
+                          bg-foreground
+                          opacity-30
                           transition-all
-                          duration-300
-                          group-hover:h-12
-                          group-hover:opacity-100
-                          ${brain.accent}
+                          duration-500
+                          group-hover/card:h-12
+                          group-hover/card:opacity-70
                         `}
                       />
 
@@ -310,7 +379,7 @@ function BrainPreview() {
                             py-1.5
                             transition-colors
                             duration-300
-                            group-hover:bg-muted/40
+                            group-hover/card:bg-muted/40
                           "
                         >
                           <img
@@ -329,7 +398,7 @@ function BrainPreview() {
                             </p>
                           </div>
 
-                          <span className="shrink-0 text-[10px] text-muted-foreground/40">
+                          <span className="shrink-0 text-[10px] text-muted-foreground/50">
                             ↗
                           </span>
                         </div>
@@ -380,13 +449,13 @@ function BrainPreview() {
                               px-2
                               py-0.5
                               text-[8px]
-                              font-semibold
-                              text-foreground/65
+                              font-medium
+                              text-muted-foreground
                               transition-all
-                              duration-200
-                              group-hover:border-[var(--landing-accent)]/20
-                              group-hover:bg-[var(--landing-accent)]/5
-                              group-hover:text-foreground
+                              duration-300
+                              group-hover/card:border-foreground/20
+                              group-hover/card:bg-foreground/5
+                              group-hover/card:text-foreground
                               sm:px-2.5
                               sm:text-[9px]
                             "
@@ -397,26 +466,27 @@ function BrainPreview() {
                       </div>
                     </article>
                   </div>
-                )
-              })}
-            </div>
-
-            {/* Bottom fade */}
-            <div
-              className="
-                pointer-events-none
-                absolute
-                bottom-0
-                left-0
-                right-0
-                h-24
-                bg-gradient-to-t
-                from-background
-                via-background/60
-                to-transparent
-              "
-            />
+                </div>
+              )
+            })}
           </div>
+
+          {/* Soft fade into background */}
+          <div
+            className="
+              pointer-events-none
+              absolute
+              bottom-0
+              left-0
+              right-0
+              z-20
+              h-28
+              bg-gradient-to-t
+              from-background
+              via-background/70
+              to-transparent
+            "
+          />
         </div>
       </div>
     </section>

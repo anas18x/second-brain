@@ -28,27 +28,29 @@ function TagFilter({
           cursor-pointer
           rounded-full
           border
-          px-3
+          px-3.5
           py-1.5
           text-xs
-          font-medium
+          font-semibold
           transition-all
           duration-200
           ${
             value === ""
               ? `
-                border-[#e04430]/40
-                bg-[#e04430]/10
-                text-[#e04430]
-                shadow-[0_0_12px_rgba(224,68,48,0.08)]
+                border-foreground
+                bg-foreground
+                text-background
+                shadow-sm
               `
               : `
-                border-border/70
-                bg-muted/30
+                border-foreground/10
+                bg-card
                 text-muted-foreground
-                hover:border-[#e04430]/30
-                hover:bg-[#e04430]/5
-                hover:text-[#e04430]
+                shadow-[0_1px_3px_rgba(0,0,0,0.04)]
+                hover:border-foreground/20
+                hover:bg-muted
+                hover:text-foreground
+                hover:shadow-sm
               `
           }
         `}
@@ -65,27 +67,29 @@ function TagFilter({
             cursor-pointer
             rounded-full
             border
-            px-3
+            px-3.5
             py-1.5
             text-xs
-            font-medium
+            font-semibold
             transition-all
             duration-200
             ${
               value === tag
                 ? `
-                  border-[#e04430]/40
-                  bg-[#e04430]/10
-                  text-[#e04430]
-                  shadow-[0_0_12px_rgba(224,68,48,0.08)]
+                  border-foreground
+                  bg-foreground
+                  text-background
+                  shadow-sm
                 `
                 : `
-                  border-border/70
-                  bg-muted/30
+                  border-foreground/10
+                  bg-card
                   text-muted-foreground
-                  hover:border-[#e04430]/30
-                  hover:bg-[#e04430]/5
-                  hover:text-[#e04430]
+                  shadow-[0_1px_3px_rgba(0,0,0,0.04)]
+                  hover:border-foreground/20
+                  hover:bg-muted
+                  hover:text-foreground
+                  hover:shadow-sm
                 `
             }
           `}

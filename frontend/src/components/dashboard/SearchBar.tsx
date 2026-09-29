@@ -22,7 +22,7 @@ function SearchBar({
           z-10
           size-4
           -translate-y-1/2
-          text-muted-foreground/60
+          text-foreground/60
         "
       />
 
@@ -34,25 +34,33 @@ function SearchBar({
         placeholder="Search your brain..."
         aria-label="Search your brain"
         className="
-          h-10
+          h-12
           w-full
-          rounded-lg
-          border-border/70
-          bg-background
+          rounded-xl
+          border
+          border-foreground/15
+          bg-card
           pl-10
           pr-10
           text-sm
-          shadow-[0_2px_10px_rgba(0,0,0,0.06)]
-          transition-shadow
+          font-medium
+          text-foreground
+          shadow-[0_2px_4px_rgba(0,0,0,0.04),0_8px_20px_rgba(0,0,0,0.06)]
+          transition-all
           duration-200
-          placeholder:text-muted-foreground/45
-          hover:border-border
-          hover:shadow-[0_3px_12px_rgba(0,0,0,0.08)]
-          focus-visible:border-border
+          placeholder:text-muted-foreground/55
+          hover:border-foreground/20
+          hover:shadow-[0_3px_6px_rgba(0,0,0,0.05),0_10px_24px_rgba(0,0,0,0.08)]
+          focus-visible:border-foreground/25
           focus-visible:ring-2
-          focus-visible:ring-ring/15
-          dark:shadow-[0_2px_10px_rgba(0,0,0,0.18)]
-          dark:hover:shadow-[0_3px_14px_rgba(0,0,0,0.24)]
+          focus-visible:ring-foreground/10
+          focus-visible:ring-offset-0
+          dark:border-white/15
+          dark:bg-card
+          dark:shadow-[0_2px_5px_rgba(0,0,0,0.3),0_10px_28px_rgba(0,0,0,0.2)]
+          dark:hover:border-white/20
+          dark:hover:shadow-[0_3px_7px_rgba(0,0,0,0.35),0_12px_30px_rgba(0,0,0,0.24)]
+          dark:focus-visible:border-white/25
         "
       />
 
@@ -66,13 +74,15 @@ function SearchBar({
             right-3
             top-1/2
             flex
-            size-5
+            size-6
             -translate-y-1/2
+            cursor-pointer
             items-center
             justify-center
             rounded-md
-            text-muted-foreground/50
-            transition-colors
+            text-muted-foreground/60
+            transition-all
+            duration-200
             hover:bg-muted
             hover:text-foreground
           "

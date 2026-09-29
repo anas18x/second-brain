@@ -4,6 +4,7 @@ import BrainPreview from "@/components/shared/BrainPreview"
 import Footer from "@/components/shared/Footer"
 
 
+
 function LandingPage() {
   return (
     <>

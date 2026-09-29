@@ -1,27 +1,37 @@
-import { Link, useNavigate , useSearchParams} from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
+
 import Brand from "@/components/shared/Brand"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+
 import { useForm } from "react-hook-form"
 import { loginSchema, type LoginInput } from "@/schema/auth.schema"
 import { login } from "@/services/auth/auth.api"
+
 import axios from "axios"
 import { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
 
+import { zodResolver } from "@hookform/resolvers/zod"
 
 function LoginPage() {
   const navigate = useNavigate()
+
   const [serverError, setServerError] = useState("")
 
   const [searchParams] = useSearchParams()
+
   const oauthError = searchParams.get("error")
+
   const oauthErrorMessage =
-  oauthError === "oauth_account_exists" ? "An account with this email already exists. Please log in with your email and password."
-    : oauthError === "oauth_cancelled" ? "Google sign-in was cancelled."
-      : oauthError === "oauth_failed" ? "Google sign-in failed. Please try again."
-        : ""
+    oauthError === "oauth_account_exists"
+      ? "An account with this email already exists. Please log in with your email and password."
+      : oauthError === "oauth_cancelled"
+        ? "Google sign-in was cancelled."
+        : oauthError === "oauth_failed"
+          ? "Google sign-in failed. Please try again."
+          : ""
 
   const handleGoogleLogin = () => {
     window.location.href = `${import.meta.env.VITE_API_URL}/auth/google?from=login`
@@ -35,14 +45,13 @@ function LoginPage() {
     resolver: zodResolver(loginSchema),
   })
 
-
-
   async function onSubmit(data: LoginInput) {
     try {
       setServerError("")
+
       await login(data)
+
       navigate("/dashboard")
-      
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setServerError(
@@ -60,9 +69,19 @@ function LoginPage() {
       <div
         className="
           w-full max-w-[320px]
-          rounded-2xl border border-border/70 bg-card/30
+          rounded-2xl
+          border border-border/60
+          bg-card/60
           px-3.5 py-4
-          sm:max-w-[390px] sm:px-7 sm:py-8
+          shadow-[0_20px_60px_rgba(0,0,0,0.04)]
+          backdrop-blur-xl
+
+          dark:bg-white/[0.025]
+          dark:border-white/[0.08]
+          dark:shadow-[0_24px_70px_rgba(0,0,0,0.35)]
+
+          sm:max-w-[390px]
+          sm:px-7 sm:py-8
         "
       >
         {/* Brand */}
@@ -74,7 +93,10 @@ function LoginPage() {
         <div className="mb-4 text-center sm:mb-6">
           <h1
             className="
-              text-[18px] font-semibold tracking-[-0.025em] text-foreground
+              text-[18px]
+              font-semibold
+              tracking-[-0.035em]
+              text-foreground
               sm:text-[24px]
             "
           >
@@ -83,8 +105,12 @@ function LoginPage() {
 
           <p
             className="
-              mt-1 text-[11px] leading-4 text-muted-foreground
-              sm:mt-2 sm:text-[13px]
+              mt-1
+              text-[11px]
+              leading-4
+              text-muted-foreground
+              sm:mt-2
+              sm:text-[13px]
             "
           >
             Welcome back. Pick up where you left off.
@@ -97,12 +123,33 @@ function LoginPage() {
           variant="outline"
           onClick={handleGoogleLogin}
           className="
-            h-9 w-full cursor-pointer rounded-lg
-            border-border bg-transparent
-            text-xs text-foreground
-            transition-colors duration-200
+            h-9
+            w-full
+            cursor-pointer
+            rounded-lg
+
+            border-border/70
+            bg-background/60
+
+            text-xs
+            font-medium
+            text-foreground
+
+            shadow-[0_1px_2px_rgba(0,0,0,0.04)]
+            backdrop-blur-sm
+
+            transition-all
+            duration-200
+
+            hover:border-border
             hover:bg-muted/50
-            sm:h-10 sm:text-base
+
+            dark:border-white/[0.10]
+            dark:bg-white/[0.025]
+            dark:hover:bg-white/[0.06]
+
+            sm:h-10
+            sm:text-base
           "
         >
           <svg
@@ -136,13 +183,13 @@ function LoginPage() {
 
         {/* Divider */}
         <div className="my-4 flex items-center gap-2.5 sm:my-6 sm:gap-4">
-          <div className="h-px flex-1 bg-border" />
+          <div className="h-px flex-1 bg-border/70" />
 
           <span className="text-[11px] text-muted-foreground sm:text-xs">
             or
           </span>
 
-          <div className="h-px flex-1 bg-border" />
+          <div className="h-px flex-1 bg-border/70" />
         </div>
 
         {/* Login Form */}
@@ -152,12 +199,22 @@ function LoginPage() {
             <p
               role="alert"
               className="
-                mb-3 rounded-md
-                border border-[var(--landing-accent)]/20
-                bg-[var(--landing-accent)]/5
-                px-2.5 py-1.5
-                text-center text-[11px] font-medium
-                text-[var(--landing-accent)]
+                mb-3
+                rounded-md
+                border
+                border-destructive/20
+                bg-destructive/5
+                px-2.5
+                py-1.5
+                text-center
+                text-[11px]
+                font-medium
+                text-destructive
+
+                dark:border-destructive/25
+                dark:bg-destructive/10
+
+                sm:text-xs
               "
             >
               {oauthErrorMessage || serverError}
@@ -172,7 +229,12 @@ function LoginPage() {
             <div className="space-y-1 sm:space-y-2.5">
               <Label
                 htmlFor="email"
-                className="text-[11px] font-medium text-foreground sm:text-[13px]"
+                className="
+                  text-[11px]
+                  font-medium
+                  text-foreground
+                  sm:text-[13px]
+                "
               >
                 Email address
               </Label>
@@ -186,20 +248,43 @@ function LoginPage() {
                 placeholder="you@example.com"
                 autoComplete="email"
                 className="
-                  h-9 rounded-lg
-                  border-border bg-transparent
-                  text-xs text-foreground
+                  h-9
+                  rounded-lg
+
+                  border-border/70
+                  bg-background/50
+
+                  text-xs
+                  text-foreground
+
                   shadow-none
+
                   placeholder:text-muted-foreground/50
-                  transition-all duration-200
-                  focus-visible:border-[var(--landing-accent)]
-                  focus-visible:ring-[var(--landing-accent)]/15
-                  sm:h-10 sm:text-base
+
+                  transition-all
+                  duration-200
+
+                  focus-visible:border-foreground/30
+                  focus-visible:ring-foreground/10
+
+                  dark:border-white/[0.10]
+                  dark:bg-white/[0.025]
+                  dark:focus-visible:border-white/20
+                  dark:focus-visible:ring-white/10
+
+                  sm:h-10
+                  sm:text-base
                 "
               />
 
               {errors.email && (
-                <p className="text-[10px] text-[var(--landing-accent)] sm:text-xs">
+                <p
+                  className="
+                    text-[10px]
+                    text-destructive
+                    sm:text-xs
+                  "
+                >
                   {errors.email.message}
                 </p>
               )}
@@ -210,7 +295,12 @@ function LoginPage() {
               <div className="flex items-center justify-between">
                 <Label
                   htmlFor="password"
-                  className="text-[11px] font-medium text-foreground sm:text-sm"
+                  className="
+                    text-[11px]
+                    font-medium
+                    text-foreground
+                    sm:text-sm
+                  "
                 >
                   Password
                 </Label>
@@ -218,10 +308,14 @@ function LoginPage() {
                 <Link
                   to="/forgot-password"
                   className="
-                    text-[10px] text-muted-foreground
+                    text-[10px]
+                    text-muted-foreground
+
                     transition-colors
-                    hover:text-[var(--landing-accent)]
+
+                    hover:text-foreground
                     hover:underline
+
                     sm:text-xs
                   "
                 >
@@ -238,20 +332,43 @@ function LoginPage() {
                 placeholder="Enter your password"
                 autoComplete="current-password"
                 className="
-                  h-9 rounded-lg
-                  border-border bg-transparent
-                  text-xs text-foreground
+                  h-9
+                  rounded-lg
+
+                  border-border/70
+                  bg-background/50
+
+                  text-xs
+                  text-foreground
+
                   shadow-none
+
                   placeholder:text-muted-foreground/50
-                  transition-all duration-200
-                  focus-visible:border-[var(--landing-accent)]
-                  focus-visible:ring-[var(--landing-accent)]/15
-                  sm:h-11 sm:text-base
+
+                  transition-all
+                  duration-200
+
+                  focus-visible:border-foreground/30
+                  focus-visible:ring-foreground/10
+
+                  dark:border-white/[0.10]
+                  dark:bg-white/[0.025]
+                  dark:focus-visible:border-white/20
+                  dark:focus-visible:ring-white/10
+
+                  sm:h-11
+                  sm:text-base
                 "
               />
 
               {errors.password && (
-                <p className="text-[10px] text-[var(--landing-accent)] sm:text-xs">
+                <p
+                  className="
+                    text-[10px]
+                    text-destructive
+                    sm:text-xs
+                  "
+                >
                   {errors.password.message}
                 </p>
               )}
@@ -262,20 +379,41 @@ function LoginPage() {
               type="submit"
               disabled={isSubmitting}
               className="
-                mt-0 h-9 w-full cursor-pointer rounded-lg
-                border border-[var(--landing-accent)]
-                bg-[var(--landing-accent)]
-                text-xs text-white
-                shadow-[0_4px_14px_rgba(224,68,48,0.16)]
-                transition-all duration-300
+                mt-0
+                h-9
+                w-full
+                cursor-pointer
+                rounded-lg
+
+                border
+                border-primary
+
+                bg-primary
+                text-primary-foreground
+
+                text-xs
+                font-medium
+
+                shadow-[0_4px_14px_rgba(0,0,0,0.10)]
+
+                transition-all
+                duration-300
+
                 hover:-translate-y-0.5
-                hover:bg-[var(--landing-accent)]
-                hover:shadow-[0_10px_25px_rgba(224,68,48,0.24)]
+                hover:bg-primary
+                hover:shadow-[0_10px_25px_rgba(0,0,0,0.15)]
+
                 active:translate-y-0
-                active:shadow-[0_4px_10px_rgba(224,68,48,0.16)]
+                active:shadow-[0_4px_10px_rgba(0,0,0,0.10)]
+
                 disabled:cursor-not-allowed
                 disabled:opacity-60
-                sm:h-11 sm:text-base
+
+                dark:shadow-[0_4px_18px_rgba(0,0,0,0.35)]
+                dark:hover:shadow-[0_10px_28px_rgba(0,0,0,0.45)]
+
+                sm:h-11
+                sm:text-base
               "
             >
               {isSubmitting ? "Signing In..." : "Sign In"}
@@ -285,14 +423,25 @@ function LoginPage() {
 
         {/* Register */}
         <div className="mt-4 flex items-center justify-center sm:mt-6">
-          <p className="text-center text-[11px] text-muted-foreground sm:text-sm">
+          <p
+            className="
+              text-center
+              text-[11px]
+              text-muted-foreground
+              sm:text-sm
+            "
+          >
             Don&apos;t have an account?{" "}
+
             <Link
               to="/register"
               className="
-                font-semibold text-foreground
+                font-semibold
+                text-foreground
+
                 transition-colors
-                hover:text-[var(--landing-accent)]
+
+                hover:text-foreground/70
                 hover:underline
               "
             >
