@@ -61,7 +61,6 @@ function UserSidebar() {
   async function handleLogout() {
     try {
       await logout()
-
       clearUser()
       navigate("/login")
     } catch {
@@ -82,7 +81,6 @@ function UserSidebar() {
       {/* =================================================
           HEADER
           ================================================= */}
-
       <SidebarHeader className="px-3 pb-6 pt-4">
         <div
           className="
@@ -108,12 +106,10 @@ function UserSidebar() {
       {/* =================================================
           CONTENT
           ================================================= */}
-
       <SidebarContent className="px-2">
         {/* =================================================
             PROFILE
             ================================================= */}
-
         <SidebarGroup className="px-1 pb-6">
           <SidebarGroupContent>
             <SidebarMenu>
@@ -138,7 +134,6 @@ function UserSidebar() {
                   "
                 >
                   {/* Avatar */}
-
                   <div
                     className="
                       flex
@@ -162,8 +157,7 @@ function UserSidebar() {
                     )}
                   </div>
 
-                  {/* User info */}
-
+                  {/* Username */}
                   <div
                     className="
                       min-w-0
@@ -171,38 +165,18 @@ function UserSidebar() {
                       group-data-[collapsible=icon]:hidden
                     "
                   >
-                    {hasUsername ? (
-                      <p
-                        className="
-                          truncate
-                          text-sm
-                          font-medium
-                          text-foreground
-                        "
-                      >
-                        @{username}
-                      </p>
-                    ) : (
-                      <p
-                        className="
-                          truncate
-                          text-sm
-                          font-medium
-                          text-foreground
-                        "
-                      >
-                        Set username
-                      </p>
-                    )}
-
                     <p
                       className="
-                        mt-0.5
-                        text-[11px]
-                        text-muted-foreground
+                        truncate
+                        text-sm
+                        font-medium
+                        leading-none
+                        text-foreground
                       "
                     >
-                      Account
+                      {hasUsername
+                        ? `@${username}`
+                        : "Set username"}
                     </p>
                   </div>
                 </SidebarMenuButton>
@@ -214,7 +188,6 @@ function UserSidebar() {
         {/* =================================================
             WORKSPACE
             ================================================= */}
-
         <SidebarGroup className="px-1">
           <SidebarGroupLabel
             className="
@@ -232,7 +205,6 @@ function UserSidebar() {
           <SidebarGroupContent>
             <SidebarMenu className="gap-1">
               {/* Overview */}
-
               <SidebarMenuItem>
                 <SidebarMenuButton
                   isActive={isOverview}
@@ -256,13 +228,11 @@ function UserSidebar() {
                   "
                 >
                   <LayoutDashboard className="size-4" />
-
                   <span>Overview</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
               {/* Share Brain */}
-
               <SidebarMenuItem>
                 <SidebarMenuButton
                   isActive={isShareBrain}
@@ -286,7 +256,6 @@ function UserSidebar() {
                   "
                 >
                   <Share2 className="size-4" />
-
                   <span>Share Brain</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -297,7 +266,6 @@ function UserSidebar() {
         {/* =================================================
             ACCOUNT
             ================================================= */}
-
         <SidebarGroup className="px-1 pt-7">
           <SidebarGroupLabel
             className="
@@ -315,7 +283,6 @@ function UserSidebar() {
           <SidebarGroupContent>
             <SidebarMenu className="gap-1">
               {/* Account Settings */}
-
               <SidebarMenuItem>
                 <SidebarMenuButton
                   isActive={isAccount}
@@ -339,7 +306,6 @@ function UserSidebar() {
                   "
                 >
                   <Settings2 className="size-4" />
-
                   <span>Account Settings</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -351,7 +317,6 @@ function UserSidebar() {
       {/* =================================================
           FOOTER
           ================================================= */}
-
       <SidebarFooter className="px-2 pb-3">
         <SidebarMenu>
           <SidebarMenuItem>
@@ -369,7 +334,6 @@ function UserSidebar() {
               "
             >
               <LogOut className="size-4" />
-
               <span>Log out</span>
             </SidebarMenuButton>
           </SidebarMenuItem>

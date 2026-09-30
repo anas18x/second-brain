@@ -5,14 +5,19 @@ import type {
   ChangePasswordInput,
   ForgotPasswordInput,
   ResetPasswordInput,
+  UpdateUsernameInput,
+  ChangeEmailInput,
+  VerifyEmailChangeInput,
 } from "@/schema/auth.schema"
 
 
 export type User = {
     id : string,
-    username : string,
-    shareSlug : string,
-    isBrainPublic : boolean
+    email: string,
+    username? : string,
+    shareSlug? : string,
+    isBrainPublic : boolean,
+    canChangeEmail : boolean
 }
 
 
@@ -57,5 +62,20 @@ export const resetPassword = async (
 
 export const logout = async () => {
   const response = await apiClient.post("/auth/logout")
+  return response.data
+}
+
+export const updateUsername = async (data : UpdateUsernameInput) => {
+  const response = await apiClient.patch("/auth/profile/username", data)
+  return response.data
+}
+
+export const changeEmail = async (data : ChangeEmailInput) => {
+  const response = await apiClient.post("/auth/profile/email", data)
+  return response.data
+}
+
+export const verifyEmailChange = async (data : VerifyEmailChangeInput) => {
+  const response = await apiClient.post("/auth/profile/email/verify", data)
   return response.data
 }

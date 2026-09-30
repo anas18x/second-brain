@@ -62,6 +62,26 @@ export const forgotPasswordSchema = z.object({
     .transform((email) => email.trim().toLowerCase()),
 })
 
+
+export const updateUsernameSchema = z.object({
+  username: z.string().trim().min(1, "Username is required"),
+})
+
+export const changeEmailSchema = z.object({
+  email: z.email({ error: "Invalid email address" })
+    .transform((email) => email.trim().toLowerCase()),
+})
+
+
+export const verifyEmailChangeSchema = z.object({
+  otp: z.string().regex(/^\d{6}$/, {
+    error: "OTP must be exactly 6 digits",
+  }),
+})
+
+export type UpdateUsernameInput = z.infer<typeof updateUsernameSchema>
+export type ChangeEmailInput = z.infer<typeof changeEmailSchema>
+export type VerifyEmailChangeInput = z.infer<typeof verifyEmailChangeSchema>
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>
 export type RegisterInput = z.infer<typeof registerSchema>

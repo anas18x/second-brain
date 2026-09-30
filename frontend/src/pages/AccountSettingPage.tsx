@@ -1,76 +1,41 @@
 import { useState } from "react"
-import {
-  KeyRound,
-  Mail,
-  UserRound,
-  X,
-} from "lucide-react"
 
-type OpenSection =
-  | "username"
-  | "email"
-  | "password"
-  | null
+import UsernameSettings from "@/components/dashboard/UsernameSettings"
+import EmailSettings from "@/components/dashboard/EmailSettings"
+import PasswordSettings from "@/components/dashboard/PasswordSettings"
 
-type AccordionContentProps = {
-  open: boolean
-  children: React.ReactNode
-}
 
-function AccordionContent({
-  open,
-  children,
-}: AccordionContentProps) {
-  return (
-    <div
-      className={`
-        grid
-        transition-[grid-template-rows,opacity]
-        duration-300
-        ease-out
-        ${
-          open
-            ? "grid-rows-[1fr] opacity-100"
-            : "grid-rows-[0fr] opacity-0"
-        }
-      `}
-    >
-      <div className="min-h-0 overflow-hidden">
-        {children}
-      </div>
-    </div>
-  )
-}
+type OpenSection = "username" | "email" | "password" | null
 
 function AccountSettingPage() {
-  const [openSection, setOpenSection] =
-    useState<OpenSection>(null)
-
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [currentPassword, setCurrentPassword] =
-    useState("")
-  const [newPassword, setNewPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] =
-    useState("")
+  const [openSection, setOpenSection] = useState<OpenSection>(null)
+  const [emailOtpStep, setEmailOtpStep] = useState(false)
 
   function toggleSection(section: OpenSection) {
-    setOpenSection((current) =>
-      current === section ? null : section
-    )
+    if (openSection === section) {
+      setOpenSection(null)
+
+      if (section === "email") {
+        setEmailOtpStep(false)
+      }
+
+      return
+    }
+
+    setOpenSection(section)
+
+    if (section === "email") {
+      setEmailOtpStep(false)
+    }
   }
 
   function closeSection() {
     setOpenSection(null)
-    setUsername("")
-    setEmail("")
-    setCurrentPassword("")
-    setNewPassword("")
-    setConfirmPassword("")
+    setEmailOtpStep(false)
   }
 
   return (
-    <div className="min-h-svh min-w-0 bg-background font-sans">
+    <div className="min-h-svh min-w-0 bg-background">
       <div
         className="
           mx-auto
@@ -124,7 +89,6 @@ function AccountSettingPage() {
             dark:shadow-none
           "
         >
-          {/* Section heading */}
           <div
             className="
               border-b
@@ -147,406 +111,19 @@ function AccountSettingPage() {
             </h2>
           </div>
 
-          {/* Username */}
-          <div className="border-b border-border/70">
-            <div
-              className="
-                flex
-                items-center
-                justify-between
-                gap-4
-                px-4
-                py-4
-                sm:px-5
-              "
-            >
-              <div className="flex min-w-0 items-center gap-3">
-                <div
-                  className="
-                    flex
-                    size-9
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-lg
-                    border
-                    border-border/70
-                    bg-muted/60
-                    text-muted-foreground
-                  "
-                >
-                  <UserRound className="size-4" />
-                </div>
+          <UsernameSettings
+            isOpen={openSection === "username"}
+            onToggle={() => toggleSection("username")}
+            onClose={closeSection}
+          />
 
-                <div className="min-w-0">
-                  <p
-                    className="
-                      text-sm
-                      font-medium
-                      text-foreground
-                    "
-                  >
-                    Username
-                  </p>
-
-                  <p
-                    className="
-                      mt-0.5
-                      truncate
-                      text-xs
-                      text-muted-foreground
-                    "
-                  >
-                    Change your username
-                  </p>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() =>
-                  toggleSection("username")
-                }
-                className="
-                  inline-flex
-                  h-8
-                  shrink-0
-                  cursor-pointer
-                  items-center
-                  justify-center
-                  rounded-md
-                  border
-                  border-border/70
-                  bg-background
-                  px-3
-                  text-xs
-                  font-medium
-                  text-foreground
-                  transition-colors
-                  hover:bg-muted
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-ring
-                  focus-visible:ring-offset-2
-                "
-              >
-                {openSection === "username"
-                  ? "Close"
-                  : "Change"}
-              </button>
-            </div>
-
-            <AccordionContent
-              open={openSection === "username"}
-            >
-              <div className="px-4 pb-5 sm:px-5">
-                <div
-                  className="
-                    rounded-lg
-                    border
-                    border-border/70
-                    bg-muted/20
-                    p-4
-                  "
-                >
-                  <label
-                    htmlFor="username"
-                    className="
-                      text-xs
-                      font-medium
-                      text-foreground
-                    "
-                  >
-                    New username
-                  </label>
-
-                  <input
-                    id="username"
-                    value={username}
-                    onChange={(event) =>
-                      setUsername(event.target.value)
-                    }
-                    placeholder="Enter username"
-                    className="
-                      mt-2
-                      h-10
-                      w-full
-                      rounded-md
-                      border
-                      border-input
-                      bg-background
-                      px-3
-                      text-sm
-                      text-foreground
-                      outline-none
-                      transition-colors
-                      placeholder:text-muted-foreground/50
-                      focus:border-ring
-                      focus:ring-2
-                      focus:ring-ring/15
-                    "
-                  />
-
-                  <div className="mt-3 flex justify-end gap-2">
-                    <button
-                      type="button"
-                      onClick={closeSection}
-                      className="
-                        inline-flex
-                        h-8
-                        cursor-pointer
-                        items-center
-                        gap-1.5
-                        rounded-md
-                        border
-                        border-border
-                        bg-background
-                        px-3
-                        text-xs
-                        font-medium
-                        text-muted-foreground
-                        transition-colors
-                        hover:bg-muted
-                        hover:text-foreground
-                        focus-visible:outline-none
-                        focus-visible:ring-2
-                        focus-visible:ring-ring
-                        focus-visible:ring-offset-2
-                      "
-                    >
-                      <X className="size-3.5" />
-                      Cancel
-                    </button>
-
-                    <button
-                      type="button"
-                      className="
-                        inline-flex
-                        h-8
-                        cursor-pointer
-                        items-center
-                        rounded-md
-                        bg-primary
-                        px-3
-                        text-xs
-                        font-medium
-                        text-primary-foreground
-                        transition-opacity
-                        hover:opacity-90
-                        focus-visible:outline-none
-                        focus-visible:ring-2
-                        focus-visible:ring-ring
-                        focus-visible:ring-offset-2
-                      "
-                    >
-                      Save changes
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </AccordionContent>
-          </div>
-
-          {/* Email */}
-          <div>
-            <div
-              className="
-                flex
-                items-center
-                justify-between
-                gap-4
-                px-4
-                py-4
-                sm:px-5
-              "
-            >
-              <div className="flex min-w-0 items-center gap-3">
-                <div
-                  className="
-                    flex
-                    size-9
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-lg
-                    border
-                    border-border/70
-                    bg-muted/60
-                    text-muted-foreground
-                  "
-                >
-                  <Mail className="size-4" />
-                </div>
-
-                <div className="min-w-0">
-                  <p
-                    className="
-                      text-sm
-                      font-medium
-                      text-foreground
-                    "
-                  >
-                    Email address
-                  </p>
-
-                  <p
-                    className="
-                      mt-0.5
-                      truncate
-                      text-xs
-                      text-muted-foreground
-                    "
-                  >
-                    Change your email address
-                  </p>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() =>
-                  toggleSection("email")
-                }
-                className="
-                  inline-flex
-                  h-8
-                  shrink-0
-                  cursor-pointer
-                  items-center
-                  justify-center
-                  rounded-md
-                  border
-                  border-border/70
-                  bg-background
-                  px-3
-                  text-xs
-                  font-medium
-                  text-foreground
-                  transition-colors
-                  hover:bg-muted
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-ring
-                  focus-visible:ring-offset-2
-                "
-              >
-                {openSection === "email"
-                  ? "Close"
-                  : "Change"}
-              </button>
-            </div>
-
-            <AccordionContent
-              open={openSection === "email"}
-            >
-              <div className="px-4 pb-5 sm:px-5">
-                <div
-                  className="
-                    rounded-lg
-                    border
-                    border-border/70
-                    bg-muted/20
-                    p-4
-                  "
-                >
-                  <label
-                    htmlFor="email"
-                    className="
-                      text-xs
-                      font-medium
-                      text-foreground
-                    "
-                  >
-                    New email address
-                  </label>
-
-                  <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(event) =>
-                      setEmail(event.target.value)
-                    }
-                    placeholder="Enter new email"
-                    className="
-                      mt-2
-                      h-10
-                      w-full
-                      rounded-md
-                      border
-                      border-input
-                      bg-background
-                      px-3
-                      text-sm
-                      text-foreground
-                      outline-none
-                      transition-colors
-                      placeholder:text-muted-foreground/50
-                      focus:border-ring
-                      focus:ring-2
-                      focus:ring-ring/15
-                    "
-                  />
-
-                  <div className="mt-3 flex justify-end gap-2">
-                    <button
-                      type="button"
-                      onClick={closeSection}
-                      className="
-                        inline-flex
-                        h-8
-                        cursor-pointer
-                        items-center
-                        gap-1.5
-                        rounded-md
-                        border
-                        border-border
-                        bg-background
-                        px-3
-                        text-xs
-                        font-medium
-                        text-muted-foreground
-                        transition-colors
-                        hover:bg-muted
-                        hover:text-foreground
-                        focus-visible:outline-none
-                        focus-visible:ring-2
-                        focus-visible:ring-ring
-                        focus-visible:ring-offset-2
-                      "
-                    >
-                      <X className="size-3.5" />
-                      Cancel
-                    </button>
-
-                    <button
-                      type="button"
-                      className="
-                        inline-flex
-                        h-8
-                        cursor-pointer
-                        items-center
-                        rounded-md
-                        bg-primary
-                        px-3
-                        text-xs
-                        font-medium
-                        text-primary-foreground
-                        transition-opacity
-                        hover:opacity-90
-                        focus-visible:outline-none
-                        focus-visible:ring-2
-                        focus-visible:ring-ring
-                        focus-visible:ring-offset-2
-                      "
-                    >
-                      Save changes
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </AccordionContent>
-          </div>
+          <EmailSettings
+            isOpen={openSection === "email"}
+            onToggle={() => toggleSection("email")}
+            onClose={closeSection}
+            emailOtpStep={emailOtpStep}
+            setEmailOtpStep={setEmailOtpStep}
+          />
         </section>
 
         {/* Security */}
@@ -562,7 +139,6 @@ function AccountSettingPage() {
             dark:shadow-none
           "
         >
-          {/* Section heading */}
           <div
             className="
               border-b
@@ -585,292 +161,11 @@ function AccountSettingPage() {
             </h2>
           </div>
 
-          {/* Password */}
-          <div>
-            <div
-              className="
-                flex
-                items-center
-                justify-between
-                gap-4
-                px-4
-                py-4
-                sm:px-5
-              "
-            >
-              <div className="flex min-w-0 items-center gap-3">
-                <div
-                  className="
-                    flex
-                    size-9
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-lg
-                    border
-                    border-border/70
-                    bg-muted/60
-                    text-muted-foreground
-                  "
-                >
-                  <KeyRound className="size-4" />
-                </div>
-
-                <div className="min-w-0">
-                  <p
-                    className="
-                      text-sm
-                      font-medium
-                      text-foreground
-                    "
-                  >
-                    Password
-                  </p>
-
-                  <p
-                    className="
-                      mt-0.5
-                      truncate
-                      text-xs
-                      text-muted-foreground
-                    "
-                  >
-                    Change your password
-                  </p>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() =>
-                  toggleSection("password")
-                }
-                className="
-                  inline-flex
-                  h-8
-                  shrink-0
-                  cursor-pointer
-                  items-center
-                  justify-center
-                  rounded-md
-                  border
-                  border-border/70
-                  bg-background
-                  px-3
-                  text-xs
-                  font-medium
-                  text-foreground
-                  transition-colors
-                  hover:bg-muted
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-ring
-                  focus-visible:ring-offset-2
-                "
-              >
-                {openSection === "password"
-                  ? "Close"
-                  : "Change"}
-              </button>
-            </div>
-
-            <AccordionContent
-              open={openSection === "password"}
-            >
-              <div className="px-4 pb-5 sm:px-5">
-                <div
-                  className="
-                    rounded-lg
-                    border
-                    border-border/70
-                    bg-muted/20
-                    p-4
-                  "
-                >
-                  <div className="space-y-3">
-                    <div>
-                      <label
-                        htmlFor="current-password"
-                        className="
-                          text-xs
-                          font-medium
-                          text-foreground
-                        "
-                      >
-                        Current password
-                      </label>
-
-                      <input
-                        id="current-password"
-                        type="password"
-                        value={currentPassword}
-                        onChange={(event) =>
-                          setCurrentPassword(
-                            event.target.value
-                          )
-                        }
-                        className="
-                          mt-2
-                          h-10
-                          w-full
-                          rounded-md
-                          border
-                          border-input
-                          bg-background
-                          px-3
-                          text-sm
-                          text-foreground
-                          outline-none
-                          transition-colors
-                          focus:border-ring
-                          focus:ring-2
-                          focus:ring-ring/15
-                        "
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="new-password"
-                        className="
-                          text-xs
-                          font-medium
-                          text-foreground
-                        "
-                      >
-                        New password
-                      </label>
-
-                      <input
-                        id="new-password"
-                        type="password"
-                        value={newPassword}
-                        onChange={(event) =>
-                          setNewPassword(
-                            event.target.value
-                          )
-                        }
-                        className="
-                          mt-2
-                          h-10
-                          w-full
-                          rounded-md
-                          border
-                          border-input
-                          bg-background
-                          px-3
-                          text-sm
-                          text-foreground
-                          outline-none
-                          transition-colors
-                          focus:border-ring
-                          focus:ring-2
-                          focus:ring-ring/15
-                        "
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="confirm-password"
-                        className="
-                          text-xs
-                          font-medium
-                          text-foreground
-                        "
-                      >
-                        Confirm new password
-                      </label>
-
-                      <input
-                        id="confirm-password"
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(event) =>
-                          setConfirmPassword(
-                            event.target.value
-                          )
-                        }
-                        className="
-                          mt-2
-                          h-10
-                          w-full
-                          rounded-md
-                          border
-                          border-input
-                          bg-background
-                          px-3
-                          text-sm
-                          text-foreground
-                          outline-none
-                          transition-colors
-                          focus:border-ring
-                          focus:ring-2
-                          focus:ring-ring/15
-                        "
-                      />
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex justify-end gap-2">
-                    <button
-                      type="button"
-                      onClick={closeSection}
-                      className="
-                        inline-flex
-                        h-8
-                        cursor-pointer
-                        items-center
-                        gap-1.5
-                        rounded-md
-                        border
-                        border-border
-                        bg-background
-                        px-3
-                        text-xs
-                        font-medium
-                        text-muted-foreground
-                        transition-colors
-                        hover:bg-muted
-                        hover:text-foreground
-                        focus-visible:outline-none
-                        focus-visible:ring-2
-                        focus-visible:ring-ring
-                        focus-visible:ring-offset-2
-                      "
-                    >
-                      <X className="size-3.5" />
-                      Cancel
-                    </button>
-
-                    <button
-                      type="button"
-                      className="
-                        inline-flex
-                        h-8
-                        cursor-pointer
-                        items-center
-                        rounded-md
-                        bg-primary
-                        px-3
-                        text-xs
-                        font-medium
-                        text-primary-foreground
-                        transition-opacity
-                        hover:opacity-90
-                        focus-visible:outline-none
-                        focus-visible:ring-2
-                        focus-visible:ring-ring
-                        focus-visible:ring-offset-2
-                      "
-                    >
-                      Update password
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </AccordionContent>
-          </div>
+          <PasswordSettings
+            isOpen={openSection === "password"}
+            onToggle={() => toggleSection("password")}
+            onClose={closeSection}
+          />
         </section>
       </div>
     </div>

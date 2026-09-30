@@ -4,9 +4,11 @@ import { getCurrentUser } from "@/services/auth/auth.api"
 
 type User = {
     id : string,
-    username : string,
-    shareSlug : string,
-    isBrainPublic : boolean
+    email: string,
+    username? : string,
+    shareSlug? : string,
+    isBrainPublic : boolean,
+    canChangeEmail : boolean,
 }
 
 type AuthState = {
@@ -14,7 +16,6 @@ type AuthState = {
     isInitializing : boolean,
     setUser : (user : User) => void,
     clearUser : () => void,
-    setBrainPublic : (isBrainPublic : boolean) => void,
     initializeAuth: () => Promise<void>
 }
 
@@ -27,12 +28,6 @@ export const useAuthStore = create<AuthState> ((set) => ({
     setUser: (user) => set({ user }),
 
     clearUser: () => set({ user: null }),
-
-    setBrainPublic: (isBrainPublic) => {
-        set((state) => ({
-            user : state.user ? {...state.user, isBrainPublic : isBrainPublic} : null
-        }))
-    },
 
     initializeAuth: async () => {
         try{
